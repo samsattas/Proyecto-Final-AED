@@ -33,8 +33,24 @@ public class GrafoListType<T> {
 			if(!directed) {
 				adjacentList[j].add(new int[]{j, weight});
 			}
-		} else if(adjacentList[i].size()==1){
+		} else if(adjacentList[i].size()==2){
 			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+		} else if(adjacentList[i].size()<2) {
+			validateUsedVertex(i, j);
+		} else {
+			adjacentList[i].add(new int[]{j, weight});
+			if(!directed) {
+				adjacentList[j].add(new int[]{j, weight});
+			}
+		} 
+	}
+	private void validateUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {
+		for (int k = 0; k < adjacentList[j].size(); k++) {
+			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
+				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0]) {
+					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+				}
+			}
 		}
 	}
 	public int[] getEdge(int i, int j) {
@@ -75,18 +91,28 @@ public class GrafoListType<T> {
 			adjacentList[i].remove(vertex);
 		}
 		adjacentList[vertex] = null;
+		deleteVertex(vertex);
 	}
 	public void deleteVertex(T v) {
 		int n = -1;
 		for(int x = 0; x < values.size(); x++) {
-			if(v == values.get(x)) {
-				n = x;
+			if(v.equals(x)) {
 				values.remove(x);
 			}
 		}
-		//unfinished
 	}
-	public void addVertex(Country country) {
+	public void addVertex(String name, int id) {
+		List<int[]>[] adjacentListAux = new List[adjacentList.length+1]; 
+		for (int i = 0; i < adjacentList.length; i++) {
+			adjacentListAux[i] = adjacentList[i];
+		}
+		adjacentListAux[adjacentListAux.length]=new ArrayList<int[]>();
+		adjacentList = adjacentListAux;
+		addVertex(name, id);
+		
+	}
+	public void addVertexValue(String name, int id) {
+		Country country = new Country(name, id);
 		values.add((T) country);
 	}
 	
