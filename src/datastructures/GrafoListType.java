@@ -11,10 +11,11 @@ public class GrafoListType<T> {
 	private List<int[]>[] adjacentList;
 	private ArrayList<T> values;
 	private boolean multiple;
-	public  GrafoListType(int n, boolean d) {
+	public  GrafoListType(int n, boolean directeD, boolean multiplE) {
 		adjacentList = new List[n];
 		values = new ArrayList<T>();
-		directed = d;
+		directed = directeD;
+		multiple = multiplE; 
 		for(int i=0; i<n; i++) {
 			adjacentList[i] = new ArrayList<int[]>(); 
 		}
@@ -27,17 +28,16 @@ public class GrafoListType<T> {
 				adjacentList[j].add(new int[]{j, weight});
 			}
 		} 
-	public void addEdges(int i, int j, int weight, boolean multiple) throws InvalidActionInSimpleGraphException{
+	public void addEdges(int i, int j, int weight/*, boolean multiple*/) throws InvalidActionInSimpleGraphException{
 		if(multiple) {
 			adjacentList[i].add(new int[]{j, weight});
 			if(!directed) {
 				adjacentList[j].add(new int[]{j, weight});
 			}
-		} else if(adjacentList[i].size()==2){
+		} else if(adjacentList[i].size()>=2){
 			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
 		} else if(adjacentList[i].size()<2) {
 			validateUsedVertex(i, j);
-		} else {
 			adjacentList[i].add(new int[]{j, weight});
 			if(!directed) {
 				adjacentList[j].add(new int[]{j, weight});
@@ -48,6 +48,7 @@ public class GrafoListType<T> {
 		for (int k = 0; k < adjacentList[j].size(); k++) {
 			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
 				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0]) {
+					System.out.println("error");
 					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
 				}
 			}
@@ -115,7 +116,21 @@ public class GrafoListType<T> {
 		Country country = new Country(name, id);
 		values.add((T) country);
 	}
-	
+	public int consultWeight() {
+		return values.size();
+	}
+	public List<int[]>[] getAdjacentList() {
+		return adjacentList;
+	}
+	public void setAdjacentList(List<int[]>[] adjacentList) {
+		this.adjacentList = adjacentList;
+	}
+	public ArrayList<T> getValues() {
+		return values;
+	}
+	public void setValues(ArrayList<T> values) {
+		this.values = values;
+	}
 	
 	
 	
