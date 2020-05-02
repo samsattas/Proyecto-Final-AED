@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.InvalidActionInSimpleGraphException;
+import model.Country;
 
 public class GrafoListType<T> {
 	private boolean directed;
@@ -12,7 +13,7 @@ public class GrafoListType<T> {
 	private boolean multiple;
 	public  GrafoListType(int n, boolean d) {
 		adjacentList = new List[n];
-		values = new ArrayList<>();
+		values = new ArrayList<T>();
 		directed = d;
 		for(int i=0; i<n; i++) {
 			adjacentList[i] = new ArrayList<int[]>(); 
@@ -75,7 +76,19 @@ public class GrafoListType<T> {
 		}
 		adjacentList[vertex] = null;
 	}
-	
+	public void deleteVertex(T v) {
+		int n = -1;
+		for(int x = 0; x < values.size(); x++) {
+			if(v == values.get(x)) {
+				n = x;
+				values.remove(x);
+			}
+		}
+		//unfinished
+	}
+	public void addVertex(Country country) {
+		values.add((T) country);
+	}
 	
 	
 	
