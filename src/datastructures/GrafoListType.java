@@ -22,38 +22,44 @@ public class GrafoListType<T> {
 	}
 	//i = origin
 	//j = destiny
-	public void initialEdges(int i, int j, int weight){
-			adjacentList[i].add(new int[]{j, weight});
-			if(!directed) {
-				adjacentList[j].add(new int[]{j, weight});
-			}
-		} 
-	public void addEdges(int i, int j, int weight/*, boolean multiple*/) throws InvalidActionInSimpleGraphException{
+	public void addEdges(int i, int j, int weight) throws InvalidActionInSimpleGraphException{
 		if(multiple) {
-			adjacentList[i].add(new int[]{j, weight});
-			if(!directed) {
-				adjacentList[j].add(new int[]{j, weight});
-			}
+			initialEdges(i,j,weight);
 		} else if(adjacentList[i].size()>=2){
 			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
-		} else if(adjacentList[i].size()<2) {
+		} else if(adjacentList[i].size()==0) {
+			initialEdges(i,j,weight);
+		} else if(adjacentList[i].size()>0) {
 			validateUsedVertex(i, j);
-			adjacentList[i].add(new int[]{j, weight});
-			if(!directed) {
-				adjacentList[j].add(new int[]{j, weight});
-			}
-		} 
+			initialEdges(i,j,weight);
+		}
 	}
 	private void validateUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {
 		for (int k = 0; k < adjacentList[j].size(); k++) {
 			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
-				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0]) {
-					System.out.println("error");
+				if(directed) {
+					System.out.println("entreeeee");
+					validateDirectedUsedVertex(i,j);
+				}
+				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0] ) {
 					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
 				}
 			}
 		}
 	}
+	private void validateDirectedUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {	
+		for (int h = 0; h < adjacentList[i].size(); h++) {
+			if(adjacentList[i].get(h)[0] == j) {
+				throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+			}
+		}
+	}
+	private void initialEdges(int i, int j, int weight){
+		adjacentList[i].add(new int[]{j, weight});
+		if(!directed) {
+			adjacentList[j].add(new int[]{i, weight});
+		}
+	} 
 	public int[] getEdge(int i, int j) {
 		int[] current= {-1,-1};
 		for (int k = 0; k < adjacentList[i].size(); k++) {
