@@ -197,7 +197,7 @@ class GrafoListTypeTest {
 			fail("Unexpected Exception");
 		}
 	}
-	private void setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
 		GrafoListType graph = new GrafoListType(5, false, true);
@@ -213,11 +213,12 @@ class GrafoListTypeTest {
 				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso:" + asd[1] + "//";	
 			}
 		}
+		return data;
 	}
 	@Test
 	void testDeleteEdgeNoDirected() {
 		try {
-			setUpSceneDeleteEdgeDirected();
+			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:1 Destino:4 Peso:2//Origen:2 Destino:3 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:2 Peso:2//Origen:4 Destino:1 Peso:2//",setUpSceneDeleteEdgeNoDirected());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
 		}
@@ -251,7 +252,7 @@ class GrafoListTypeTest {
 	private String setUpSceneDeleteVertex() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, true, true);
+		GrafoListType graph = new GrafoListType(5, false, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
