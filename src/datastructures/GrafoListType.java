@@ -151,19 +151,8 @@ public class GrafoListType<T> {
 			adjacentListAux[j] = adjacentList[j];
 		}
 		adjacentList = adjacentListAux;
-		//values.remove(vertex);
-		/*
-		List<int[]>[] adjacentListAux = new List[adjacentList.length+1]; 
-		for (int i = 0; i < adjacentList.length; i++) {
-			adjacentListAux[i] = adjacentList[i];
-		}
-		adjacentListAux[adjacentListAux.length]=new ArrayList<int[]>();
-		adjacentList = adjacentListAux;
-		addVertex(name, id);
-		*/
 	}
 	public void addVertexValue(/*String name, int id*/T v) {
-		//Country country = new Country(name, id);
 		values.add(v);
 		addVertex();
 	}
