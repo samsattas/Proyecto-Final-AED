@@ -11,9 +11,10 @@ public class GrafoListType<T> {
 	private List<int[]>[] adjacentList;
 	private ArrayList<T> values;
 	private boolean multiple;
-	public  GrafoListType(int n, boolean directeD, boolean multiplE) {
+	public  GrafoListType(T v, int n, boolean directeD, boolean multiplE) {
 		adjacentList = new List[n];
 		values = new ArrayList<T>();
+		values.add(v);
 		directed = directeD;
 		multiple = multiplE; 
 		for(int i=0; i<n; i++) {
@@ -101,49 +102,39 @@ public class GrafoListType<T> {
 		}
 	}
 	public void deleteVertex(int vertex) {
+		List<int[]>[] adjacentListAux  = new List[adjacentList.length-1];
 		for (int i = 0; i < adjacentList.length; i++) {
 			for (int j = 0; j < adjacentList[i].size(); j++) {
 				if(adjacentList[i].get(j)[0] == vertex) {
 					deleteEdge(i,vertex);
 				}
 			}
-			//deleteEdge(vertex,adjacentList[vertex].get(i)[0]);
 		}
 		int i = vertex;
 		for (; i < adjacentList.length-1; i++) {
 			adjacentList[i] = adjacentList[i+1];
 		}
 		adjacentList[i] = null;
-		/*
-		List<int[]>[] adjacentListAux = adjacentList;
-		for (int i = 0; i < adjacentListAux[vertex].size(); i++) {
-			deleteEdge(vertex,adjacentListAux[vertex].get(i)[0]);
+		for(int k=0; k<adjacentListAux.length; k++) {
+			adjacentListAux[k] = new ArrayList<int[]>(); 
 		}
-		for (int i = vertex; i < adjacentListAux.length-1; i++) {
-			adjacentListAux[i] = adjacentListAux[i+1];
+		for (int j = 0; j < adjacentListAux.length; j++) {
+			adjacentListAux[j] = adjacentList[j];
 		}
-		adjacentListAux[adjacentListAux.length-1] = null;
 		adjacentList = adjacentListAux;
+		values.remove(vertex);
+	}
+	public void addVertex() {
+		List<int[]>[] adjacentListAux  = new List[adjacentList.length+1];
+		for(int k=0; k<adjacentListAux.length; k++) {
+			adjacentListAux[k] = new ArrayList<int[]>(); 
+		}
+		for (int j = 0; j < adjacentListAux.length; j++) {
+			adjacentListAux[j] = adjacentList[j];
+		}
+		adjacentList = adjacentListAux;
+		//values.remove(vertex);
 		/*
-		for (int i = vertex; i < adjacentList.length-1; i++) {
-			adjacentList[vertex] = adjacentList[vertex+1];
-		}
-		for (int i = 0; i < adjacentList.length; i++) {
-			adjacentList[i].remove(vertex);
-		}
-		adjacentList[vertex] = null;
-		deleteVertex(vertex);
-		*/
-	}
-	public void deleteVertex(T v) {
-		int n = -1;
-		for(int x = 0; x < values.size(); x++) {
-			if(v.equals(x)) {
-				values.remove(x);
-			}
-		}
-	}
-	public void addVertex(String name, int id) {
 		List<int[]>[] adjacentListAux = new List[adjacentList.length+1]; 
 		for (int i = 0; i < adjacentList.length; i++) {
 			adjacentListAux[i] = adjacentList[i];
@@ -151,7 +142,7 @@ public class GrafoListType<T> {
 		adjacentListAux[adjacentListAux.length]=new ArrayList<int[]>();
 		adjacentList = adjacentListAux;
 		addVertex(name, id);
-		
+		*/
 	}
 	public void addVertexValue(String name, int id) {
 		Country country = new Country(name, id);

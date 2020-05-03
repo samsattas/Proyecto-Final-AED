@@ -14,7 +14,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesDirectedNoMultiple() throws InvalidActionInSimpleGraphException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, true, false);
+		GrafoListType graph = new GrafoListType(toString(), 5, true, false);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -40,7 +40,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, true, true);
+		GrafoListType graph = new GrafoListType(toString(),5, true, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(0, 1, 12);
 		graph.addEdges(1, 4, 2);
@@ -68,7 +68,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, false);
+		GrafoListType graph = new GrafoListType(toString(),5, false, false);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -93,7 +93,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInSimpleGraphException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, true);
+		GrafoListType graph = new GrafoListType(toString(),5, false, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(0, 1, 12);
 		graph.addEdges(1, 4, 2);
@@ -122,7 +122,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInSimpleGraphException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, true, false);
+		GrafoListType graph = new GrafoListType(toString(),5, true, false);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -150,7 +150,7 @@ class GrafoListTypeTest {
 	private String setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, false);
+		GrafoListType graph = new GrafoListType(toString(),5, false, false);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(0, 1, 7);
 		graph.addEdges(1, 4, 2);
@@ -177,7 +177,7 @@ class GrafoListTypeTest {
 	private String setUpScenegetEdges() throws InvalidActionInSimpleGraphException {
 		ArrayList<int[]> edges;
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, true);
+		GrafoListType graph = new GrafoListType(toString(),5, false, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -200,7 +200,7 @@ class GrafoListTypeTest {
 	private String setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, true);
+		GrafoListType graph = new GrafoListType(toString(),5, false, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -226,7 +226,7 @@ class GrafoListTypeTest {
 	private String setUpSceneDeleteEdgeDirected() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, true, true);
+		GrafoListType graph = new GrafoListType(toString(),5, true, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
@@ -252,17 +252,18 @@ class GrafoListTypeTest {
 	private String setUpSceneDeleteVertex() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(5, false, true);
+		GrafoListType graph = new GrafoListType(toString(),5, false, true);
 		graph.addEdges(0, 1, 2);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
 		graph.addEdges(3, 2, 2);
 		graph.addEdges(2, 0, 2);
 		graph.deleteVertex(4);
-		for (int i = 0; i < graph.getAdjacentList().length-1; i++) {
+		graph.deleteVertex(3);
+		for (int i = 0; i < graph.getAdjacentList().length; i++) {
 			for (int j = 0; j < graph.getAdjacentList()[i].size(); j++) {
 				asd = (int[]) graph.getAdjacentList()[i].get(j);
-				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso:" + asd[1] + "\n";	
+				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso:" + asd[1] + "//";	
 			}
 		}
 		return data;
@@ -270,10 +271,27 @@ class GrafoListTypeTest {
 	@Test
 	void testDeleteVertex() {
 		try {
-			System.out.println(setUpSceneDeleteVertex());
+			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:2 Destino:0 Peso:2//",setUpSceneDeleteVertex());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
 		}
 	}
-	
+	private void setUpSceneAddVertex() throws InvalidActionInSimpleGraphException {
+		int[] asd = new int[2];
+		String data = "";
+		GrafoListType graph = new GrafoListType(toString(),5, false, false);
+		graph.addVertex();
+		graph.addEdges(0, 1, 2);
+		graph.addEdges(1, 4, 2);
+		graph.addEdges(4, 3, 2);
+		graph.addEdges(3, 2, 2);
+		graph.addEdges(2, 0, 2);
+		graph.deleteEdge(4, 3);
+		for (int i = 0; i < graph.getAdjacentList().length; i++) {
+			for (int j = 0; j < graph.getAdjacentList()[i].size(); j++) {
+				asd = (int[]) graph.getAdjacentList()[i].get(j);
+				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso:" + asd[1] + "//";	
+			}
+		}
+	}
 }
