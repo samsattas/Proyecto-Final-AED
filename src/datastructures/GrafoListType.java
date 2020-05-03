@@ -119,7 +119,7 @@ public class GrafoListType<T> {
 			}
 		}
 	}
-	public void deleteVertex(int vertex) {
+	private void deleteVertex(int vertex) {
 		List<int[]>[] adjacentListAux  = new List[adjacentList.length-1];
 		for (int i = 0; i < adjacentList.length; i++) {
 			for (int j = 0; j < adjacentList[i].size(); j++) {
@@ -155,6 +155,10 @@ public class GrafoListType<T> {
 	public void addVertexValue(/*String name, int id*/T v) {
 		values.add(v);
 		addVertex();
+	}
+	public void deleteVertexValue(int vertex) {
+		values.remove(vertex);
+		deleteVertex(vertex);
 	}
 	public int consultWeight() {
 		return values.size();
