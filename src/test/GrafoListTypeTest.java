@@ -152,7 +152,7 @@ class GrafoListTypeTest {
 		String data = "";
 		GrafoListType graph = new GrafoListType(toString(),5, false, false);
 		graph.addEdges(0, 1, 2);
-		graph.addEdges(0, 1, 7);
+		graph.addEdges(0, 0, 7);
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
 		graph.addEdges(3, 2, 2);
@@ -276,7 +276,7 @@ class GrafoListTypeTest {
 			fail("Unexpected Exception");
 		}
 	}
-	private void setUpSceneAddVertex() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneAddVertex() throws InvalidActionInSimpleGraphException {
 		int[] asd = new int[2];
 		String data = "";
 		GrafoListType graph = new GrafoListType(toString(),5, false, false);
@@ -285,13 +285,23 @@ class GrafoListTypeTest {
 		graph.addEdges(1, 4, 2);
 		graph.addEdges(4, 3, 2);
 		graph.addEdges(3, 2, 2);
+		graph.addEdges(3, 5, 2);
 		graph.addEdges(2, 0, 2);
-		graph.deleteEdge(4, 3);
 		for (int i = 0; i < graph.getAdjacentList().length; i++) {
 			for (int j = 0; j < graph.getAdjacentList()[i].size(); j++) {
 				asd = (int[]) graph.getAdjacentList()[i].get(j);
 				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso:" + asd[1] + "//";	
 			}
+		}
+		return data;
+	}
+	@Test
+	void testAddVertex() {
+		try {
+			System.out.println(setUpSceneAddVertex());
+		} catch (InvalidActionInSimpleGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

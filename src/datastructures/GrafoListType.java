@@ -26,9 +26,9 @@ public class GrafoListType<T> {
 	public void addEdges(int i, int j, int weight) throws InvalidActionInSimpleGraphException{
 		if(multiple) {
 			initialEdges(i,j,weight);
-		} else if(adjacentList[i].size()>=2){
+		}/* else if(adjacentList[i].size()>=2){
 			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
-		} else if(adjacentList[i].size()==0) {
+		} */else if(adjacentList[i].size()==0) {
 			initialEdges(i,j,weight);
 		} else if(adjacentList[i].size()>0) {
 			validateUsedVertex(i, j);
@@ -36,16 +36,34 @@ public class GrafoListType<T> {
 		}
 	}
 	private void validateUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {
+		if(directed) {
+			validateDirectedUsedVertex(i,j);
+		}
+		if(i==j) {
+			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+		}
+		for (int k = 0; k < adjacentList[i].size(); k++) {
+				if(adjacentList[i].get(k)[0] == j) {
+					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+				}
+			}
+		for (int k2 = 0; k2 < adjacentList[j].size(); k2++) {
+				if(adjacentList[j].get(k2)[0] == i) {
+					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+				}
+			}
+		/*
 		for (int k = 0; k < adjacentList[j].size(); k++) {
 			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
 				if(directed) {
 					validateDirectedUsedVertex(i,j);
 				}
 				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0] ) {
-					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
+					//throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
 				}
 			}
 		}
+		*/
 	}
 	private void validateDirectedUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {	
 		for (int h = 0; h < adjacentList[i].size(); h++) {
@@ -122,14 +140,14 @@ public class GrafoListType<T> {
 			adjacentListAux[j] = adjacentList[j];
 		}
 		adjacentList = adjacentListAux;
-		values.remove(vertex);
+		//values.remove(vertex);
 	}
 	public void addVertex() {
 		List<int[]>[] adjacentListAux  = new List[adjacentList.length+1];
 		for(int k=0; k<adjacentListAux.length; k++) {
 			adjacentListAux[k] = new ArrayList<int[]>(); 
 		}
-		for (int j = 0; j < adjacentListAux.length; j++) {
+		for (int j = 0; j < adjacentList.length; j++) {
 			adjacentListAux[j] = adjacentList[j];
 		}
 		adjacentList = adjacentListAux;
