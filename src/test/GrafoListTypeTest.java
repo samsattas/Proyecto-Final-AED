@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import datastructures.GrafoListType;
 import exceptions.InvalidActionInSimpleGraphException;
+import exceptions.RepeatedVertexException;
 import model.Country;
 
 class GrafoListTypeTest {
@@ -18,10 +19,10 @@ class GrafoListTypeTest {
 	Country villacubito = new Country("villacubito", 3);
 	Country canada = new Country("canada", 2);
 	Country peru = new Country("peru", 5);
-	private String setUpSceneAddEdgesDirectedNoMultiple() throws InvalidActionInSimpleGraphException  {
+	private String setUpSceneAddEdgesDirectedNoMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/* 5,*/ true, false);
+		GrafoListType graph = new GrafoListType(colombia,true, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -45,13 +46,15 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso2//Origen:1 Destino:4 Peso2//Origen:2 Destino:0 Peso2//Origen:3 Destino:2 Peso2//Origen:4 Destino:3 Peso2//", setUpSceneAddEdgesDirectedNoMultiple());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
 	
-	private String setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException  {
+	private String setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ true, true);
+		GrafoListType graph = new GrafoListType(colombia,true, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -78,12 +81,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:1 Peso:12//Origen:1 Destino:4 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:2 Peso:2//Origen:4 Destino:3 Peso:2//Origen:4 Destino:3 Peso:35//Origen:4 Destino:3 Peso:2//", setUpSceneAddEdgesDirectedMultiple());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, false);
+		GrafoListType graph = new GrafoListType(colombia,false, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -107,12 +112,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:1 Destino:4 Peso:2//Origen:2 Destino:3 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:4 Peso:2//Origen:3 Destino:2 Peso:2//Origen:4 Destino:1 Peso:2//Origen:4 Destino:3 Peso:2//",setUpSceneAddEdgesNoDirectedNoMultiple());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInSimpleGraphException  {
+	private String setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -139,13 +146,15 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:1 Peso:12//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:1 Destino:0 Peso:12//Origen:1 Destino:4 Peso:2//Origen:2 Destino:3 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:4 Peso:2//Origen:3 Destino:4 Peso:35//Origen:3 Destino:4 Peso:2//Origen:3 Destino:2 Peso:2//Origen:4 Destino:1 Peso:2//Origen:4 Destino:3 Peso:2//Origen:4 Destino:3 Peso:35//Origen:4 Destino:3 Peso:2//", setUpSceneAddEdgesNoDirectedMultiple());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
 	///////////////////Test Exceptions//////////////////
-	private String setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInSimpleGraphException  {
+	private String setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ true, false);
+		GrafoListType graph = new GrafoListType(colombia,true, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -172,12 +181,14 @@ class GrafoListTypeTest {
 			fail("Expected Exception");
 		} catch (InvalidActionInSimpleGraphException e) {
 			System.out.println("Succesful test");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, false);
+		GrafoListType graph = new GrafoListType(colombia,false, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -203,12 +214,14 @@ class GrafoListTypeTest {
 			fail("Expected Exception");
 		} catch (InvalidActionInSimpleGraphException e) {
 			System.out.println("Succesful test");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpScenegetEdges() throws InvalidActionInSimpleGraphException {
+	private String setUpScenegetEdges() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		ArrayList<int[]> edges;
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -230,12 +243,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:4 Destino:3//", setUpScenegetEdges());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -260,12 +275,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:1 Destino:4 Peso:2//Origen:2 Destino:3 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:2 Peso:2//Origen:4 Destino:1 Peso:2//",setUpSceneDeleteEdgeNoDirected());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneDeleteEdgeDirected() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneDeleteEdgeDirected() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ true, true);
+		GrafoListType graph = new GrafoListType(colombia,true, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -290,12 +307,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:1 Destino:4 Peso:2//Origen:2 Destino:0 Peso:2//Origen:3 Destino:2 Peso:2//",setUpSceneDeleteEdgeDirected());		
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneDeleteVertex() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneDeleteVertex() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -321,12 +340,14 @@ class GrafoListTypeTest {
 			assertEquals("Origen:0 Destino:1 Peso:2//Origen:0 Destino:2 Peso:2//Origen:1 Destino:0 Peso:2//Origen:2 Destino:0 Peso:2//",setUpSceneDeleteVertex());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneDeleteVertexValue() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneDeleteVertexValue() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -341,7 +362,7 @@ class GrafoListTypeTest {
 		for (int i = 0; i < graph.getAdjacentList().length; i++) {
 			Country country = (Country) graph.getValues().get(i);
 			data += country.getName() + " // ";
-		}
+		} 
 		return data;
 	}
 	@Test
@@ -350,13 +371,46 @@ class GrafoListTypeTest {
 			assertEquals("Colombia // china // rusia // ",setUpSceneDeleteVertexValue());
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
 	/////////
-	private GrafoListType setUpSceneDeleteVertexValueSize() throws InvalidActionInSimpleGraphException {
+	private void setUpSceneDeleteVertexDoesnotExist() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, true);
+		GrafoListType graph = new GrafoListType(colombia,false, true);
+		graph.addVertexValue(china);
+		graph.addVertexValue(rusia);
+		graph.addVertexValue(villacubito);
+		graph.addVertexValue(canada);
+		graph.addEdges(0, 1, 2);
+		graph.addEdges(1, 4, 2);
+		graph.addEdges(4, 3, 2);
+		graph.addEdges(3, 2, 2);
+		graph.addEdges(2, 0, 2);
+		graph.deleteVertexValue(4);
+		graph.deleteVertexValue(3);
+		graph.deleteVertexValue(10);
+	}
+	@Test
+	void testDeleteVertexValueDoesnotExist() {
+		try {
+			setUpSceneDeleteVertexDoesnotExist();
+			fail("Exception expected");
+		} catch (InvalidActionInSimpleGraphException e) {
+			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Succesful test");
+		}
+	}
+	/////////
+	private GrafoListType setUpSceneDeleteVertexValueSize() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+		int[] asd = new int[2];
+		String data = "";
+		GrafoListType graph = new GrafoListType(colombia,false, true);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -377,12 +431,14 @@ class GrafoListTypeTest {
 			assertEquals(setUpSceneDeleteVertexValueSize().getValues().size(),3);
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneAddVertex() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneAddVertex() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, false);
+		GrafoListType graph = new GrafoListType(colombia,false, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -409,12 +465,14 @@ class GrafoListTypeTest {
 		} catch (InvalidActionInSimpleGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private String setUpSceneAddVertexValue() throws InvalidActionInSimpleGraphException {
+	private String setUpSceneAddVertexValue() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, false);
+		GrafoListType graph = new GrafoListType(colombia,false, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -438,12 +496,14 @@ class GrafoListTypeTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
 		}
 	}
-	private GrafoListType setUpSceneAddVertexValueSize() throws InvalidActionInSimpleGraphException {
+	private GrafoListType setUpSceneAddVertexValueSize() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
 		int[] asd = new int[2];
 		String data = "";
-		GrafoListType graph = new GrafoListType(colombia,/*5,*/ false, false);
+		GrafoListType graph = new GrafoListType(colombia,false, false);
 		graph.addVertexValue(china);
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
@@ -462,6 +522,34 @@ class GrafoListTypeTest {
 			assertEquals(setUpSceneAddVertexValueSize().getValues().size(), 5);
 		} catch (InvalidActionInSimpleGraphException e) {
 			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
+		}
+	}
+	private void setUpSceneAddVertexValueRepeated() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+		int[] asd = new int[2];
+		String data = "";
+		GrafoListType graph = new GrafoListType(colombia,false, false);
+		graph.addVertexValue(china);
+		graph.addVertexValue(rusia);
+		graph.addVertexValue(villacubito);
+		graph.addVertexValue(canada);
+		graph.addVertexValue(canada);
+		graph.addEdges(0, 1, 2);
+		graph.addEdges(1, 4, 2);
+		graph.addEdges(4, 3, 2);
+		graph.addEdges(3, 2, 2);
+		graph.addEdges(2, 0, 2);
+	}
+	@Test
+	void testAddVertexValueRepeated() {
+		try {
+			setUpSceneAddVertexValueRepeated();
+			fail("Exception expected");
+		} catch (InvalidActionInSimpleGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			System.out.println("Succesful test");
 		}
 	}
 	

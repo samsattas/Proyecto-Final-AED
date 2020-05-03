@@ -1,9 +1,13 @@
 package datastructures;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.InvalidActionInSimpleGraphException;
+import exceptions.RepeatedVertexException;
 import model.Country;
 
 public class GrafoListType<T> {
@@ -11,24 +15,20 @@ public class GrafoListType<T> {
 	private List<int[]>[] adjacentList;
 	private ArrayList<T> values;
 	private boolean multiple;
-	public  GrafoListType(T v, /*int n,*/ boolean directeD, boolean multiplE) {
-		adjacentList = new List[/*n*/1];
+	public  GrafoListType(T v,boolean directeD, boolean multiplE) {
+		adjacentList = new List[1];
 		values = new ArrayList<T>();
 		values.add(v);
 		directed = directeD;
 		multiple = multiplE; 
-		//for(int i=0; i<n; i++) {
 			adjacentList[0] = new ArrayList<int[]>(); 
-		//}
 	}
 	//i = origin
 	//j = destiny
 	public void addEdges(int i, int j, int weight) throws InvalidActionInSimpleGraphException{
 		if(multiple) {
 			initialEdges(i,j,weight);
-		}/* else if(adjacentList[i].size()>=2){
-			throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
-		} */else if(adjacentList[i].size()==0) {
+		} else if(adjacentList[i].size()==0) {
 			initialEdges(i,j,weight);
 		} else if(adjacentList[i].size()>0) {
 			validateUsedVertex(i, j);
@@ -52,18 +52,6 @@ public class GrafoListType<T> {
 					throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
 				}
 			}
-		/*
-		for (int k = 0; k < adjacentList[j].size(); k++) {
-			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
-				if(directed) {
-					validateDirectedUsedVertex(i,j);
-				}
-				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0] ) {
-					//throw new InvalidActionInSimpleGraphException("Accion no permitida en grafo simple");
-				}
-			}
-		}
-		*/
 	}
 	private void validateDirectedUsedVertex(int i, int j) throws InvalidActionInSimpleGraphException {	
 		for (int h = 0; h < adjacentList[i].size(); h++) {
@@ -78,18 +66,6 @@ public class GrafoListType<T> {
 			adjacentList[j].add(new int[]{i, weight});
 		}
 	}
-	/*
-	public int[] getEdge(int i, int j) {
-		int[] current= {-1,-1};
-		for (int k = 0; k < adjacentList[i].size(); k++) {
-			current = adjacentList[i].get(k);
-			if(current[0]==j) {
-				return current;
-			}
-		}
-		return current;
-	}
-	*/
 	public ArrayList<int[]> getEdges(int i, int j) {
 		ArrayList<int[]> edges = new ArrayList<int[]>();
 		int[] current= {-1,-1};
@@ -140,7 +116,6 @@ public class GrafoListType<T> {
 			adjacentListAux[j] = adjacentList[j];
 		}
 		adjacentList = adjacentListAux;
-		//values.remove(vertex);
 	}
 	private void addVertex() {
 		List<int[]>[] adjacentListAux  = new List[adjacentList.length+1];
@@ -152,12 +127,21 @@ public class GrafoListType<T> {
 		}
 		adjacentList = adjacentListAux;
 	}
-	public void addVertexValue(/*String name, int id*/T v) {
+	public void addVertexValue(/*String name, int id*/T v) throws RepeatedVertexException{
+		for (int i = 0; i < values.size(); i++) {
+			if(values.get(i).equals(v)) {
+				throw new RepeatedVertexException("The vertex is repeated");
+			}
+		}
 		values.add(v);
 		addVertex();
 	}
-	public void deleteVertexValue(int vertex) {
-		values.remove(vertex);
+	public void deleteVertexValue(int vertex) throws IndexOutOfBoundsException{
+		try {
+			values.remove(vertex);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException("The vertex does not exist");
+		}
 		deleteVertex(vertex);
 	}
 	public int consultWeight() {
