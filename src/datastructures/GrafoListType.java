@@ -38,7 +38,6 @@ public class GrafoListType<T> {
 		for (int k = 0; k < adjacentList[j].size(); k++) {
 			for (int k2 = 0; k2 < adjacentList[i].size(); k2++) {
 				if(directed) {
-					System.out.println("entreeeee");
 					validateDirectedUsedVertex(i,j);
 				}
 				if(adjacentList[j].get(k)[0] == adjacentList[i].get(k2)[0] ) {
@@ -59,7 +58,8 @@ public class GrafoListType<T> {
 		if(!directed) {
 			adjacentList[j].add(new int[]{i, weight});
 		}
-	} 
+	}
+	/*
 	public int[] getEdge(int i, int j) {
 		int[] current= {-1,-1};
 		for (int k = 0; k < adjacentList[i].size(); k++) {
@@ -70,6 +70,7 @@ public class GrafoListType<T> {
 		}
 		return current;
 	}
+	*/
 	public ArrayList<int[]> getEdges(int i, int j) {
 		ArrayList<int[]> edges = new ArrayList<int[]>();
 		int[] current= {-1,-1};
@@ -82,6 +83,14 @@ public class GrafoListType<T> {
 		return edges;
 	}
 	public void deleteEdge(int i, int j) {
+		if(directed) {
+			auxDelete(i, j);
+		} else {
+			auxDelete(i, j);
+			auxDelete(j, i);
+		}
+	}
+	private void auxDelete(int i, int j) {
 		int[] current= {-1,-1};
 		for (int k = 0; k < adjacentList[i].size(); k++) {
 			current = adjacentList[i].get(k);
@@ -91,14 +100,11 @@ public class GrafoListType<T> {
 		}
 	}
 	public void deleteVertex(int vertex) {
-		for (int i = vertex; i < adjacentList.length-1; i++) {
-			adjacentList[vertex] = adjacentList[vertex+1];
+		int i = vertex;
+		for (; i < adjacentList.length-1; i++) {
+			adjacentList[i] = adjacentList[i+1];
 		}
-		for (int i = 0; i < adjacentList.length; i++) {
-			adjacentList[i].remove(vertex);
-		}
-		adjacentList[vertex] = null;
-		deleteVertex(vertex);
+		adjacentList[i] = null;
 	}
 	public void deleteVertex(T v) {
 		int n = -1;
