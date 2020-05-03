@@ -3,6 +3,11 @@ package datastructures;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+ * all the code that is commented with "//" is the
+ * way to use the graph but with ArrayList
+ */
 public class Grafov2<T> {
 	private ArrayList<Integer>[][] adjmatrix;
 //	private ArrayList<ArrayList<ArrayList<Integer>>> asd;
@@ -11,14 +16,19 @@ public class Grafov2<T> {
 	private boolean multiple;
 	
 
-	
-	public Grafov2(boolean directed, int i, boolean multiple) {
+	/*
+	 * directed = means if the graph is directed or not
+	 * i = the initial size of the graph
+	 * multiple = means if the graph has multiple vertex or not
+	 * v = the vertex to add because is not allowed to create an empty graph
+	 */
+	public Grafov2(boolean directed, int i, boolean multiple, T v) {
 		
 		adjmatrix = new ArrayList[i][i];
 		this.directed = directed;
 		this.multiple = multiple;
 		values = new ArrayList<>();
-		
+		values.add(v);
 //		asd = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		
 		for(int j = 0; j < i; j++) {
