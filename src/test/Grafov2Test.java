@@ -37,6 +37,42 @@ class Grafov2Test {
 		return gr;
 	}
 	
+	public Grafov2<Country> setUpSceneGraphMultipleDirected() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(true, true, c1);
+		gr.addVertex(c2);
+		gr.addVertex(c3);
+		
+		return gr;
+	}
+	
+	public Grafov2<Country> setUpSceneGraphDirected() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(true, false, c1);
+		gr.addVertex(c2);
+		gr.addVertex(c3);
+		
+		return gr;
+	}
+	
+	public Grafov2<Country> setUpSceneGraph() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, false, c1);
+		gr.addVertex(c2);
+		gr.addVertex(c3);
+		
+		return gr;
+	}
+	
 	public boolean setUpSceneAddVertex() {
 		Grafov2<Country> gr = setUpSceneGraphMultiple();
 		
@@ -52,7 +88,7 @@ class Grafov2Test {
 		assertTrue(setUpSceneAddVertex());
 	}
 	
-	public boolean setUpSceneAddEdges() {
+	public boolean setUpSceneAddEdgesMultiple() {
 		Grafov2<Country> gr = setUpSceneGraphMultiple();
 		
 		//edges from Colombia to EEUU
@@ -60,6 +96,63 @@ class Grafov2Test {
 		gr.addEdge(0, 1, 8);
 		
 		if(gr.getAdjmatrix()[0][1].size()==2 && gr.getEdges(0, 1).get(0) == 10 && gr.getEdges(0, 1).get(1) == 8) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	@Test
+	void testAddEdgeMultiple() {
+		assertTrue(setUpSceneAddEdgesMultiple());
+	}
+	
+	public boolean setUpSceneAddEdgesMultipleDirected() {
+		Grafov2<Country> gr = setUpSceneGraphMultipleDirected();
+		
+		//edges from Colombia to EEUU
+		gr.addEdge(0, 1, 10);
+		gr.addEdge(0, 1, 8);
+		
+		if(gr.getAdjmatrix()[0][1].size()==2 && gr.getEdges(0, 1).get(1) == 8 && gr.getEdges(1, 0).isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	@Test
+	void testAddEdgeMultipleDirected() {
+		assertTrue(setUpSceneAddEdgesMultipleDirected());
+	}
+	
+	public boolean setUpSceneAddEdgesDirected() {
+		Grafov2<Country> gr = setUpSceneGraphDirected();
+		
+		//edges from Colombia to EEUU
+		gr.addEdge(0, 1, 10);
+		gr.addEdge(0, 1, 8);
+		
+		if(gr.getAdjmatrix()[0][1].size()==1 && gr.getEdges(0, 1).get(0) == 10 && gr.getEdges(1, 0).isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	@Test
+	void testAddEdgeDirected() {
+		assertTrue(setUpSceneAddEdgesDirected());
+	}
+	
+	public boolean setUpSceneAddEdges() {
+		Grafov2<Country> gr = setUpSceneGraph();
+		
+		//edges from Colombia to EEUU
+		gr.addEdge(0, 1, 10);
+		gr.addEdge(0, 1, 8);
+		
+		if(gr.getAdjmatrix()[0][1].size()==1 && gr.getEdges(0, 1).get(0) == 10 && !gr.getEdges(1, 0).isEmpty()) {
 			return true;
 		}else {
 			return false;

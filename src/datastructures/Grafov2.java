@@ -74,11 +74,6 @@ public class Grafov2<T> {
 	}
 	
 	public ArrayList<Integer> getEdges(int i, int j) {
-//		ArrayList<Integer> aux = new ArrayList<Integer>();
-//		for (int k = 0; k < adjmatrix.length; k++) {
-//			aux.add(adjmatrix[i][j].get(k));
-//		}
-		
 		return adjmatrix[i][j];
 	}
 	
