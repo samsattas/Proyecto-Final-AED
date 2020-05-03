@@ -352,11 +352,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 		graph.deleteVertexValue(4);
 		graph.deleteVertexValue(3);
 		for (int i = 0; i < graph.getAdjacentList().length; i++) {
@@ -384,11 +379,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 		graph.deleteVertexValue(4);
 		graph.deleteVertexValue(3);
 		graph.deleteVertexValue(10);
@@ -415,11 +405,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 		graph.deleteVertexValue(4);
 		graph.deleteVertexValue(3);
 		return graph;
@@ -477,11 +462,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 		for (int i = 0; i < graph.getAdjacentList().length; i++) {
 			Country country = (Country) graph.getValues().get(i);
 			data += country.getName() + " // ";
@@ -508,11 +488,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 		return graph;
 	}
 	@Test
@@ -535,11 +510,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
 		graph.addVertexValue(canada);
-		graph.addEdges(0, 1, 2);
-		graph.addEdges(1, 4, 2);
-		graph.addEdges(4, 3, 2);
-		graph.addEdges(3, 2, 2);
-		graph.addEdges(2, 0, 2);
 	}
 	@Test
 	void testAddVertexValueRepeated() {
