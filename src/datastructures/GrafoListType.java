@@ -11,15 +11,15 @@ public class GrafoListType<T> {
 	private List<int[]>[] adjacentList;
 	private ArrayList<T> values;
 	private boolean multiple;
-	public  GrafoListType(T v, int n, boolean directeD, boolean multiplE) {
-		adjacentList = new List[n];
+	public  GrafoListType(T v, /*int n,*/ boolean directeD, boolean multiplE) {
+		adjacentList = new List[/*n*/1];
 		values = new ArrayList<T>();
 		values.add(v);
 		directed = directeD;
 		multiple = multiplE; 
-		for(int i=0; i<n; i++) {
-			adjacentList[i] = new ArrayList<int[]>(); 
-		}
+		//for(int i=0; i<n; i++) {
+			adjacentList[0] = new ArrayList<int[]>(); 
+		//}
 	}
 	//i = origin
 	//j = destiny
@@ -142,7 +142,7 @@ public class GrafoListType<T> {
 		adjacentList = adjacentListAux;
 		//values.remove(vertex);
 	}
-	public void addVertex() {
+	private void addVertex() {
 		List<int[]>[] adjacentListAux  = new List[adjacentList.length+1];
 		for(int k=0; k<adjacentListAux.length; k++) {
 			adjacentListAux[k] = new ArrayList<int[]>(); 
@@ -162,9 +162,10 @@ public class GrafoListType<T> {
 		addVertex(name, id);
 		*/
 	}
-	public void addVertexValue(String name, int id) {
-		Country country = new Country(name, id);
-		values.add((T) country);
+	public void addVertexValue(/*String name, int id*/T v) {
+		//Country country = new Country(name, id);
+		values.add(v);
+		addVertex();
 	}
 	public int consultWeight() {
 		return values.size();
