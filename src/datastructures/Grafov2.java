@@ -22,25 +22,65 @@ public class Grafov2<T> {
 	 * multiple = means if the graph has multiple vertex or not
 	 * v = the vertex to add because is not allowed to create an empty graph
 	 */
-	public Grafov2(boolean directed, int i, boolean multiple, T v) {
+	public Grafov2(boolean directed,  boolean multiple, T v) {
 		
-		adjmatrix = new ArrayList[i][i];
+		adjmatrix = new ArrayList[1][1];
 		this.directed = directed;
 		this.multiple = multiple;
 		values = new ArrayList<>();
 		values.add(v);
+		adjmatrix[0][0] = new ArrayList<Integer>();
 //		asd = new ArrayList<ArrayList<ArrayList<Integer>>>();
 		
-		for(int j = 0; j < i; j++) {
+//		for(int j = 0; j < i; j++) {
 //			asd.addAll(new ArrayList<ArrayList<ArrayList<Integer>>>());
-			for(int k = 0; k < i; k++) {
+//			for(int k = 0; k < i; k++) {
 //				asd.get(j).addAll(new ArrayList<ArrayList<Integer>>());
-				adjmatrix[j][k] = new ArrayList<Integer>();
-			}
-		}
+//				adjmatrix[j][k] = new ArrayList<Integer>();
+//			}
+//		}
 	}
 	
 	
+	
+	public ArrayList<Integer>[][] getAdjmatrix() {
+		return adjmatrix;
+	}
+
+
+	public ArrayList<T> getValues() {
+		return values;
+	}
+
+
+	public boolean isMultiple() {
+		return multiple;
+	}
+
+
+	public boolean isDirected() {
+		return directed;
+	}
+
+
+	public T getVertex(T v) {
+		T aux = null;
+		for(int i = 0; i < values.size() && aux == null; i++) {
+			if(values.get(i)==v) {
+				aux = v;
+			}
+		}
+		return aux;
+	}
+	
+	public ArrayList<Integer> getEdges(int i, int j) {
+//		ArrayList<Integer> aux = new ArrayList<Integer>();
+//		for (int k = 0; k < adjmatrix.length; k++) {
+//			aux.add(adjmatrix[i][j].get(k));
+//		}
+		
+		return adjmatrix[i][j];
+	}
 	
 	/*
 	 * i = origin node
@@ -96,9 +136,6 @@ public class Grafov2<T> {
 		values.add(v);
 	}
 	
-	public boolean isDirected() {
-		return directed;
-	}
 	
 	/*
 	 * i = origin node
@@ -124,27 +161,33 @@ public class Grafov2<T> {
 		
 	}
 	
-	public void deleteVertex(T v) {
+	public void deleteVertex(int t) {
 		int n = -1;
-		for(int x = 0; x < values.size(); x++) {
-			if(v == values.get(x)) {
-				n = x;
-				values.remove(x);
-			}
+		if(t < values.size()) {
+			n = t;
+			values.remove(t);
 		}
+		
 		int m = n;
 		
 		if(n!=-1) {
-			for(;n < adjmatrix.length; n++) {
-				for(;m < adjmatrix[n].length; m++) {
+			for(;n < adjmatrix.length-1; n++) {
+				for(;m < adjmatrix[n].length-1; m++) {
 					adjmatrix[n][m] = adjmatrix[n][m+1];
 				}
 				adjmatrix[n] = adjmatrix[n+1];
 			}
+		
+			ArrayList<Integer>[][] aux = new ArrayList[adjmatrix.length-1][adjmatrix.length-1];
+			for(int i = 0; i < aux.length; i++) {
+				for(int j = 0; j < aux.length; j++) {
+					aux[i][j] = adjmatrix[i][j];
+				}
+			}
+			
+			adjmatrix = aux;
+		
 		}
-		ArrayList<Integer>[][] aux = new ArrayList[adjmatrix.length-1][adjmatrix.length-1];
-		aux = adjmatrix;
-		adjmatrix = aux;
 	}
 	
 	public int consultWeight() {
