@@ -165,10 +165,9 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneDeleteVertex() {
-		Grafov2<Country> gr = setUpSceneGraphMultiple();
+		Grafov2<Country> gr = setUpSceneGraph();
 		Country c = new Country("EEUU", 2);
 		gr.deleteVertex(0);
-		System.out.println( gr.getValues().get(1) + "/" + c);
 		if(gr.getAdjmatrix().length == 2 && gr.getValues().size() == 2 && gr.getValues().get(0).getName().equals("EEUU")) {
 			return true;
 		}else {
@@ -179,6 +178,49 @@ class Grafov2Test {
 	@Test
 	void testDeleteVertex() {
 		assertTrue(setUpSceneDeleteVertex());
+	}
+	
+	@Test
+	void testDeleteEdgeMultipleDirected() {
+		Grafov2<Country> gr = setUpSceneGraphMultipleDirected();
+		gr.addEdge(1, 0, 14);
+		gr.addEdge(0, 1, 10);
+		gr.addEdge(0, 1, 2);
+		gr.addEdge(0, 1, 8);
+		gr.deleteEdge(0, 1, 10);
+		
+		assertTrue(gr.getEdges(0, 1).get(0) == 2 && !gr.getEdges(1, 0).isEmpty());
+	}
+	
+	@Test
+	void testDeleteEdgeMultiple() {
+		Grafov2<Country> gr = setUpSceneGraphMultiple();
+		gr.addEdge(1, 0, 14);
+		gr.addEdge(0, 1, 10);
+		gr.addEdge(0, 1, 2);
+		gr.addEdge(0, 1, 8);
+		gr.deleteEdge(1, 0, 10);
+		
+		assertTrue(gr.getEdges(0, 1).get(1) == 2 && gr.getEdges(1, 0).size() == 3);
+	}
+	
+	@Test
+	void testDeleteEdgeDirected() {
+		Grafov2<Country> gr = setUpSceneGraphDirected();
+		gr.addEdge(1, 0, 14);
+		gr.addEdge(0, 1, 10);
+		gr.deleteEdge(0, 1, 10);
+		
+		assertTrue(gr.getEdges(0, 1).size() == 0 && !gr.getEdges(1, 0).isEmpty());
+	}
+	
+	@Test
+	void testDeleteEdge() {
+		Grafov2<Country> gr = setUpSceneGraph();
+		gr.addEdge(1, 0, 14);
+		gr.deleteEdge(0, 1, 14);
+		
+		assertTrue(gr.getEdges(0, 1).size() == 0 && gr.getEdges(1, 0).isEmpty());
 	}
 	
 	@Test
