@@ -168,7 +168,8 @@ class Grafov2Test {
 		Grafov2<Country> gr = setUpSceneGraph();
 		Country c = new Country("EEUU", 2);
 		gr.deleteVertex(0);
-		if(gr.getAdjmatrix().length == 2 && gr.getValues().size() == 2 && gr.getValues().get(0).getName().equals("EEUU")) {
+		gr.deleteVertex(0);
+		if(gr.getAdjmatrix().length == 1 && gr.getValues().size() == 1 && gr.getValues().get(0).getName().equals("Barrancabermeja")) {
 			return true;
 		}else {
 			return false;

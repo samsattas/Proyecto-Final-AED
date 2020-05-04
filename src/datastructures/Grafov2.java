@@ -86,7 +86,7 @@ public class Grafov2<T> {
 		if(multiple) {
 			addEdgeAux(i,j,w);
 		}else {
-			if(adjmatrix[i][j].isEmpty()) {
+			if(adjmatrix[i][j].isEmpty() && i!=j) {
 				addEdgeAux(i,j,w);
 			}
 		}
@@ -114,21 +114,30 @@ public class Grafov2<T> {
 	}
 	
 	public void addVertex(T v) {
-		int x = adjmatrix.length+1;
-		ArrayList<Integer>[][] aux = new ArrayList[x][x];
-		for(int j = 0; j < x; j++) {
-			for(int k = 0; k < x; k++) {
-				aux[j][k] = new ArrayList<Integer>();
+		boolean cent = true;
+		for(int i = 0; i < values.size(); i++) {
+			if(values.get(i)==v) {
+				cent = false;
+				i = values.size();
 			}
 		}
-		adjmatrix = aux;
-		
-//		asd.add(new ArrayList<ArrayList<Integer>>());
-//		for(int i = 0; i < asd.size(); i++) {
-//			asd.get(i).add(new ArrayList<Integer>());
-//		}
-				
-		values.add(v);
+		if(cent) {
+			int x = adjmatrix.length+1;
+			ArrayList<Integer>[][] aux = new ArrayList[x][x];
+			for(int j = 0; j < x; j++) {
+				for(int k = 0; k < x; k++) {
+					aux[j][k] = new ArrayList<Integer>();
+				}
+			}
+			adjmatrix = aux;
+			
+	//		asd.add(new ArrayList<ArrayList<Integer>>());
+	//		for(int i = 0; i < asd.size(); i++) {
+	//			asd.get(i).add(new ArrayList<Integer>());
+	//		}
+					
+			values.add(v);
+		}
 	}
 	
 	
