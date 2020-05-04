@@ -157,7 +157,7 @@ public class GrafoListType<T> {
 		addVertex();
 	}
 	public void deleteVertexValue(/*int vertex*/T v) throws IndexOutOfBoundsException{
-		int vertex = 100;
+		int vertex = -100;
 		for (int i = 0; i < values.size(); i++) {
 			if(values.get(i).equals(v)) {
 				vertex = i;

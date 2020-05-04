@@ -326,6 +326,7 @@ class GrafoListTypeTest {
 			System.out.println(asdAux[1]);
 		}
 		*/
+		System.out.println(data);
 		return data;
 	}
 	@Test
@@ -374,8 +375,6 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.deleteVertexValue(4);
-		graph.deleteVertexValue(3);
 		graph.deleteVertexValue(10);
 	}
 	@Test
