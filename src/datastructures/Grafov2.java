@@ -165,6 +165,7 @@ public class Grafov2<T> {
 		
 	}
 	
+	
 	public void deleteVertex(int t) {
 		int n = -1;
 		if(t < values.size()) {
@@ -198,8 +199,7 @@ public class Grafov2<T> {
 		return values.size();
 	}
 	
-	//aniadir, eliminar, esdirigido, consultrpeso
-	//Array.fill(elarray, el valor);
+	
 	
 }
 
