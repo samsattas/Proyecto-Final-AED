@@ -1,6 +1,7 @@
 package datastructures;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ public class Grafov2<T> {
 	private ArrayList<Integer>[][] adjmatrix;
 //	private ArrayList<ArrayList<ArrayList<Integer>>> asd;
 	private boolean directed;
-	private ArrayList<T> values;
+	private ArrayList<Vertex> values;
 	private boolean multiple;
 	
 
@@ -22,7 +23,7 @@ public class Grafov2<T> {
 	 * multiple = means if the graph has multiple vertex or not
 	 * v = the vertex to add because is not allowed to create an empty graph
 	 */
-	public Grafov2(boolean directed,  boolean multiple, T v) {
+	public Grafov2(boolean directed,  boolean multiple, Vertex v) {
 		
 		adjmatrix = new ArrayList[1][1];
 		this.directed = directed;
@@ -48,7 +49,7 @@ public class Grafov2<T> {
 	}
 
 
-	public ArrayList<T> getValues() {
+	public ArrayList<Vertex> getValues() {
 		return values;
 	}
 
@@ -113,7 +114,7 @@ public class Grafov2<T> {
 //		}
 	}
 	
-	public void addVertex(T v) {
+	public void addVertex(Vertex v) {
 		boolean cent = true;
 		for(int i = 0; i < values.size(); i++) {
 			if(values.get(i)==v) {
@@ -200,6 +201,49 @@ public class Grafov2<T> {
 	}
 	
 	
+	/*
+	 * v = origin vertex
+	 */
+	public ArrayList<Integer> bfs(int v) {
+		boolean[] visited = new boolean[values.size()];
+		LinkedList<Integer> queue = new LinkedList<Integer>();
+		ArrayList<Integer> tree = new ArrayList<Integer>();
+		try {
+			queue.add(v);
+			tree.add(v);
+			while(!queue.isEmpty()) {
+				for(int i = 0; i < values.size(); i++) {
+					if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
+						queue.add(i);
+						tree.add(i);
+						visited[i] = true;
+					}
+				}
+				visited[v] = true;
+				v = queue.poll();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+		return tree;
+	}
 	
+	
+	public ArrayList<Integer> dfs(int v) {
+		boolean visited[] = new boolean[values.size()];
+		ArrayList<Integer> aux = new ArrayList<Integer>();
+		return dfsUtil(v, visited, aux);
+	}
+	
+	private ArrayList<Integer> dfsUtil(int v, boolean[] visited, ArrayList<Integer> aux) {
+		visited[v] = true;
+		aux.add(v);
+		for(int i = 0; i < values.size(); i++) {
+			if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
+				dfsUtil(i, visited, aux);
+			}
+		}
+		return aux;
+	}
 }
 

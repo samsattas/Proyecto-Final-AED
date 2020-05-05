@@ -1,25 +1,25 @@
 package datastructures;
 
-public class Vertex<T> {
+public class Vertex<E> {
 	private final static String WHITE = "WHITE";
 	private final static String GRAY = "GRAY";
 	private final static String BLACK = "BLACK";
 	
-	private T value;
+	private E value;
 	private String color;
-	private T prev;
+	private E prev;
 	
-	public Vertex(T value ) {
+	public Vertex(E value ) {
 		this.value = value;
 		color = WHITE;
 		prev = null;
 	}
 
-	public T getValue() {
+	public E getValue() {
 		return value;
 	}
 
-	public void setValue(T value) {
+	public void setValue(E value) {
 		this.value = value;
 	}
 
@@ -30,14 +30,18 @@ public class Vertex<T> {
 	public void setColor(String color) {
 		this.color = color;
 	}
-
-	public T getPrev() {
-		return prev;
-	}
-
-	public void setPrev(T prev) {
-		this.prev = prev;
-	}
 	
+	public String aCadena() {
+		return value.toString();
+	}
+
+//	public T getPrev() {
+//		return prev;
+//	}
+//
+//	public void setPrev(T prev) {
+//		this.prev = prev;
+//	}
+//	
 	
 }
