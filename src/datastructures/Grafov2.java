@@ -4,14 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
-/*
- * all the code that is commented with "//" is the
- * way to use the graph but with ArrayList
- */
 public class Grafov2<T> {
-	private ArrayList<Integer>[][] adjmatrix;
-//	private ArrayList<ArrayList<ArrayList<Integer>>> asd;
+	private ArrayList<Double>[][] adjmatrix;
 	private boolean directed;
 	private ArrayList<Vertex> values;
 	private boolean multiple;
@@ -24,27 +18,17 @@ public class Grafov2<T> {
 	 * v = the vertex to add because is not allowed to create an empty graph
 	 */
 	public Grafov2(boolean directed,  boolean multiple, Vertex v) {
-		
 		adjmatrix = new ArrayList[1][1];
 		this.directed = directed;
 		this.multiple = multiple;
 		values = new ArrayList<>();
 		values.add(v);
-		adjmatrix[0][0] = new ArrayList<Integer>();
-//		asd = new ArrayList<ArrayList<ArrayList<Integer>>>();
-		
-//		for(int j = 0; j < i; j++) {
-//			asd.addAll(new ArrayList<ArrayList<ArrayList<Integer>>>());
-//			for(int k = 0; k < i; k++) {
-//				asd.get(j).addAll(new ArrayList<ArrayList<Integer>>());
-//				adjmatrix[j][k] = new ArrayList<Integer>();
-//			}
-//		}
+		adjmatrix[0][0] = new ArrayList<Double>();
 	}
 	
 	
 	
-	public ArrayList<Integer>[][] getAdjmatrix() {
+	public ArrayList<Double>[][] getAdjmatrix() {
 		return adjmatrix;
 	}
 
@@ -74,7 +58,7 @@ public class Grafov2<T> {
 		return aux;
 	}
 	
-	public ArrayList<Integer> getEdges(int i, int j) {
+	public ArrayList<Double> getEdges(int i, int j) {
 		return adjmatrix[i][j];
 	}
 	
@@ -90,28 +74,14 @@ public class Grafov2<T> {
 			if(adjmatrix[i][j].isEmpty() && i!=j) {
 				addEdgeAux(i,j,w);
 			}
-		}
-		
-//		if(multiple) {
-//			addEdgeAux(i,j,w);
-//		}else {
-//			if(asd.get(i).get(j).isEmpty()) {
-//				addEdgeAux(i,j,w);
-//			}
-//		}
-		
+		}		
 	}
 	
-	public void addEdgeAux(int i, int j, int w) {
+	public void addEdgeAux(int i, int j, double w) {
 		adjmatrix[i][j].add(w);
 		if(!directed && j!=i) {
 			adjmatrix[j][i].add(w);
 		}
-		
-//		asd.get(i).get(j).add(w);
-//		if(!directed && j!=i) {
-//			asd.get(j).get(i).add(w);
-//		}
 	}
 	
 	public void addVertex(Vertex v) {
@@ -124,19 +94,13 @@ public class Grafov2<T> {
 		}
 		if(cent) {
 			int x = adjmatrix.length+1;
-			ArrayList<Integer>[][] aux = new ArrayList[x][x];
+			ArrayList<Double>[][] aux = new ArrayList[x][x];
 			for(int j = 0; j < x; j++) {
 				for(int k = 0; k < x; k++) {
-					aux[j][k] = new ArrayList<Integer>();
+					aux[j][k] = new ArrayList<Double>();
 				}
 			}
-			adjmatrix = aux;
-			
-	//		asd.add(new ArrayList<ArrayList<Integer>>());
-	//		for(int i = 0; i < asd.size(); i++) {
-	//			asd.get(i).add(new ArrayList<Integer>());
-	//		}
-					
+			adjmatrix = aux;	
 			values.add(v);
 		}
 	}
@@ -184,7 +148,7 @@ public class Grafov2<T> {
 				adjmatrix[n] = adjmatrix[n+1];
 			}
 		
-			ArrayList<Integer>[][] aux = new ArrayList[adjmatrix.length-1][adjmatrix.length-1];
+			ArrayList<Double>[][] aux = new ArrayList[adjmatrix.length-1][adjmatrix.length-1];
 			for(int i = 0; i < aux.length; i++) {
 				for(int j = 0; j < aux.length; j++) {
 					aux[i][j] = adjmatrix[i][j];
@@ -208,7 +172,7 @@ public class Grafov2<T> {
 		boolean[] visited = new boolean[values.size()];
 		LinkedList<Integer> queue = new LinkedList<Integer>();
 		ArrayList<Integer> tree = new ArrayList<Integer>();
-		try {
+//		try {
 			queue.add(v);
 			tree.add(v);
 			while(!queue.isEmpty()) {
@@ -222,9 +186,9 @@ public class Grafov2<T> {
 				visited[v] = true;
 				v = queue.poll();
 			}
-		} catch (IndexOutOfBoundsException e) {
-			
-		}
+//		} catch (IndexOutOfBoundsException e) {
+//			
+//		}
 		return tree;
 	}
 	
