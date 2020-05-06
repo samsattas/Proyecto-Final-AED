@@ -2,9 +2,12 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 import datastructures.Grafov2;
+import datastructures.Vertex;
 import model.Country;
 
 class Grafov2Test {
@@ -12,8 +15,9 @@ class Grafov2Test {
 
 	public boolean setUpSceneInitGraph() {
 		Country c = new Country("Colombia", 76000);
-		Grafov2 test1 = new Grafov2(false, false, c);
-		if(test1.getVertex(c) == c && !test1.isDirected() && !test1.isMultiple()) {
+		Vertex v = new Vertex(c);
+		Grafov2 test1 = new Grafov2(false, false, v);
+		if(test1.getVertex(v) == v && !test1.isDirected() && !test1.isMultiple()) {
 			return true;
 		}else {
 			return false;
@@ -30,9 +34,13 @@ class Grafov2Test {
 		Country c2 = new Country("EEUU", 2);
 		Country c3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true, c1);
-		gr.addVertex(c2);
-		gr.addVertex(c3);
+		Vertex v1 = new Vertex(c1);
+		Vertex v2 = new Vertex(c2);
+		Vertex v3 = new Vertex(c3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, true, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
 		
 		return gr;
 	}
@@ -42,9 +50,13 @@ class Grafov2Test {
 		Country c2 = new Country("EEUU", 2);
 		Country c3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, true, c1);
-		gr.addVertex(c2);
-		gr.addVertex(c3);
+		Vertex v1 = new Vertex(c1);
+		Vertex v2 = new Vertex(c2);
+		Vertex v3 = new Vertex(c3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(true, true, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
 		
 		return gr;
 	}
@@ -54,22 +66,33 @@ class Grafov2Test {
 		Country c2 = new Country("EEUU", 2);
 		Country c3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, false, c1);
-		gr.addVertex(c2);
-		gr.addVertex(c3);
+		Vertex v1 = new Vertex(c1);
+		Vertex v2 = new Vertex(c2);
+		Vertex v3 = new Vertex(c3);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(true, false, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
 		
 		return gr;
 	}
 	
-	public Grafov2<Country> setUpSceneGraph() {
+	public Grafov2<Vertex<Country>> setUpSceneGraph() {
 		Country c1 = new Country("Colombia", 1);
 		Country c2 = new Country("EEUU", 2);
 		Country c3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false, c1);
-		gr.addVertex(c2);
-		gr.addVertex(c3);
+		Vertex<Country> v1 = new Vertex<Country>(c1);
+		Vertex<Country> v2 = new Vertex<Country>(c2);
+		Vertex<Country> v3 = new Vertex<Country>(c3);
 		
+		Grafov2<Vertex<Country>> gr = new Grafov2<Vertex<Country>>(false, false, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		
+//		Vertex<Country> aux = gr.getValues().get(0);
+//		aux.getValue().getName();
+	
 		return gr;
 	}
 	
@@ -146,7 +169,7 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneAddEdges() {
-		Grafov2<Country> gr = setUpSceneGraph();
+		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
 		
 		//edges from Colombia to EEUU
 		gr.addEdge(0, 1, 10);
@@ -165,10 +188,14 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneDeleteVertex() {
-		Grafov2<Country> gr = setUpSceneGraph();
-		Country c = new Country("EEUU", 2);
+		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
+				
 		gr.deleteVertex(0);
-		if(gr.getAdjmatrix().length == 2 && gr.getValues().size() == 2 && gr.getValues().get(0).getName().equals("EEUU")) {
+		gr.deleteVertex(0);
+
+		Vertex<Country> aux = gr.getValues().get(0);
+		
+		if(gr.getAdjmatrix().length == 1 && gr.getValues().size() == 1 && aux.getValue().getName().equals("Barrancabermeja")) {
 			return true;
 		}else {
 			return false;
@@ -216,7 +243,7 @@ class Grafov2Test {
 	
 	@Test
 	void testDeleteEdge() {
-		Grafov2<Country> gr = setUpSceneGraph();
+		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
 		gr.addEdge(1, 0, 14);
 		gr.deleteEdge(0, 1, 14);
 		
@@ -228,4 +255,82 @@ class Grafov2Test {
 		Grafov2<Country> gr = setUpSceneGraphMultiple();
 		assertTrue(gr.consultWeight() == 3);
 	}
+	
+	
+	public Grafov2<Country> setUpSceneBFS() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		Country c4 = new Country("Brazil", 4);
+		Country c5 = new Country("Canada", 5);
+		
+		Vertex v1 = new Vertex(c1);
+		Vertex v2 = new Vertex(c2);
+		Vertex v3 = new Vertex(c3);
+		Vertex v4 = new Vertex(c4);
+		Vertex v5 = new Vertex(c4);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, true, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		
+		gr.addEdge(0, 1, 5);
+		gr.addEdge(1, 3, 6);
+		gr.addEdge(3, 4, 11);
+		gr.addEdge(2, 4, 11);
+		gr.addEdge(0, 4, 11);
+		
+		return gr;
+	}
+	
+	@Test
+	void testBFS() {
+		Grafov2<Country> gr = setUpSceneBFS();
+		ArrayList<Integer> aux = gr.bfs(0);
+		String aux2 = aux.size()+ ": " + aux.get(0) + "," + aux.get(1) + "," + aux.get(2) + "," + aux.get(3) + "," + aux.get(4);
+		assertTrue(aux2.equals("5: 0,1,4,3,2"));
+	}
+	
+	public Grafov2<Country> setUpSceneDFS() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		Country c4 = new Country("Brazil", 4);
+		Country c5 = new Country("Canada", 5);
+		Country c6 = new Country("Australia", 5);
+		
+		Vertex v1 = new Vertex(c1);
+		Vertex v2 = new Vertex(c2);
+		Vertex v3 = new Vertex(c3);
+		Vertex v4 = new Vertex(c4);
+		Vertex v5 = new Vertex(c5);
+		Vertex v6 = new Vertex(c6);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, true, v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		gr.addVertex(v6);
+		
+		gr.addEdge(0, 1, 5);
+		gr.addEdge(1, 3, 6);
+		gr.addEdge(3, 4, 11);
+		gr.addEdge(2, 4, 11);
+		gr.addEdge(0, 4, 11);
+		gr.addEdge(0, 5, 48);
+		
+		return gr;
+	}
+	
+	@Test
+	void testDFS() {
+		Grafov2<Country> gr = setUpSceneDFS();
+		ArrayList<Integer> aux = gr.dfs(0);
+		String s = aux.size()+": " + aux.get(0) + "," + aux.get(1) + "," + aux.get(2) + "," + aux.get(3) + "," + aux.get(4) + "," + aux.get(5);
+		assertTrue(s.equals("6: 0,1,3,4,2,5"));
+	}
+	
 }
