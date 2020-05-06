@@ -375,7 +375,7 @@ class GrafoListTypeTest {
 		graph.addVertexValue(rusia);
 		graph.addVertexValue(villacubito);
 		graph.addVertexValue(canada);
-		graph.deleteVertexValue(10);
+		graph.deleteVertexValue(peru);
 	}
 	@Test
 	void testDeleteVertexValueDoesnotExist() {
