@@ -68,7 +68,7 @@ class GraphListTest {
 	private GraphList<String> setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		int[] asd = new int[2];
 		String data = "";
-		GraphList<String> graph = new GraphList<>(true,true,true);
+		GraphList<String> graph = new GraphList<>(false,true,true);
 		graph.addVertex("colombia");
 		graph.addVertex("china");
 		graph.addVertex("rusia");
@@ -84,7 +84,8 @@ class GraphListTest {
 	@Test
 	<T> void testBFS() {
 		try {
-			setUpSceneBFS().bfs("colombia");
+			System.out.println(setUpSceneBFS().bfs("china"));
+			//setUpSceneBFS().bfs2("colombia");
 		} catch (InvalidActionInSimpleGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

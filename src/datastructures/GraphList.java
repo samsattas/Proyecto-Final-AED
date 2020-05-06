@@ -101,77 +101,31 @@ public class GraphList<T> {
 	public void setAdjacentList(ArrayList<ArrayList<int[]>> adjacentList) {
 		this.adjacentList = adjacentList;
 	}
-	public ArrayList<Vertex<T>> bfs(T s) {
-		Kueueue<Vertex<T>> queue = new Kueueue<>();
-		ArrayList<Vertex<T>> newe = new ArrayList<>();
-		Vertex<T> vertexA = new Vertex(s);
-		ArrayList<Vertex<T>> valuesRetorn = new ArrayList<>();
-		//GraphList<T> interno = new GraphList<>(true, false, false); 
-		for (int i = 0; i < vertex.size(); i++) {
-			Vertex<T> vr = new Vertex(vertex.get(i));
-			newe.add(vr);
-		}
-		System.out.println(newe.size());
-		for (int i = 0; i < vertex.size(); i++) {
-			if(newe.get(i).getValue().equals(s)) {
-				newe.get(i).setColor("Gray");
-				newe.get(i).setBack(null);
-				newe.get(i).setDistance(0);
-				queue.add(newe.get(i));
-			}
-		}
-		while(!queue.isEmpty()) {
-			Vertex<T> vertexCompare = queue.poll();
-			//System.out.println(vertexCompare.getColor());
-			//System.out.println(vertexCompare.getDistance());
-			for (int i = 0; i < adjacentList.size() ; i++) { 
-				//if(newe.get(i)[0].equals(vertexCompare)) {
-					for (int j = 0; j < adjacentList.get(i).size(); j++) {
-						//T valor1 = newe.get(adjacentList.get(i).get(j)[0]).getValue();
-						if(newe.get(adjacentList.get(i).get(j)[0]).getValue().equals(vertexCompare.getValue())) {
-							
-							System.out.println(adjacentList.size());
-							System.out.println(newe.get(adjacentList.get(i).get(j)[0]).getColor());
-							
-							if(newe.get(adjacentList.get(i).get(j)[0]).getColor().equals("White")) {
-								System.out.println("No mans sky");
-								valuesRetorn.add(newe.get(j));
-								newe.get(j).setColor("Gray");
-								newe.get(j).setDistance((int) (vertexCompare.getDistance()+1));
-								newe.get(j).setBack(vertexCompare);
-								queue.add(newe.get(j));
-							}
-							
-						}
-						
-					}
-					newe.get(i).setColor("Black");
-				//}
-			}
-		}
-		return valuesRetorn;
-	}
-	public void bfs2(T s) {
+	public ArrayList<Integer> bfs(T s) {
 		Kueueue<Integer> queue = new Kueueue<>();
-		ArrayList<Boolean> visitado = new ArrayList<>();
+		boolean[] visitado = new boolean[vertex.size()];
+		ArrayList<Integer> ordenVisita = new ArrayList<>();
 		int initial = vertex.indexOf(s);
-		visitado.add(initial, true);
-		queue.add(initial);
+		ordenVisita.add(initial);
+		visitado[initial]=true;
+		queue.add(initial); 
 		while(!queue.isEmpty()){
 			int dequeue = queue.poll();
 			for (int i = 0; i < adjacentList.get(dequeue).size(); i++) {
-				
+				int adyacente = adjacentList.get(dequeue).get(i)[0];
+				if(adyacente>visitado.length-1) {
+					visitado[adyacente] = true;
+					queue.add(adyacente); 
+					ordenVisita.add(adyacente);
+				} else if(adyacente<=visitado.length-1) {
+					if(!visitado[adyacente]) {
+						visitado[adyacente]=true;
+						queue.add(adyacente);
+						ordenVisita.add(adyacente);
+					}
+				}
 			}
 		}
-		
-		
-		
-		for (int i = 0; i < adjacentList.size(); i++) {
-			for (int j = 0; j < adjacentList.get(i).size(); j++) {
-				if(adjacentList.get(i).get(j)[0]>visitado.size()) {
-					visitado.add(adjacentList.get(initial).get(j)[0], true);
-				} 
-			}
-		}
+		return ordenVisita;
 	}
 }
