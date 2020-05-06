@@ -4,11 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
+import datastructures.Kueueue;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
 import model.Country;
+import model.Vertex;
 
 public class GrafoListType<T> {
 	private boolean directed;
@@ -21,7 +25,7 @@ public class GrafoListType<T> {
 		values.add(v);
 		directed = directeD;
 		multiple = multiplE; 
-			adjacentList[0] = new ArrayList<int[]>(); 
+		adjacentList[0] = new ArrayList<int[]>(); 
 	}
 	//i = origin
 	//j = destiny
@@ -195,5 +199,74 @@ public class GrafoListType<T> {
 	}
 	public void setValues(ArrayList<T> values) {
 		this.values = values;
+	}
+	
+	////////RECORRIDOS///////
+	public void bfs(T s) {
+		Kueueue<Vertex<T>> queue = new Kueueue<Vertex<T>>();
+		GrafoListType<Vertex<T>> interno = new GrafoListType<>(null, false, false); 
+
+		for (int i = 0; i < values.size(); i++) {
+			Vertex<T> vertex = new Vertex<T>(values.get(i));
+			interno.addVertexValue(vertex);
+		}
+		queue.add(aux);
+		while(!queue.isEmpty()) {
+			Vertex<T> vertextest = queue.poll();
+			for (int i = 0; i < interno.getValues().size(); i++) {
+				if(interno.getValues().get(i).equals(vertextest)) {
+					for (int j = 0; j < interno.getAdjacentList()[i].size(); j++) {
+						if(interno.getValues().get(i).) {
+							
+						}
+						interno.getAdjacentList()[i].get(j);
+						int adjacent = adjacentList[i].get(j)[0];
+						Vertex<T> vertexA = new Vertex<>(values.get(adjacent));
+						ArrayList<Integer> att = new ArrayList<>(); 
+						vertexA.set
+					}
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		/*
+		Vertex vertex = new Vertex(s);
+		vertex.setColor("Gray");
+		vertex.setDistance(0);
+		vertex.setBack(null);
+		queue.add((T) vertex);
+		while(!queue.isEmpty()) {
+			for (int i = 0; i < values.size(); i++) {
+				if(values.get(i).equals(s)) {
+					for (int j = 0; j < adjacentList[i].size(); j++) {
+						int adjacent = adjacentList[i].get(j)[0];
+						Vertex vertexA = new Vertex(values.get(adjacent));
+						vertexA.set
+					}
+				}
+			}
+		}
+		*/
+		//queue.
+		
+	}
+	public void dfs() {
+		
+	}
+	public void kruskal() {
+		
+	}
+	public void prim() {
+		
+	}
+	public void dijktra() {
+		
+	}
+	public void floydwarshal() {
+	
 	}
 }
