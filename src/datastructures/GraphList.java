@@ -128,4 +128,19 @@ public class GraphList<T> {
 		}
 		return ordenVisita;
 	}
+	public ArrayList<Integer> dfs (T v) {
+		boolean[] visitado = new boolean[vertex.size()];
+		ArrayList<Integer> aux = new ArrayList<Integer>();
+		return dfsAux(visitado, aux, vertex.indexOf(v));
+	}
+	private ArrayList<Integer> dfsAux(boolean[] visitado, ArrayList<Integer> array, int vertex ){
+		visitado[vertex] = true;
+		array.add(vertex);
+		for (int i = 0; i < this.vertex.size(); i++) {
+			if(this.vertex.size()!=0 && !visitado[i]) {
+				dfsAux(visitado,array,i);
+			}
+		}
+		return array;
+	}
 }

@@ -84,7 +84,8 @@ class GraphListTest {
 	@Test
 	<T> void testBFS() {
 		try {
-			System.out.println(setUpSceneBFS().bfs("china"));
+			//System.out.println(setUpSceneBFS().bfs("china"));
+			System.out.println(setUpSceneBFS().dfs("china"));
 			//setUpSceneBFS().bfs2("colombia");
 		} catch (InvalidActionInSimpleGraphException e) {
 			// TODO Auto-generated catch block
