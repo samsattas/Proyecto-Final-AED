@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import datastructures.Grafov2;
-import datastructures.Vertex;
+
 import model.Country;
 
 class Grafov2Test {
 	
 
 	public boolean setUpSceneInitGraph() {
-		Country c = new Country("Colombia", 76000);
-		Vertex<Country> v = new Vertex<Country>(c);
-		Grafov2<Vertex<Country>> gr = new Grafov2<Vertex<Country>>(false, false);
+		Country v = new Country("Colombia", 76000);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, false);
 		gr.addVertex(v);
 		if(gr.getVertex(v).equals(v) && !gr.isDirected() && !gr.isMultiple()) {
 			return true;
@@ -31,13 +31,13 @@ class Grafov2Test {
 	}
 	
 	public Grafov2<Country> setUpSceneGraphMultiple() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Vertex<Country> v1 = new Vertex<Country>(c1);
-		Vertex<Country> v2 = new Vertex<Country>(c2);
-		Vertex<Country> v3 = new Vertex<Country>(c3);
+//		Vertex<Country> v1 = new Vertex<Country>(c1);
+//		Vertex<Country> v2 = new Vertex<Country>(c2);
+//		Vertex<Country> v3 = new Vertex<Country>(c3);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -48,13 +48,13 @@ class Grafov2Test {
 	}
 	
 	public Grafov2<Country> setUpSceneGraphMultipleDirected() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Vertex v1 = new Vertex(c1);
-		Vertex v2 = new Vertex(c2);
-		Vertex v3 = new Vertex(c3);
+//		Vertex v1 = new Vertex(c1);
+//		Vertex v2 = new Vertex(c2);
+//		Vertex v3 = new Vertex(c3);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(true, true);
 		gr.addVertex(v1);
@@ -65,13 +65,13 @@ class Grafov2Test {
 	}
 	
 	public Grafov2<Country> setUpSceneGraphDirected() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Vertex v1 = new Vertex(c1);
-		Vertex v2 = new Vertex(c2);
-		Vertex v3 = new Vertex(c3);
+//		Vertex v1 = new Vertex(c1);
+//		Vertex v2 = new Vertex(c2);
+//		Vertex v3 = new Vertex(c3);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(true, false);
 		gr.addVertex(v1);
@@ -81,16 +81,16 @@ class Grafov2Test {
 		return gr;
 	}
 	
-	public Grafov2<Vertex<Country>> setUpSceneGraph() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
+	public Grafov2<Country> setUpSceneGraph() {
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Vertex<Country> v1 = new Vertex<Country>(c1);
-		Vertex<Country> v2 = new Vertex<Country>(c2);
-		Vertex<Country> v3 = new Vertex<Country>(c3);
+//		Vertex<Country> v1 = new Vertex<Country>(c1);
+//		Vertex<Country> v2 = new Vertex<Country>(c2);
+//		Vertex<Country> v3 = new Vertex<Country>(c3);
 		
-		Grafov2<Vertex<Country>> gr = new Grafov2<Vertex<Country>>(false, false);
+		Grafov2<Country> gr = new Grafov2<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -174,7 +174,7 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneAddEdges() {
-		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
+		Grafov2<Country> gr = setUpSceneGraph();
 		
 		//edges from Colombia to EEUU
 		gr.addEdge(0, 1, 10);
@@ -193,14 +193,14 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneDeleteVertex() {
-		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
+		Grafov2<Country> gr = setUpSceneGraph();
 				
 		gr.deleteVertex(0);
 		gr.deleteVertex(0);
 
-		Vertex<Country> aux = gr.getValues().get(0);
+		Country aux = gr.getValues().get(0);
 		
-		if(gr.getAdjmatrix().length == 1 && gr.getValues().size() == 1 && aux.getValue().getName().equals("Barrancabermeja")) {
+		if(gr.getAdjmatrix().length == 1 && gr.getValues().size() == 1 && aux.getName().equals("Barrancabermeja")) {
 			return true;
 		}else {
 			return false;
@@ -248,7 +248,7 @@ class Grafov2Test {
 	
 	@Test
 	void testDeleteEdge() {
-		Grafov2<Vertex<Country>> gr = setUpSceneGraph();
+		Grafov2<Country> gr = setUpSceneGraph();
 		gr.addEdge(1, 0, 14);
 		gr.deleteEdge(0, 1, 14);
 		
@@ -263,17 +263,17 @@ class Grafov2Test {
 	
 	
 	public Grafov2<Country> setUpSceneBFS() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
-		Country c4 = new Country("Brazil", 4);
-		Country c5 = new Country("Canada", 5);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
 		
-		Vertex<Country> v1 = new Vertex<Country>(c1);
-		Vertex<Country> v2 = new Vertex<Country>(c2);
-		Vertex<Country> v3 = new Vertex<Country>(c3);
-		Vertex<Country> v4 = new Vertex<Country>(c4);
-		Vertex<Country> v5 = new Vertex<Country>(c4);
+//		Vertex<Country> v1 = new Vertex<Country>(c1);
+//		Vertex<Country> v2 = new Vertex<Country>(c2);
+//		Vertex<Country> v3 = new Vertex<Country>(c3);
+//		Vertex<Country> v4 = new Vertex<Country>(c4);
+//		Vertex<Country> v5 = new Vertex<Country>(c4);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -300,19 +300,19 @@ class Grafov2Test {
 	}
 	
 	public Grafov2<Country> setUpSceneDFS() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
-		Country c4 = new Country("Brazil", 4);
-		Country c5 = new Country("Canada", 5);
-		Country c6 = new Country("Australia", 6);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
 		
-		Vertex<Country> v1 = new Vertex<Country>(c1);
-		Vertex<Country> v2 = new Vertex<Country>(c2);
-		Vertex<Country> v3 = new Vertex<Country>(c3);
-		Vertex<Country> v4 = new Vertex<Country>(c4);
-		Vertex<Country> v5 = new Vertex<Country>(c5);
-		Vertex<Country> v6 = new Vertex<Country>(c6);
+//		Vertex<Country> v1 = new Vertex<Country>(c1);
+//		Vertex<Country> v2 = new Vertex<Country>(c2);
+//		Vertex<Country> v3 = new Vertex<Country>(c3);
+//		Vertex<Country> v4 = new Vertex<Country>(c4);
+//		Vertex<Country> v5 = new Vertex<Country>(c5);
+//		Vertex<Country> v6 = new Vertex<Country>(c6);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -341,19 +341,19 @@ class Grafov2Test {
 	}
 	
 	public Grafov2<Country> setUpScenePrim() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
-		Country c4 = new Country("Brazil", 4);
-		Country c5 = new Country("Canada", 5);
-		Country c6 = new Country("Australia", 6);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
 		
-		Vertex<Country> v1 = new Vertex(c1);
-		Vertex<Country> v2 = new Vertex(c2);
-		Vertex<Country> v3 = new Vertex(c3);
-		Vertex<Country> v4 = new Vertex(c4);
-		Vertex<Country> v5 = new Vertex(c5);
-		Vertex<Country> v6 = new Vertex(c6);
+//		Vertex<Country> v1 = new Vertex(c1);
+//		Vertex<Country> v2 = new Vertex(c2);
+//		Vertex<Country> v3 = new Vertex(c3);
+//		Vertex<Country> v4 = new Vertex(c4);
+//		Vertex<Country> v5 = new Vertex(c5);
+//		Vertex<Country> v6 = new Vertex(c6);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -378,8 +378,8 @@ class Grafov2Test {
 	@Test
 	void testPrim() {
 		Grafov2<Country> gr = setUpScenePrim();
-		Country c1 = new Country("Colombia", 1);
-		Vertex<Country> v1 = new Vertex(c1);
+		Country v1 = new Country("Colombia", 1);
+//		Vertex<Country> v1 = new Vertex(c1);
 		Grafov2<Country> asd = gr.prim(v1);
 		
 		for(int i = 0; i < asd.consultWeight(); i++) {
@@ -410,19 +410,19 @@ class Grafov2Test {
 	}
 	
 	public double setUpSceneDijkstra() {
-		Country c1 = new Country("Colombia", 1);
-		Country c2 = new Country("EEUU", 2);
-		Country c3 = new Country("Barrancabermeja", 3);
-		Country c4 = new Country("Brazil", 4);
-		Country c5 = new Country("Canada", 5);
-		Country c6 = new Country("Australia", 6);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
 		
-		Vertex<Country> v1 = new Vertex<Country>(c1);
-		Vertex<Country> v2 = new Vertex<Country>(c2);
-		Vertex<Country> v3 = new Vertex<Country>(c3);
-		Vertex<Country> v4 = new Vertex<Country>(c4);
-		Vertex<Country> v5 = new Vertex<Country>(c5);
-		Vertex<Country> v6 = new Vertex<Country>(c6);
+//		Vertex<Country> v1 = new Vertex<Country>(c1);
+//		Vertex<Country> v2 = new Vertex<Country>(c2);
+//		Vertex<Country> v3 = new Vertex<Country>(c3);
+//		Vertex<Country> v4 = new Vertex<Country>(c4);
+//		Vertex<Country> v5 = new Vertex<Country>(c5);
+//		Vertex<Country> v6 = new Vertex<Country>(c6);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);

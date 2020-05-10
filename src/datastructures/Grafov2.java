@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 public class Grafov2<T> {
 	private ArrayList<Double>[][] adjmatrix;
 	private boolean directed;
-	private ArrayList<Vertex> values;
+	private ArrayList<T> values;
 	private boolean multiple;
 	
 
@@ -30,7 +30,7 @@ public class Grafov2<T> {
 	}
 
 
-	public ArrayList<Vertex> getValues() {
+	public ArrayList<T> getValues() {
 		return values;
 	}
 
@@ -111,7 +111,7 @@ public class Grafov2<T> {
 		}
 	}
 	
-	public void addVertex(Vertex v) {
+	public void addVertex(T v) {
 		boolean cent = true;
 		for(int i = 0; i < values.size(); i++) {
 			if(values.get(i)==v) {
@@ -237,7 +237,7 @@ public class Grafov2<T> {
 		return aux;
 	}
 	
-	public Grafov2<T> prim(Vertex<T> v) {
+	public Grafov2<T> prim(T v) {
 		boolean[] visited = new boolean[values.size()];
 		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
 //		values.indexOf(v);
@@ -283,7 +283,7 @@ public class Grafov2<T> {
 	 * vertex2 = destiny vertex
 	 * return = the cost of the shortest way from vertex1 to vertex2
 	 */
-	public double dijkstra(Vertex<T> vertex1, Vertex<T> vertex2) {
+	public double dijkstra(T vertex1, T vertex2) {
 		int v1 = values.indexOf(vertex1);
 		int v2 = values.indexOf(vertex2);
 		
