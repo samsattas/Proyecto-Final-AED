@@ -314,7 +314,35 @@ public class Grafov2<T> {
 			}
 		}
 		 return distances[v2];
-		
+	}
+	
+	
+	public double[][] floydWarshall() { 
+        double dist[][] = new double[values.size()][values.size()]; 
+        int i, j, k; 
+  
+       
+        for (i = 0; i < values.size(); i++) {
+            for (j = 0; j < values.size(); j++) {
+            	if(!adjmatrix[i][j].isEmpty()) {
+            		dist[i][j] = adjmatrix[i][j].get(0); 
+            	}else {
+            		dist[i][j] = Double.POSITIVE_INFINITY;
+            	}
+                
+            }
+        }
+  
+        
+        for (k = 0; k < values.size(); k++) { 
+            for (i = 0; i < values.size(); i++) { 
+                for (j = 0; j < values.size(); j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) 
+                        dist[i][j] = dist[i][k] + dist[k][j]; 
+                } 
+            } 
+        } 
+        return dist;
 	}
 }
 

@@ -35,10 +35,6 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-//		Vertex<Country> v1 = new Vertex<Country>(c1);
-//		Vertex<Country> v2 = new Vertex<Country>(c2);
-//		Vertex<Country> v3 = new Vertex<Country>(c3);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
@@ -51,10 +47,6 @@ class Grafov2Test {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
-		
-//		Vertex v1 = new Vertex(c1);
-//		Vertex v2 = new Vertex(c2);
-//		Vertex v3 = new Vertex(c3);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(true, true);
 		gr.addVertex(v1);
@@ -69,10 +61,6 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-//		Vertex v1 = new Vertex(c1);
-//		Vertex v2 = new Vertex(c2);
-//		Vertex v3 = new Vertex(c3);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(true, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
@@ -86,17 +74,10 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-//		Vertex<Country> v1 = new Vertex<Country>(c1);
-//		Vertex<Country> v2 = new Vertex<Country>(c2);
-//		Vertex<Country> v3 = new Vertex<Country>(c3);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
-		
-//		Vertex<Country> aux = gr.getValues().get(0);
-//		aux.getValue().getName();
 	
 		return gr;
 	}
@@ -269,12 +250,6 @@ class Grafov2Test {
 		Country v4 = new Country("Brazil", 4);
 		Country v5 = new Country("Canada", 5);
 		
-//		Vertex<Country> v1 = new Vertex<Country>(c1);
-//		Vertex<Country> v2 = new Vertex<Country>(c2);
-//		Vertex<Country> v3 = new Vertex<Country>(c3);
-//		Vertex<Country> v4 = new Vertex<Country>(c4);
-//		Vertex<Country> v5 = new Vertex<Country>(c4);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
@@ -306,13 +281,6 @@ class Grafov2Test {
 		Country v4 = new Country("Brazil", 4);
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
-		
-//		Vertex<Country> v1 = new Vertex<Country>(c1);
-//		Vertex<Country> v2 = new Vertex<Country>(c2);
-//		Vertex<Country> v3 = new Vertex<Country>(c3);
-//		Vertex<Country> v4 = new Vertex<Country>(c4);
-//		Vertex<Country> v5 = new Vertex<Country>(c5);
-//		Vertex<Country> v6 = new Vertex<Country>(c6);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -348,13 +316,6 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-//		Vertex<Country> v1 = new Vertex(c1);
-//		Vertex<Country> v2 = new Vertex(c2);
-//		Vertex<Country> v3 = new Vertex(c3);
-//		Vertex<Country> v4 = new Vertex(c4);
-//		Vertex<Country> v5 = new Vertex(c5);
-//		Vertex<Country> v6 = new Vertex(c6);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
@@ -372,6 +333,13 @@ class Grafov2Test {
 		gr.addEdge(0, 5, 48);
 		gr.addEdge(4, 5, 3);
 		
+		/*
+		 * 		0
+		 * 	   / \
+		 *    /   \
+		 *   1	   5	
+		 */
+		
 		return gr;
 	}
 	
@@ -379,35 +347,16 @@ class Grafov2Test {
 	void testPrim() {
 		Grafov2<Country> gr = setUpScenePrim();
 		Country v1 = new Country("Colombia", 1);
-//		Vertex<Country> v1 = new Vertex(c1);
 		Grafov2<Country> asd = gr.prim(v1);
 		
-		for(int i = 0; i < asd.consultWeight(); i++) {
-			System.out.println(asd.getEdges(0, i).size());
-		}
+//		for(int i = 0; i < asd.consultWeight(); i++) {
+//			System.out.println(asd.getEdges(0, i).size());
+//		}
 		
 //		assertTrue(gr.consultWeight() == 6);
 		
 	}
 	
-	@Test
-	void atestAddEdge2() {
-		Grafov2<Country> gr = setUpScenePrim();
-//		gr.addEdge(0, 1, 5);
-//		gr.addEdge(1, 3, 6);
-//		gr.addEdge(1, 4, 4);
-//		gr.addEdge(3, 4, 11);
-//		gr.addEdge(2, 4, 1);
-//		gr.addEdge(0, 4, 7);
-//		gr.addEdge(0, 5, 48);
-//		gr.addEdge(4, 5, 3);
-		
-//		gr = gr.prim(v);
-//		assertTrue(gr.getEdges(0, 1).size()==1);
-//		for(int i = 0; i < gr.consultWeight(); i++) {
-//			System.out.println(gr.getEdges(0, i).size());
-//		}
-	}
 	
 	public double setUpSceneDijkstra() {
 		Country v1 = new Country("Colombia", 1);
@@ -417,13 +366,6 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-//		Vertex<Country> v1 = new Vertex<Country>(c1);
-//		Vertex<Country> v2 = new Vertex<Country>(c2);
-//		Vertex<Country> v3 = new Vertex<Country>(c3);
-//		Vertex<Country> v4 = new Vertex<Country>(c4);
-//		Vertex<Country> v5 = new Vertex<Country>(c5);
-//		Vertex<Country> v6 = new Vertex<Country>(c6);
-		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
@@ -440,13 +382,42 @@ class Grafov2Test {
 		gr.addEdge(0, 4, 7);
 		gr.addEdge(0, 5, 48);
 		gr.addEdge(4, 5, 3);
-		System.out.println(gr.getMinimunEdge(4, 5));
+		
 		return gr.dijkstra(v1, v6);
 	}
 	
 	@Test
 	void testDijkstra() {
 		double dist = setUpSceneDijkstra();
-		System.out.println(dist);
+		assertTrue(dist == 10);
+	}
+	
+	
+	public double[][] setUpSceneFloydWarshall() {
+		Grafov2<Country> gr = new Grafov2<Country>(true, false);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		
+		gr.addEdge(0, 2, -2);
+		gr.addEdge(2, 3, 2);
+		gr.addEdge(3, 1, -1);
+		gr.addEdge(1, 0, 4);
+		gr.addEdge(1, 2, 3);
+		
+		return gr.floydWarshall();
+		
+		
+	}
+	
+	@Test
+	void testFloydWarshall() {
+		double[][] matrix = setUpSceneFloydWarshall();
+		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
 	}
 }
