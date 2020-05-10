@@ -408,4 +408,45 @@ class Grafov2Test {
 //			System.out.println(gr.getEdges(0, i).size());
 //		}
 	}
+	
+	public double setUpSceneDijkstra() {
+		Country c1 = new Country("Colombia", 1);
+		Country c2 = new Country("EEUU", 2);
+		Country c3 = new Country("Barrancabermeja", 3);
+		Country c4 = new Country("Brazil", 4);
+		Country c5 = new Country("Canada", 5);
+		Country c6 = new Country("Australia", 6);
+		
+		Vertex<Country> v1 = new Vertex<Country>(c1);
+		Vertex<Country> v2 = new Vertex<Country>(c2);
+		Vertex<Country> v3 = new Vertex<Country>(c3);
+		Vertex<Country> v4 = new Vertex<Country>(c4);
+		Vertex<Country> v5 = new Vertex<Country>(c5);
+		Vertex<Country> v6 = new Vertex<Country>(c6);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		gr.addVertex(v6);
+		
+		gr.addEdge(0, 1, 5);
+		gr.addEdge(1, 3, 6);
+		gr.addEdge(1, 4, 4);
+		gr.addEdge(3, 4, 11);
+		gr.addEdge(2, 4, 1);
+		gr.addEdge(0, 4, 7);
+		gr.addEdge(0, 5, 48);
+		gr.addEdge(4, 5, 3);
+		System.out.println(gr.getMinimunEdge(4, 5));
+		return gr.dijkstra(v1, v6);
+	}
+	
+	@Test
+	void testDijkstra() {
+		double dist = setUpSceneDijkstra();
+		System.out.println(dist);
+	}
 }
