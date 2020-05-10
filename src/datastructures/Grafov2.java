@@ -286,16 +286,20 @@ public class Grafov2<T> {
 		int v1 = values.indexOf(vertex1);
 		int v2 = values.indexOf(vertex2);
 		
+		double[] distances = new double[values.size()];
 		boolean[] visited = new boolean[values.size()];
+		int[] prev = new int[values.size()];
+		
 		visited[v1] = true;//origin is already visited
 		
 		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
 		
-		double[] distances = new double[values.size()];
+		
 		for(int i = 0; i < distances.length; i++) {
 			distances[i] = Double.POSITIVE_INFINITY;
 		}
 		distances[v1] = 0;//distance from origin to origin is 0
+		
 		
 		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
 		pq.add(v1);
@@ -305,6 +309,10 @@ public class Grafov2<T> {
 			for (int i = 0; i < values.size(); i++) {
 				if(adjmatrix[auxOrigin][i].size()>0 && !visited[i]) {
 					pq.add(i);
+					visited[i]=true;
+					prev[i]=i;
+					distances[auxOrigin]=adjmatrix[auxOrigin][i].get(0)+distances[i];
+					
 					//
 				}
 			}
