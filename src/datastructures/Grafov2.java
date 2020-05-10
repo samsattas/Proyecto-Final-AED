@@ -3,6 +3,7 @@ package datastructures;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Grafov2<T> {
 	private ArrayList<Double>[][] adjmatrix;
@@ -13,17 +14,13 @@ public class Grafov2<T> {
 
 	/*
 	 * directed = means if the graph is directed or not
-	 * i = the initial size of the graph
 	 * multiple = means if the graph has multiple vertex or not
-	 * v = the vertex to add because is not allowed to create an empty graph
 	 */
-	public Grafov2(boolean directed,  boolean multiple, Vertex v) {
-		adjmatrix = new ArrayList[1][1];
+	public Grafov2(boolean directed,  boolean multiple) {
+		adjmatrix = new ArrayList[0][0];
 		this.directed = directed;
 		this.multiple = multiple;
 		values = new ArrayList<>();
-		values.add(v);
-		adjmatrix[0][0] = new ArrayList<Double>();
 	}
 	
 	
@@ -46,12 +43,35 @@ public class Grafov2<T> {
 	public boolean isDirected() {
 		return directed;
 	}
+	
+	
+	public boolean hasLoop() {
+		boolean aux = false;
+		for(int i = 0; i < values.size(); i++) {
+			if(adjmatrix[i][i].size()>0) {
+				aux = true;
+			}
+		}
+		
+		return aux;
+	}
+	
+	
+	public double getMinimunEdge(int x, int y) {
+		double aux = Double.POSITIVE_INFINITY;
+		for(int i = 0; i < adjmatrix[x][y].size(); i++) {
+			if(adjmatrix[x][y].get(i)<aux) {
+				aux = adjmatrix[x][y].get(i);
+			}
+		}
+		return aux;
+	}
 
 
 	public T getVertex(T v) {
 		T aux = null;
 		for(int i = 0; i < values.size() && aux == null; i++) {
-			if(values.get(i)==v) {
+			if(values.get(i).equals(v)) {
 				aux = v;
 			}
 		}
@@ -63,23 +83,30 @@ public class Grafov2<T> {
 	}
 	
 	/*
-	 * i = origin node
-	 * j = destiny node
+	 * x = origin node
+	 * y = destiny node
 	 * w = weight
 	 */
-	public void addEdge(int i, int j, int w) {
-		if(multiple) {
-			addEdgeAux(i,j,w);
-		}else {
-			if(adjmatrix[i][j].isEmpty() && i!=j) {
-				addEdgeAux(i,j,w);
+	public void addEdge(int x, int y, double w) {
+		if(!isMultiple()) {
+			if(adjmatrix[x][y].isEmpty()) {
+				adjmatrix[x][y].add(w);
+				if(!isDirected()) {
+					adjmatrix[y][x].add(w);
+				}
 			}
-		}		
+		}else {
+			adjmatrix[x][y].add(w);
+			if(!isDirected()) {
+				adjmatrix[y][x].add(w);
+			}
+		}
+				
 	}
 	
-	public void addEdgeAux(int i, int j, double w) {
+	private void addEdgeAux(int i, int j, double w) {
 		adjmatrix[i][j].add(w);
-		if(!directed && j!=i) {
+		if(!isDirected() && j!=i) {
 			adjmatrix[j][i].add(w);
 		}
 	}
@@ -132,6 +159,7 @@ public class Grafov2<T> {
 	
 	
 	public void deleteVertex(int t) {
+		//I use -1 because there can't be a position -1
 		int n = -1;
 		if(t < values.size()) {
 			n = t;
@@ -172,27 +200,26 @@ public class Grafov2<T> {
 		boolean[] visited = new boolean[values.size()];
 		LinkedList<Integer> queue = new LinkedList<Integer>();
 		ArrayList<Integer> tree = new ArrayList<Integer>();
-//		try {
-			queue.add(v);
-			tree.add(v);
-			while(!queue.isEmpty()) {
-				for(int i = 0; i < values.size(); i++) {
-					if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
-						queue.add(i);
-						tree.add(i);
-						visited[i] = true;
-					}
+
+		queue.add(v);
+		tree.add(v);
+		while(!queue.isEmpty()) {
+			for(int i = 0; i < values.size(); i++) {
+				if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
+					queue.add(i);
+					tree.add(i);
+					visited[i] = true;
 				}
-				visited[v] = true;
-				v = queue.poll();
 			}
-//		} catch (IndexOutOfBoundsException e) {
-//			
-//		}
+			visited[v] = true;
+			v = queue.poll();
+		}
 		return tree;
 	}
 	
-	
+	/*
+	 * v = origin vertex
+	 */
 	public ArrayList<Integer> dfs(int v) {
 		boolean visited[] = new boolean[values.size()];
 		ArrayList<Integer> aux = new ArrayList<Integer>();
@@ -208,6 +235,81 @@ public class Grafov2<T> {
 			}
 		}
 		return aux;
+	}
+	
+	public Grafov2<T> prim(Vertex<T> v) {
+		boolean[] visited = new boolean[values.size()];
+		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
+//		values.indexOf(v);
+		for(int i = 0; i < values.size(); i++) {
+			if(values.get(i).equals(v)) {
+				visited[i] = true;
+			}
+		}
+		gr.addVertex(v);
+		while(gr.consultWeight()<values.size()) {
+			int shortestDestiny = -1;
+			double shortestEdge = Double.POSITIVE_INFINITY;
+			int auxOrigin = -1;
+			for(int i = 0; i < gr.getValues().size(); i++) { //origin
+				for(int j = 0; j < values.size(); j++) {//destiny
+					if(adjmatrix[i][j].size()>0 && !visited[j]) {//if i and j have a connection and j hasn't be discovered, then...
+						for(int k = 0; k < adjmatrix[i][j].size(); k++) {//looking for the shortest edge from i to j
+							if(adjmatrix[i][j].get(k)<shortestEdge) {
+								auxOrigin = i;
+								shortestEdge = adjmatrix[i][j].get(k);
+								shortestDestiny = j;
+							}
+						}
+					}
+				}
+			}
+			int auxdestiny =  gr.consultWeight();
+			if(shortestDestiny!=-1 && auxOrigin!=-1) {
+				visited[shortestDestiny] = true;
+				gr.addVertex(values.get(shortestDestiny));
+				gr.addEdge(auxOrigin, auxdestiny, shortestEdge);
+				int asd = gr.getAdjmatrix()[0][1].size();
+				int asd2 = asd;
+			}
+		}
+		
+		return gr;
+	}
+	
+	/*
+	 * vertex1 = origin vertex
+	 * vertex2 = destiny vertex
+	 * return = the cost of the shortest way from vertex1 to vertex2
+	 */
+	public void dijkstra(Vertex<T> vertex1, Vertex<T> vertex2) {
+		int v1 = values.indexOf(vertex1);
+		int v2 = values.indexOf(vertex2);
+		
+		boolean[] visited = new boolean[values.size()];
+		visited[v1] = true;//origin is already visited
+		
+		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
+		
+		double[] distances = new double[values.size()];
+		for(int i = 0; i < distances.length; i++) {
+			distances[i] = Double.POSITIVE_INFINITY;
+		}
+		distances[v1] = 0;//distance from origin to origin is 0
+		
+		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+		pq.add(v1);
+		
+		while(!pq.isEmpty()) {
+			int auxOrigin = pq.poll();
+			for (int i = 0; i < values.size(); i++) {
+				if(adjmatrix[auxOrigin][i].size()>0 && !visited[i]) {
+					pq.add(i);
+					//
+				}
+			}
+		}
+		
 	}
 }
 
