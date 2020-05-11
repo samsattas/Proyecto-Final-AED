@@ -18,7 +18,7 @@ public class Grafov2<T> {
 	 */
 	public Grafov2(boolean directed,  boolean multiple) {
 		adjmatrix = new ArrayList[0][0];
-		this.directed = directed;
+		this.directed = directed; 
 		this.multiple = multiple;
 		values = new ArrayList<>();
 	}

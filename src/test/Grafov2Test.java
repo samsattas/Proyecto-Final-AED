@@ -361,7 +361,7 @@ class Grafov2Test {
 	public double setUpSceneDijkstra() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
-		Country v3 = new Country("Barrancabermeja", 3);
+		Country v3 = new Country("Barrancabermeja", 3); 
 		Country v4 = new Country("Brazil", 4);
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);

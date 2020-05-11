@@ -86,7 +86,7 @@ class GraphListTest {
 	<T> void testBFS() {
 		try {
 			//System.out.println(setUpSceneBFS().bfs("china"));
-			System.out.println(setUpSceneBFS().dfs("china"));
+			System.out.println(setUpSceneBFS().bfs("china"));
 			//setUpSceneBFS().bfs2("colombia");
 		} catch (InvalidActionInSimpleGraphException e) {
 			// TODO Auto-generated catch block
@@ -117,9 +117,9 @@ class GraphListTest {
 	}
 	@Test
 	void testFloydWarshall() {
-		String data= "";
-		double[][] matrix = setUpSceneFloydWarshall();
 		
+		double[][] matrix = setUpSceneFloydWarshall();
+		/*
 		for (int i = 0; i < matrix.length; i++) {
 			System.out.println("Otra linea");
 			for (int j = 0; j < matrix.length; j++) {
@@ -127,10 +127,78 @@ class GraphListTest {
 				System.out.println(data);
 			}
 		}
-		
+		*/
 		//System.out.println(matrix[0][3]);
-		//assertEquals(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2, 1);
+		//System.out.println(matrix[0][3]);
+		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
 	}
+	public double setUpScenegetMinimunEdgePlus() {
+		Country v0 = new Country("Colombia", 1);
+		Country v1 = new Country("EEUU", 2);
+		
+		
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(v0);
+		gr.addVertex(v1);
+		
+		
+		gr.addEdges(v0, v1, 5);
+		gr.addEdges(v0, v1, 6);
+		gr.addEdges(v0, v1, 4);
+		gr.addEdges(v0, v1, 11);
+		gr.addEdges(v0, v1, 14);
+		gr.addEdges(v0, v1, 7);
+		gr.addEdges(v0, v1, 48);
+		gr.addEdges(v0, v1, 3);
+		
+		return gr.getMinimunEdge(v0, v1);
+	}
+	@Test
+	void testMinimumEdge() {
+		System.out.println(setUpScenegetMinimunEdgePlus());
+	}
+	public double setUpSceneDijkstra() {
+		Country v0 = new Country("Colombia", 1);
+		Country v1 = new Country("EEUU", 2);
+		Country v2 = new Country("Barrancabermeja", 3); 
+		Country v3 = new Country("Brazil", 4);
+		Country v4 = new Country("Canada", 5);
+		Country v5 = new Country("Australia", 6);
+		
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(v0);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		
+		gr.addEdges(v0, v1, 5);
+		gr.addEdges(v1, v3, 6);
+		gr.addEdges(v1, v4, 4);
+		gr.addEdges(v3, v4, 11);
+		gr.addEdges(v2, v4, 1);
+		gr.addEdges(v0, v4, 7);
+		gr.addEdges(v0, v5, 48);
+		gr.addEdges(v4, v5, 3);
+		
+		
+		return gr.dijsktra(v0, v5);
+	}
+	
+	@Test
+	void testDijkstra() {
+		double dist = setUpSceneDijkstra();
+		assertEquals(dist, 10);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	private void setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
 		

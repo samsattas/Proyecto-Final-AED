@@ -2,6 +2,7 @@ package datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import model.Vertex;
 
@@ -89,6 +90,17 @@ public class GraphList<T> {
 			}
 		}
 	}
+	public double getMinimunEdge(T x, T y) {
+		int r = vertex.indexOf(x);
+		int z = vertex.indexOf(y);
+		double aux = Double.POSITIVE_INFINITY;
+		for(int i = 0; i < adjacentList.get(r).size(); i++) {
+			if(adjacentList.get(r).get(i)[0] == z && adjacentList.get(r).get(i)[1]<aux) {
+				aux = adjacentList.get(r).get(i)[1];
+			}
+		}
+		return aux;
+	}
 	public ArrayList<T> getVertex() {
 		return vertex;
 	}
@@ -160,9 +172,6 @@ public class GraphList<T> {
         } 
         return dist;
 	}
-	
-	
-	
 	public double[][] translate() {
 		 double dist[][] = new double[vertex.size()][vertex.size()]; 
 	        int i, j; 
@@ -188,5 +197,37 @@ public class GraphList<T> {
 				}
 			}
 	   return dist;
+	}
+	public double dijsktra(T vertex1, T vertex2) {
+		int v1 = vertex.indexOf(vertex1);
+		int v2 = vertex.indexOf(vertex2);
+		
+		boolean[] visited = new boolean[vertex.size()];
+		visited[v1] = true;
+		
+		double[] distances = new double[vertex.size()];
+		for(int i = 0; i < distances.length; i++) {
+			distances[i] = Double.POSITIVE_INFINITY;
+		}
+		distances[v1] = 0;
+		
+		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+		pq.add(v1);
+		
+		while(!pq.isEmpty()) {
+			int auxOrigin = pq.poll();
+			for (int i = 0; i < vertex.size(); i++) {
+				if(!visited[i]) {
+					pq.add(i);
+					visited[i] = true;
+					distances[i] = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
+				}
+				double auxdist = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
+				if(auxdist < distances[i]) {
+					distances[i] = auxdist;
+				}
+			}
+		}
+		return distances[v2];
 	}
 }
