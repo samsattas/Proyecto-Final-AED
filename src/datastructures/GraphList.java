@@ -11,7 +11,7 @@ public class GraphList<T> {
 	private boolean multiple;
 	private boolean loop;
 	private ArrayList<T> vertex;
-	private ArrayList<ArrayList<int[]>> adjacentList;
+	private ArrayList<ArrayList<double[]>> adjacentList;
 	
 	public GraphList(boolean directed, boolean multiple, boolean loop) {
 		this.directed = directed;
@@ -22,9 +22,9 @@ public class GraphList<T> {
 	}
 	public void addVertex(T vertex) {
 		this.vertex.add(vertex);
-		this.adjacentList.add(new ArrayList<int[]>());
+		this.adjacentList.add(new ArrayList<double[]>());
 	}
-	public void addEdges(T origin, T destiny, int weight) {
+	public void addEdges(T origin, T destiny, double weight) {
 		int originIndex = vertex.indexOf(origin);
 		int destinyIndex = vertex.indexOf(destiny);
 		if(originIndex==-1 || destinyIndex==-1) {
@@ -46,10 +46,10 @@ public class GraphList<T> {
 			}
 			//System.out.println(originIndex);
 			//System.out.println(destinyIndex);
-			int[] vertex = {destinyIndex, weight};
+			double[] vertex = {destinyIndex, weight};
 			adjacentList.get(originIndex).add(vertex);
 			if(!directed) {
-				int[] oppositeVertex = {originIndex,weight};
+				double[] oppositeVertex = {originIndex,weight};
 				adjacentList.get(destinyIndex).add(oppositeVertex);
 			}
 		}
@@ -95,10 +95,10 @@ public class GraphList<T> {
 	public void setVertex(ArrayList<T> vertex) {
 		this.vertex = vertex;
 	}
-	public ArrayList<ArrayList<int[]>> getAdjacentList() {
+	public ArrayList<ArrayList<double[]>> getAdjacentList() {
 		return adjacentList;
 	}
-	public void setAdjacentList(ArrayList<ArrayList<int[]>> adjacentList) {
+	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
 		this.adjacentList = adjacentList;
 	}
 	public ArrayList<Integer> bfs(T s) {
@@ -112,16 +112,16 @@ public class GraphList<T> {
 		while(!queue.isEmpty()){
 			int dequeue = queue.poll();
 			for (int i = 0; i < adjacentList.get(dequeue).size(); i++) {
-				int adyacente = adjacentList.get(dequeue).get(i)[0];
+				double adyacente = adjacentList.get(dequeue).get(i)[0];
 				if(adyacente>visitado.length-1) {
-					visitado[adyacente] = true;
-					queue.add(adyacente); 
-					ordenVisita.add(adyacente);
+					visitado[(int) adyacente] = true;
+					queue.add((int) adyacente); 
+					ordenVisita.add((int) adyacente);
 				} else if(adyacente<=visitado.length-1) {
-					if(!visitado[adyacente]) {
-						visitado[adyacente]=true;
-						queue.add(adyacente);
-						ordenVisita.add(adyacente);
+					if(!visitado[(int) adyacente]) {
+						visitado[(int) adyacente]=true;
+						queue.add((int) adyacente);
+						ordenVisita.add((int) adyacente);
 					}
 				}
 			}
@@ -142,5 +142,51 @@ public class GraphList<T> {
 			}
 		}
 		return array;
+	}
+	public double[][] floydWarshall() { 
+        double dist[][] = translate(); 
+        
+        int i, j, k; 
+        
+        for (k = 0; k < vertex.size(); k++) { 
+            for (i = 0; i < vertex.size(); i++) { 
+                for (j = 0; j < vertex.size(); j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j])
+                    {
+                    	 dist[i][j] = dist[i][k] + dist[k][j]; 
+                    }     
+                } 
+            } 
+        } 
+        return dist;
+	}
+	
+	
+	
+	public double[][] translate() {
+		 double dist[][] = new double[vertex.size()][vertex.size()]; 
+	        int i, j; 
+	        for (int k2 = 0; k2 < dist.length; k2++) {
+	        	for (int l = 0; l < dist.length; l++) {
+	        		if(k2==l) {
+	        			dist[k2][l] = 0;
+	        		}else { 
+	        			dist[k2][l] = Integer.MIN_VALUE;
+	        		}
+				}
+			}
+	        for (i = 0; i < adjacentList.size(); i++) {
+	            for (j = 0; j < adjacentList.get(i).size(); j++) {
+	            		dist[i][(int) adjacentList.get(i).get(j)[0]] = adjacentList.get(i).get(j)[1];/*adjmatrix[i][j].get(0)*/  
+	            }
+	        }
+	        for (int k2 = 0; k2 < dist.length; k2++) {
+	        	for (int l = 0; l < dist.length; l++) {
+	        		if(dist[k2][l] == Integer.MIN_VALUE) {
+	        			dist[k2][l] = 99999999;
+	        		}
+				}
+			}
+	   return dist;
 	}
 }

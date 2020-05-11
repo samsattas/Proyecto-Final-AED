@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import datastructures.Grafov2;
 import datastructures.GraphList;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
@@ -94,6 +95,41 @@ class GraphListTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public double[][] setUpSceneFloydWarshall() {
+		GraphList<Country> gr = new GraphList<Country>(true, false, false);
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		
+		gr.addEdges(v1, v3, -2);
+		gr.addEdges(v3, v4, 2);
+		gr.addEdges(v4, v2, -1);
+		gr.addEdges(v2, v1, 4);
+		gr.addEdges(v2, v3, 3);
+		
+		return gr.floydWarshall();	
+	}
+	@Test
+	void testFloydWarshall() {
+		String data= "";
+		double[][] matrix = setUpSceneFloydWarshall();
+		
+		for (int i = 0; i < matrix.length; i++) {
+			System.out.println("Otra linea");
+			for (int j = 0; j < matrix.length; j++) {
+				data = matrix[i][j] + "";
+				System.out.println(data);
+			}
+		}
+		
+		//System.out.println(matrix[0][3]);
+		//assertEquals(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2, 1);
 	}
 	/*
 	private void setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {

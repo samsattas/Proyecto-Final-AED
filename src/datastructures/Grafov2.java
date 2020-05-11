@@ -331,7 +331,7 @@ public class Grafov2<T> {
             	}
                 
             }
-        }
+        } 
   
         
         for (k = 0; k < values.size(); k++) { 

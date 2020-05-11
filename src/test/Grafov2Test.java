@@ -391,8 +391,6 @@ class Grafov2Test {
 		double dist = setUpSceneDijkstra();
 		assertTrue(dist == 10);
 	}
-	
-	
 	public double[][] setUpSceneFloydWarshall() {
 		Grafov2<Country> gr = new Grafov2<Country>(true, false);
 		Country v1 = new Country("Colombia", 1);
@@ -406,7 +404,7 @@ class Grafov2Test {
 		
 		gr.addEdge(0, 2, -2);
 		gr.addEdge(2, 3, 2);
-		gr.addEdge(3, 1, -1);
+		gr.addEdge(3, 1, -1); 
 		gr.addEdge(1, 0, 4);
 		gr.addEdge(1, 2, 3);
 		
