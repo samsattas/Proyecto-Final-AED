@@ -66,27 +66,45 @@ class GraphListTest {
 			e.printStackTrace();
 		}
 	}
-	private GraphList<String> setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
-		int[] asd = new int[2];
+	private /*GraphList<String>*/String setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+		double[] asd = new double[2];
 		String data = "";
-		GraphList<String> graph = new GraphList<>(false,true,true);
-		graph.addVertex("colombia");
-		graph.addVertex("china");
-		graph.addVertex("rusia");
-		graph.addVertex("villacubito");
-		graph.addVertex("canada");
-		graph.addEdges("colombia", "china", 1);
-		graph.addEdges("china", "rusia", 2);
-		graph.addEdges("rusia", "villacubito", 3);
-		graph.addEdges("villacubito", "canada", 4);
-		graph.addEdges("canada", "colombia", 5); 
-		return graph;
+		GraphList<String> graph = new GraphList<>(true,true,true);
+		GraphList<String> graphAux;
+		graph.addVertex("1");
+		graph.addVertex("2");
+		graph.addVertex("3");
+		graph.addVertex("4");
+		graph.addVertex("5");
+		//graph.addVertex("peru");
+		graph.addEdges("1", "3", 0);
+		graph.addEdges("2", "1", 0);
+		graph.addEdges("3", "2", 0);
+		graph.addEdges("3", "4", 0);
+		graph.addEdges("4", "2", 0);
+		graph.addEdges("2", "5", 0); 
+		graph.addEdges("5", "4", 0); 
+		graphAux = graph.bfs("1");
+		/*
+		for (int i = 0; i < graphAux.getAdjacentList().size(); i++) {
+			for (int j = 0; j < graphAux.getAdjacentList().get(i).size(); j++) {
+				asd = graphAux.getAdjacentList().get(i).get(j);
+				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso" + asd[1] + "\n";
+			}
+		}
+		*/
+		for (int j = 0; j < graphAux.getAdjacentList().get(3).size(); j++) {
+			System.out.println(graphAux.getAdjacentList().get(2).get(j)[0]);
+		}
+		
+		return data;
+		//return graph;
 	}
 	@Test
 	<T> void testBFS() {
 		try {
 			//System.out.println(setUpSceneBFS().bfs("china"));
-			System.out.println(setUpSceneBFS().bfs("china"));
+			setUpSceneBFS();
 			//setUpSceneBFS().bfs2("colombia");
 		} catch (InvalidActionInSimpleGraphException e) {
 			// TODO Auto-generated catch block

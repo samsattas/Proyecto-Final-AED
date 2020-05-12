@@ -1,0 +1,21 @@
+Titanic ll,2003,13420, 12, 38
+Zombies Cant swim,2012,14000,12.3,32.3
+Breaking Bass,2018,15000,12.7,33
+Codfather,1999,14360,14,38.3
+Kobe Boat,2020,12450,13,42.3
+Pug Boat,2017,16330,16,31.3
+Usain Boat,1986,7892,7.4,65
+Error 404 fish not found,1969,1500,7.4,35
+The wet dream,2004,7777,7.4,63
+Vitamin Sea,1972,4400,10,45.3
+Kayot,1990,5500,10,47.3
+Favorite Mistake,2000,3000,10,47.3
+Liquid Asset,1991,14500,13.9,42.3
+Vesper,1991,14300,13.9,39.3
+Unsinkable ll,1991,14350,13.9,41.3
+Nayeon,1995,17000,25.5,50
+Twice,2015,20130,40.5,43.3
+Dahyun,1998,14000,25.5,42
+Villa Cubito Boat,2020,16450,21.3,41.3
+Golder of the sea,2020,15211,21.3,39.3
+Samsattas,2020,8754,21.3,60.3

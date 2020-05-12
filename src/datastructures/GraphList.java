@@ -113,7 +113,8 @@ public class GraphList<T> {
 	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
 		this.adjacentList = adjacentList;
 	}
-	public ArrayList<Integer> bfs(T s) {
+	public GraphList<T> bfs(T s) {
+		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
 		Kueueue<Integer> queue = new Kueueue<>();
 		boolean[] visitado = new boolean[vertex.size()];
 		ArrayList<Integer> ordenVisita = new ArrayList<>();
@@ -125,20 +126,31 @@ public class GraphList<T> {
 			int dequeue = queue.poll();
 			for (int i = 0; i < adjacentList.get(dequeue).size(); i++) {
 				double adyacente = adjacentList.get(dequeue).get(i)[0];
-				if(adyacente>visitado.length-1) {
+				double adyacentWeight = adjacentList.get(dequeue).get(i)[1];
+				if(adyacente>visitado.length-1) { 
 					visitado[(int) adyacente] = true;
 					queue.add((int) adyacente); 
 					ordenVisita.add((int) adyacente);
+					/*
+					graph.addVertex(vertex.get(i));
+					graph.addVertex(vertex.get((int) adyacente));
+					graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
+					*/
 				} else if(adyacente<=visitado.length-1) {
 					if(!visitado[(int) adyacente]) {
 						visitado[(int) adyacente]=true;
 						queue.add((int) adyacente);
 						ordenVisita.add((int) adyacente);
+						/*
+						graph.addVertex(vertex.get(i));
+						graph.addVertex(vertex.get((int) adyacente));
+						graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
+						*/
 					}
 				}
 			}
 		}
-		return ordenVisita;
+		return graph;
 	}
 	public ArrayList<Integer> dfs (T v) {
 		boolean[] visitado = new boolean[vertex.size()];
@@ -156,7 +168,7 @@ public class GraphList<T> {
 		return array;
 	}
 	public double[][] floydWarshall() { 
-        double dist[][] = translate(); 
+        double dist[][] = floydWarshallAux(); 
         
         int i, j, k; 
         
@@ -172,7 +184,7 @@ public class GraphList<T> {
         } 
         return dist;
 	}
-	public double[][] translate() {
+	private double[][] floydWarshallAux() {
 		 double dist[][] = new double[vertex.size()][vertex.size()]; 
 	        int i, j; 
 	        for (int k2 = 0; k2 < dist.length; k2++) {
