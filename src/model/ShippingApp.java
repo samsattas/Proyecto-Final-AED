@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import datastructures.Grafov2;
 import exceptions.MaximumCapacityExceededException;
+import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
 public class ShippingApp {
@@ -64,27 +65,27 @@ public class ShippingApp {
 		Country southcorea = new Country("southcorea", 002123);
 		Country australia = new Country("australia", 002123);
 		
-		china.addBoat("Titanic ll","2003",13420, 12, 38);
-		china.addBoat("Zombies Cant swim","2012",14000,12.3,32.3);
-		china.addBoat("Breaking Bass","2018",15000,12.7,33);
-		usa.addBoat("Codfather","1999",14360,14,38.3);
-		usa.addBoat("Kobe Boat","2020",12450,13,42.3);
-		usa.addBoat("Pug Boat","2017",16330,16,31.3);
-		jamaica.addBoat("Usain Boat","1986",7892,7.4,65);
-		jamaica.addBoat("Error 404 fish not found","1969",1500,7.4,35);
-		jamaica.addBoat("The wet dream","2004",7777,7.4,63);
-		brasil.addBoat("Vitamin Sea","1972",4400,10,45.3);
-		brasil.addBoat("Kayot","1990",5500,10,47.3);
-		brasil.addBoat("Favorite Mistake","2000",3000,10,47.3);
-		rusia.addBoat("Liquid Asset","1991",14500,13.9,42.3);
-		rusia.addBoat("Vesper","1991",14300,13.9,39.3);
-		rusia.addBoat("Unsinkable ll","1991",14350,13.9,41.3);
-		southcorea.addBoat("Nayeon ","1995",17000,25.5,50);
-		southcorea.addBoat("Twice","2015",20130,40.5,43.3);
-		southcorea.addBoat("Dahyun","1998",14000,25.5,42);
-		australia.addBoat("Villa Cubito Boat","2020",16450,21.3,41.3);
-		australia.addBoat("Golder of the sea","2020",15211,21.3,39.3);
-		australia.addBoat("Samsattas","2020",8754,21.3,60.3);
+		china.addBoat("Titanic ll","2003", 12, 38);
+		china.addBoat("Zombies Cant swim","2012",12.3,32.3);
+		china.addBoat("Breaking Bass","2018",12.7,33);
+		usa.addBoat("Codfather","1999",14,38.3);
+		usa.addBoat("Kobe Boat","2020",13,42.3);
+		usa.addBoat("Pug Boat","2017",16,31.3);
+		jamaica.addBoat("Usain Boat","1986",7.4,65);
+		jamaica.addBoat("Error 404 fish not found","1969",7.4,35);
+		jamaica.addBoat("The wet dream","2004",7.4,63);
+		brasil.addBoat("Vitamin Sea","1972",10,45.3);
+		brasil.addBoat("Kayot","1990",10,47.3);
+		brasil.addBoat("Favorite Mistake","2000",10,47.3);
+		rusia.addBoat("Liquid Asset","1991",13.9,42.3);
+		rusia.addBoat("Vesper","1991",13.9,39.3);
+		rusia.addBoat("Unsinkable ll","1991",13.9,41.3);
+		southcorea.addBoat("Nayeon ","1995",25.5,50);
+		southcorea.addBoat("Twice","2015",40.5,43.3);
+		southcorea.addBoat("Dahyun","1998",25.5,42);
+		australia.addBoat("Villa Cubito Boat","2020",21.3,41.3);
+		australia.addBoat("Golder of the sea","2020",21.3,39.3);
+		australia.addBoat("Samsattas","2020",21.3,60.3);
 		
 		countrys.addVertex(china);
 		countrys.addVertex(usa);
@@ -124,12 +125,13 @@ public class ShippingApp {
 		return time;
 	}
 	*/
-    public void makeShipment(String originCountry, String destinyCountry, ArrayList<String> countrysS, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-    	double deliveryTime = deliveryTime(originCountry, destinyCountry, loadSize);
+    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumCapacityExceededException, MaximumRangeExceededException {
+    	double deliveryTime = deliveryTime(originCountry, destinyCountry);
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);
-    	removeAndAdd(originCountryT,destinyCountryT, loadSize);
-    	originCountryT.b
+    	removeAndAdd(originCountryT,destinyCountryT);
+    	ShippmentReport report = new ShippmentReport(originCountry, destinyCountry, totalLoadSize, deliveryTime);
+    	return report;
     }
     private Country getCountryValue(String countryName) {
     	Country country = null;
@@ -140,17 +142,15 @@ public class ShippingApp {
 		}
     	return country;
     }
-    public double deliveryTime(String originCountry, String destinyCountry, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+    public double deliveryTime(String originCountry, String destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);
-    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), loadSize);
+    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      0                    );
     	return deliveryTime;
     }
-    private void removeAndAdd(Country originCountry, Country destinyCountry, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-    	ArrayList<Boat> boats = originCountry.boatsToRemove(loadSize);
-    	for (int i = 0; i < boats.size(); i++) {
-    		destinyCountry.addBoatO(boats.get(i));
-		}
+    private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
+    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry),/*DIJSKTRA MODIFICADO AQUI*/      0                     );
+    	destinyCountry.addBoatO(auxBoat);
     }
 
 	

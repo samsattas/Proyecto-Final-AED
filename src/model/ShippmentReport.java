@@ -3,23 +3,22 @@ package model;
 import java.util.ArrayList;
 
 public class ShippmentReport {
-	private ArrayList<String> countrys;
+	private String country;
 	private int totalLoadSize;
 	private String originCountry;
 	private double aproximateDeliveryTime;
-	public ShippmentReport(ArrayList<String> countrys, int totalLoadSize, String originCountry,
-			double aproximateDeliveryTime) {
+	public ShippmentReport(String originCountry, String destinyCountry,int totalLoadSize, double aproximateDeliveryTime) {
 		super();
-		this.countrys = countrys;
+		this.country = country;
 		this.totalLoadSize = totalLoadSize;
 		this.originCountry = originCountry;
 		this.aproximateDeliveryTime = aproximateDeliveryTime;
 	}
-	public ArrayList<String> getCountrys() {
-		return countrys;
+	public String getCountry() {
+		return country;
 	}
-	public void setCountrys(ArrayList<String> countrys) {
-		this.countrys = countrys;
+	public void setCountry(String countrys) {
+		this.country = countrys;
 	}
 	public int getTotalLoadSize() {
 		return totalLoadSize;
@@ -39,5 +38,4 @@ public class ShippmentReport {
 	public void setAproximateDeliveryTime(double aproximateDeliveryTime) {
 		this.aproximateDeliveryTime = aproximateDeliveryTime;
 	}
-	
 }

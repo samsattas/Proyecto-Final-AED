@@ -27,8 +27,8 @@ public class Country {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void addBoat(String name,String manufacturingDate,int maxCapacity,double maxRange,double maxSpeed) {
-		Boat boat = new Boat(name, manufacturingDate, maxCapacity, maxRange, maxSpeed);
+	public void addBoat(String name,String manufacturingDate,double maxRange,double maxSpeed) {
+		Boat boat = new Boat(name, manufacturingDate, maxRange, maxSpeed);
 		boats.add(boat);
 	}
 	public void addBoatO(Boat boat) {
@@ -41,11 +41,13 @@ public class Country {
 	}
 	public void validateFleetRange(double distance) throws MaximumRangeExceededException, UnavaiableBoatsException {
 		verifyBoatAvailability();
-		int boatsdistance = 0;
+		boolean boatAvaiable = false;
 		for (int i = 0; i < boats.size(); i++) {
-			boatsdistance += boats.get(i).getMaxRange();
+			if(boats.get(i).getMaxRange()<=distance) {
+				boatAvaiable = true;
+			}
 		}
-		if(distance<boatsdistance) {
+		if(boatAvaiable == false) {
 			throw new MaximumRangeExceededException("Max");
 		}
 	}
@@ -77,14 +79,15 @@ public class Country {
 			}	
 		}
 	}
+	*/
 	public void sortBoatsLessToMaxRange() {
 		for (int i = 1; i<boats.size(); i++){
 			for(int j = i; j>0  ; j--){
-				if(boats.get(j-1).getMaxCapacity() >= boats.get(j).getMaxCapacity()) {
+				if(boats.get(j-1).getMaxRange() <= boats.get(j).getMaxRange()) {
 					Boat tmp = boats.get(j);
 					boats.set(j, boats.get(j-1));
 					boats.set(j-1, tmp);
-				}else if(boats.get(j-1).getMaxCapacity() < boats.get(j).getMaxCapacity()) {
+				}else if(boats.get(j-1).getMaxRange() > boats.get(j).getMaxRange()) {
 					Boat tmp = boats.get(j-1);
 					boats.set(j, tmp);
 					boats.set(j-1, boats.get(j));
@@ -92,31 +95,28 @@ public class Country {
 			}	
 		}
 	}
-	*/
-	public ArrayList<Boat> boatsToRemove(int sizeOfLoad) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-		validateFleetLoad(sizeOfLoad);
-		sortBoatsMaxToLessLoad();
-		ArrayList<Boat> boatsAux = new ArrayList<>();
-		int maxLoad = 0;
-		for (int i = 0; i < boats.size(); i++) {
-			maxLoad += boats.get(i).getMaxCapacity();
-			if(maxLoad<sizeOfLoad) {
-				boatsAux.add(boats.get(i));
+	public Boat boatsToRemove(double range, double partialRange) throws  UnavaiableBoatsException, MaximumRangeExceededException {
+		validateFleetRange(range);
+		sortBoatsLessToMaxRange();
+		Boat boatAux = null;
+		for (int i = 0; i < boats.size() && boatAux!=null; i++) {
+			if(boats.get(i).getMaxRange()>=range) {
+				boatAux = boats.get(i);
 				boats.remove(i);
 			}
 		}
-		return boatsAux;
+		return boatAux;
 	}
-	public double aproximateDeliverTime(double totalDistance, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-		validateFleetLoad(loadSize);
-		sortBoatsMaxToLessLoad();
-		int maxLoad = 0;
-		int maxSpeed = 0;
+	public double aproximateDeliverTime(double totalDistance, double partialDistance) throws  UnavaiableBoatsException, MaximumRangeExceededException {
+		validateFleetRange(partialDistance);
+		sortBoatsLessToMaxRange();
+		double maxSpeed = 0;
+		Boat boatAux = null;
 		double aproximateDeliverTime = 0;
-		for (int i = 0; i < boats.size(); i++) {
-			maxLoad += boats.get(i).getMaxCapacity();
-			if(maxLoad<loadSize) {
-				maxSpeed += boats.get(i).getMaxSpeed();
+		for (int i = 0; i < boats.size() && boatAux!=null; i++) {
+			if(boats.get(i).getMaxRange()>=totalDistance) {
+				boatAux = boats.get(i);
+				maxSpeed = boats.get(i).getMaxSpeed();
 			}
 		}
 		aproximateDeliverTime = totalDistance/maxSpeed;

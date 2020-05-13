@@ -3,14 +3,12 @@ package model;
 public class Boat {
 	private String name;
 	private String manufacturingDate;
-	private int maxCapacity;
 	private double maxRange;
 	private double maxSpeed;
-	public Boat(String name, String manufacturingDate, int maxCapacity, double maxRange, double maxSpeed) {
+	public Boat(String name, String manufacturingDate, double maxRange, double maxSpeed) {
 		super();
 		this.name = name;
 		this.manufacturingDate = manufacturingDate;
-		this.maxCapacity = maxCapacity;
 		this.maxRange = maxRange;
 		this.maxSpeed = maxSpeed;
 	}
@@ -25,12 +23,6 @@ public class Boat {
 	}
 	public void setManufacturingDate(String manufacturingDate) {
 		this.manufacturingDate = manufacturingDate;
-	}
-	public int getMaxCapacity() {
-		return maxCapacity;
-	}
-	public void setMaxCapacity(int maxCapacity) {
-		this.maxCapacity = maxCapacity;
 	}
 	public double getMaxRange() {
 		return maxRange;
