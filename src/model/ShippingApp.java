@@ -10,15 +10,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class shippingApp {
+import datastructures.Grafov2;
+import exceptions.MaximumCapacityExceededException;
+import exceptions.UnavaiableBoatsException;
+
+public class ShippingApp {
 	private String name;
-	private ArrayList<Country> countrys;
+	Grafov2<Country> countrys = new Grafov2<Country>(false, true);
+	//private ArrayList<Country> countrys;
 	public static String FLATCOUNTRYS = "data//Contrys.txt";
-	public shippingApp(String name) {
+	public ShippingApp(String name) {
 		super();
 		this.name = name;
 		load();
-		if(countrys.size()<=0) {
+		if(countrys.consultWeight()<=0) {
 			addBoats();
 		}
 	}
@@ -81,26 +86,24 @@ public class shippingApp {
 		australia.addBoat("Golder of the sea","2020",15211,21.3,39.3);
 		australia.addBoat("Samsattas","2020",8754,21.3,60.3);
 		
-		countrys.add(china);
-		countrys.add(usa);
-		countrys.add(jamaica);
-		countrys.add(brasil);
-		countrys.add(rusia);
-		countrys.add(southcorea);
-		countrys.add(australia);
+		countrys.addVertex(china);
+		countrys.addVertex(usa);
+		countrys.addVertex(jamaica);
+		countrys.addVertex(brasil);
+		countrys.addVertex(rusia);
+		countrys.addVertex(southcorea);
+		countrys.addVertex(australia);
 	}
 	public void load() {
         try{
             FileInputStream file=new FileInputStream(FLATCOUNTRYS);
             ObjectInputStream creator=new ObjectInputStream(file);
-            this.countrys=(ArrayList<Country>)creator.readObject();
+            this.countrys=(Grafov2<Country>)creator.readObject();
             creator.close();
         }
         catch (IOException e) {save();} 
         catch (ClassNotFoundException e) {}
     }
-
-        //Save
     public void save() {
         try {
             FileOutputStream file=new FileOutputStream(FLATCOUNTRYS);
@@ -110,6 +113,45 @@ public class shippingApp {
         }
         catch (IOException e) {}
     }
-	
+   /*
+    public double aproximateDeliverTime(double totalDistance, String countryName, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+		double time = 0;
+		for (int i = 0; i < countrys.size(); i++) {
+			if(countrys.get(i).getName().equals(countryName)) {
+				time = countrys.get(i).aproximateDeliverTime(totalDistance, loadSize);
+			}
+		}
+		return time;
+	}
+	*/
+    public void makeShipment(String originCountry, String destinyCountry, ArrayList<String> countrysS, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+    	double deliveryTime = deliveryTime(originCountry, destinyCountry, loadSize);
+    	Country originCountryT = getCountryValue(originCountry);
+    	Country destinyCountryT = getCountryValue(destinyCountry);
+    	removeAndAdd(originCountryT,destinyCountryT, loadSize);
+    	originCountryT.b
+    }
+    private Country getCountryValue(String countryName) {
+    	Country country = null;
+    	for (int i = 0; i < countrys.getValues().size(); i++) {
+			if(countrys.getValues().get(i).getName().equals(countryName)) {
+				country = countrys.getValues().get(i);
+			}
+		}
+    	return country;
+    }
+    public double deliveryTime(String originCountry, String destinyCountry, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+    	Country originCountryT = getCountryValue(originCountry);
+    	Country destinyCountryT = getCountryValue(destinyCountry);
+    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), loadSize);
+    	return deliveryTime;
+    }
+    private void removeAndAdd(Country originCountry, Country destinyCountry, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+    	ArrayList<Boat> boats = originCountry.boatsToRemove(loadSize);
+    	for (int i = 0; i < boats.size(); i++) {
+    		destinyCountry.addBoatO(boats.get(i));
+		}
+    }
+
 	
 }
