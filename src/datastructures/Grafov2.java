@@ -299,10 +299,11 @@ public class Grafov2<T> {
 					if(!adjmatrix[i][j].isEmpty() && !visited[j]) {
 						double[] e = new double[] {i, j, getMinimunEdge(i, j)};
 						edges.add(e);
-						visited[i] = true;
+						
 						
 					}
 				}
+				visited[i] = true;
 			}
 			
 	        Collections.sort(edges,new Comparator<double[]>() {
@@ -316,16 +317,16 @@ public class Grafov2<T> {
 	                 }
 	             }
 	        });
-			
-	        for(int i = 0; i < edges.size(); i++) {
-	        	if(!kruskalUtil(edges.get(i), added)) {
+	        int edgesSize = edges.size();
+	        for(int i = 0; i < edgesSize; i++) {
+	        	if(!kruskalUtil(edges.get(0), added)) {
 	        		T auxO = values.get((int)edges.get(0)[0]);
 		        	T auxD = values.get((int)edges.get(0)[1]);
 		        	gr.addEdge(auxO, auxD, edges.get(0)[2]);
 		        	added = kruskalAdd(added, (int)edges.get(0)[0], (int)edges.get(0)[1]);
-		        	edges.remove(0);
+		        	
 	        	}
-	        	
+	        	edges.remove(0);
 	        }
 			
 		} else {
@@ -360,7 +361,7 @@ public class Grafov2<T> {
 	}
 	
 	
-	private boolean kruskalUtil(double[] toAdd, ArrayList<ArrayList<Integer>> added) {
+	public boolean kruskalUtil(double[] toAdd, ArrayList<ArrayList<Integer>> added) {
 		boolean aux = false;
 		int origin = -1, destiny = -1;
 		for(int i = 0; i < added.size(); i++) {

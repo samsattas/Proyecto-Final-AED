@@ -505,4 +505,17 @@ class Grafov2Test {
 		double[][] matrix = setUpSceneFloydWarshall();
 		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
 	}
+	
+	@Test
+	void testkaux() {
+		Grafov2<Integer> gr = new Grafov2<Integer>(false, false);
+		ArrayList<ArrayList<Integer>> ar = new ArrayList<ArrayList<Integer>>();
+		ar.add(new ArrayList<Integer>());
+		ar.add(new ArrayList<Integer>());
+		
+		ar.get(0).add(3);
+		ar.get(1).add(4);
+		boolean aux = gr.kruskalUtil(new double[] {3,4,10}, ar);
+		System.out.println(aux+"");
+	}
 }
