@@ -108,13 +108,7 @@ public class Grafov2<T> {
 		}
 				
 	}
-	
-	private void addEdgeAux(int i, int j, double w) {
-		adjmatrix[i][j].add(w);
-		if(!isDirected() && j!=i) {
-			adjmatrix[j][i].add(w);
-		}
-	}
+
 	
 	public void addVertex(T v) {
 		boolean cent = true;
@@ -299,12 +293,13 @@ public class Grafov2<T> {
 			}
 			
 			ArrayList<double[]> edges = new ArrayList<double[]>();
-			
+			boolean[] visited = new boolean[values.size()];
 			for(int i = 0; i < values.size(); i++) {
 				for (int j = 0; j < values.size(); j++) {
-					if(adjmatrix[i][j].isEmpty()) {
+					if(!adjmatrix[i][j].isEmpty() && !visited[j]) {
 						double[] e = new double[] {i, j, getMinimunEdge(i, j)};
 						edges.add(e);
+						visited[i] = true;
 						
 					}
 				}
@@ -314,7 +309,7 @@ public class Grafov2<T> {
 	        	 public int compare(double[] ints, double[] otherInts) {
 	                 if(ints[2]>otherInts[2]) {
 	                 	return 1;
-	                 } else if(ints[0]<otherInts[0]) {
+	                 } else if(ints[2]<otherInts[2]) {
 	                 	return -1;
 	                 } else {
 	                 	return 0;
@@ -328,6 +323,7 @@ public class Grafov2<T> {
 		        	T auxD = values.get((int)edges.get(0)[1]);
 		        	gr.addEdge(auxO, auxD, edges.get(0)[2]);
 		        	added = kruskalAdd(added, (int)edges.get(0)[0], (int)edges.get(0)[1]);
+		        	edges.remove(0);
 	        	}
 	        	
 	        }
