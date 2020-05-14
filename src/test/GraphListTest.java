@@ -40,7 +40,7 @@ class GraphListTest {
 		graph.addEdges("canada", "colombia", 5);
 		return graph;
 	}
-	//@Test
+	@Test
 	void testAddEdgesDirected() {
 		try {
 			//assertEquals(2, setUpSceneAddEdgesTrueTrueTrue().getAdjacentList().get(0).size());
@@ -173,7 +173,7 @@ class GraphListTest {
 	}
 	@Test
 	void testMinimumEdge() {
-		System.out.println(setUpScenegetMinimunEdgePlus());
+		//System.out.println(setUpScenegetMinimunEdgePlus());
 	}
 	public double setUpSceneDijkstra() {
 		Country v0 = new Country("Colombia", 1);
@@ -210,6 +210,62 @@ class GraphListTest {
 		assertEquals(dist, 10);
 	}
 	
+	public /*GraphList<Country>*/ void setUpSceneKruskal() {
+		Country a = new Country("Colombia", 1);//A
+		Country b = new Country("EEUU", 2);//B
+		Country c = new Country("Barrancabermeja", 3); //C
+		Country d = new Country("Brazil", 4);//D
+		Country e = new Country("Canada", 5);//E
+		
+		GraphList<Country> gr = new GraphList<Country>(false, false, false);
+		//GraphList<Country> grAux;
+		GraphList<Country> grAux;
+		gr.addVertex(a);
+		gr.addVertex(b);
+		gr.addVertex(c);
+		gr.addVertex(d);
+		gr.addVertex(e);
+		
+		gr.addEdges(a, b, 1);
+		gr.addEdges(a, e, 2);
+		gr.addEdges(a, c, 4);
+		gr.addEdges(d, c, 1);
+		gr.addEdges(d, e, 2);
+		gr.addEdges(d, b, 3);
+		gr.addEdges(c, e, 3); 
+		gr.addEdges(b, e, 3);
+		grAux = gr.kruskal();
+		
+		//gr.getMinimunEdge(v4, v3);
+		//
+		gr = gr.kruskal();
+		
+		System.out.println("NOOOOOOO");
+		System.out.println(gr.getMinimunEdge(a, b));
+		System.out.println(gr.getMinimunEdge(a, e));
+		System.out.println(gr.getMinimunEdge(a, c));
+		System.out.println(gr.getMinimunEdge(d, c));
+		System.out.println(gr.getMinimunEdge(d, e));
+		System.out.println(gr.getMinimunEdge(d, b));
+		System.out.println(gr.getMinimunEdge(c, e));
+		System.out.println(gr.getMinimunEdge(b, e));
+		System.out.println("NOOOOOOO");
+		//
+		/*
+		System.out.println(grAux.getMinimunEdge(v1, v2));
+		System.out.println(grAux.getMinimunEdge(v1, v5));
+		System.out.println(grAux.getMinimunEdge(v4, v5));
+		System.out.println(grAux.getMinimunEdge(v4, v3));
+		*/
+		//return gr;
+	}
+	
+	@Test
+	void testKruskal() {
+		setUpSceneKruskal();
+		//GraphList<Country> gr = setUpSceneKruskal();
+		//gr.ed
+	}
 	
 	
 	
