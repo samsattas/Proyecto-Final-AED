@@ -117,6 +117,7 @@ public class GraphList<T> {
 	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
 		this.adjacentList = adjacentList;
 	}
+	/*
 	public GraphList<T> bfs(T s) {
 		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
 		Kueueue<Integer> queue = new Kueueue<>();
@@ -135,27 +136,77 @@ public class GraphList<T> {
 					visitado[(int) adyacente] = true;
 					queue.add((int) adyacente); 
 					ordenVisita.add((int) adyacente);
-					/*
+					
 					graph.addVertex(vertex.get(i));
 					graph.addVertex(vertex.get((int) adyacente));
 					graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
-					*/
+					
 				} else if(adyacente<=visitado.length-1) {
 					if(!visitado[(int) adyacente]) {
 						visitado[(int) adyacente]=true;
 						queue.add((int) adyacente);
 						ordenVisita.add((int) adyacente);
-						/*
+						
 						graph.addVertex(vertex.get(i));
 						graph.addVertex(vertex.get((int) adyacente));
 						graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
-						*/
+						
 					}
 				}
 			}
 		}
 		return graph;
 	}
+	*/
+	public GraphList<T> bfs(T s) {
+		/*
+  		ArrayList<Integer> ordenVisita = new ArrayList<>();
+        GraphList<T> graph = new GraphList<>(directed,multiple,loop);
+
+        Kueueue<Integer> queue = new Kueueue<>();
+        boolean[] visitado = new boolean[vertex.size()];
+
+        int initial = vertex.indexOf(s);
+        queue.add(initial); 
+
+        visitado[initial]=true;
+        graph.addVertex(vertex.get(initial));
+        ordenVisita.add(initial);
+        */
+		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
+		//graph.setVertex(vertex);
+		for (int i = 0; i < vertex.size(); i++) {
+			graph.addVertex(vertex.get(i));
+		}
+		Kueueue<Integer> queue = new Kueueue<>();
+		boolean[] visitado = new boolean[vertex.size()];
+		ArrayList<Integer> ordenVisita = new ArrayList<>();
+		
+		
+		int initial = vertex.indexOf(s);
+		ordenVisita.add(initial);
+		visitado[initial]=true;
+		queue.add(initial);
+		graph.addVertex(s);
+		
+        while(!queue.isEmpty()){ 
+            int dequeue = queue.poll();
+
+            for (int i = 0; i < adjacentList.get(dequeue).size(); i++) {
+                int adyacente = (int)adjacentList.get(dequeue).get(i)[0];
+                
+                if(!visitado[adyacente]) {
+                    visitado[adyacente] = true;
+                    queue.add(adyacente); 
+                    ordenVisita.add(adyacente);
+                    //graph.addVertex(vertex.get(adyacente));
+                    graph.addEdges(vertex.get(dequeue), vertex.get(adyacente), 0);
+                }
+            }
+        }
+        return graph;
+    }
+
 	public ArrayList<Integer> dfs (T v) {
 		boolean[] visitado = new boolean[vertex.size()];
 		ArrayList<Integer> aux = new ArrayList<Integer>();

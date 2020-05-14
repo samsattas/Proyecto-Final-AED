@@ -424,7 +424,7 @@ class Grafov2Test {
 		Grafov2<Country> gr = new Grafov2<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
-		gr.addVertex(v3);
+		gr.addVertex(v3); 
 		gr.addVertex(v4);
 		gr.addVertex(v5);
 		
