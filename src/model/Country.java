@@ -51,35 +51,6 @@ public class Country {
 			throw new MaximumRangeExceededException("Max");
 		}
 	}
-	/*
-	public void validateFleetLoad(int load) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-		verifyBoatAvailability();
-		int totalLoad = 0;
-		for (int i = 0; i < boats.size(); i++) {
-			totalLoad += boats.get(i).getMaxCapacity();
-		}
-		if(load<totalLoad) {
-			throw new MaximumCapacityExceededException("Max");
-		}
-	}
-	*/
-	/*
-	public void sortBoatsMaxToLessLoad() {
-		for (int i = 1; i<boats.size(); i++){
-			for(int j = i; j>0  ; j--){
-				if(boats.get(j-1).getMaxCapacity() >= boats.get(j).getMaxCapacity()) {
-					Boat tmp = boats.get(j);
-					boats.set(j, boats.get(j-1));
-					boats.set(j-1, tmp);
-				}else if(boats.get(j-1).getMaxCapacity() < boats.get(j).getMaxCapacity()) {
-					Boat tmp = boats.get(j-1);
-					boats.set(j, tmp);
-					boats.set(j-1, boats.get(j));
-				}	
-			}	
-		}
-	}
-	*/
 	public void sortBoatsLessToMaxRange() {
 		for (int i = 1; i<boats.size(); i++){
 			for(int j = i; j>0  ; j--){
@@ -121,5 +92,14 @@ public class Country {
 		}
 		aproximateDeliverTime = totalDistance/maxSpeed;
 		return aproximateDeliverTime;
+	}
+	public String saveTheWorld(double totalDistance) {
+		String message = this.getName() + "No disponible";
+		for (int i = 0; i < boats.size(); i++) {
+			if(boats.get(i).getMaxRange() >= totalDistance) {
+				message = this.getName()+ "Disponible";
+			}
+		}
+		return message;
 	}
 }

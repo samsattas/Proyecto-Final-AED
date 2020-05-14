@@ -34,29 +34,78 @@ public class ShippingApp {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<Country> createData() {
-			ArrayList<Country> c = new ArrayList<>();
-			try {
-				File	file = new File(FLATCOUNTRYS);
-				FileReader	frReader = new FileReader(file);
-				BufferedReader	bufferRead = new BufferedReader(frReader);
-				String saveString;
-					while((saveString = bufferRead.readLine())!= null){
-						String[] parts = saveString.split(",");
-						String part1 = parts[0];
-						String part2 = parts[1];
-						c.add(new Country(part1, Integer.parseInt(part2)));
-				}
-				bufferRead.close();
-				frReader.close();
+	public void load() {
+        try{
+            FileInputStream file=new FileInputStream(FLATCOUNTRYS);
+            ObjectInputStream creator=new ObjectInputStream(file);
+            this.countrys=(Grafov2<Country>)creator.readObject();
+            creator.close();
+        }
+        catch (IOException e) {save();} 
+        catch (ClassNotFoundException e) {}
+    }
+    public void save() {
+        try {
+            FileOutputStream file=new FileOutputStream(FLATCOUNTRYS);
+            ObjectOutputStream creator=new ObjectOutputStream(file);
+            creator.writeObject(countrys);
+            creator.close();
+        }
+        catch (IOException e) {}
+    }
+   /*
+    public double aproximateDeliverTime(double totalDistance, String countryName, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
+		double time = 0;
+		for (int i = 0; i < countrys.size(); i++) {
+			if(countrys.get(i).getName().equals(countryName)) {
+				time = countrys.get(i).aproximateDeliverTime(totalDistance, loadSize);
 			}
-			catch(Exception e){
-				System.out.println("Ayyyy que man tan de malas");
-				e.printStackTrace();
-			}
-			return c;
+		}
+		return time;
 	}
-	public void addBoats() {
+    */
+    
+    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumCapacityExceededException, MaximumRangeExceededException {
+    	double deliveryTime = deliveryTime(originCountry, destinyCountry);
+    	Country originCountryT = getCountryValue(originCountry);
+    	Country destinyCountryT = getCountryValue(destinyCountry);
+    	removeAndAdd(originCountryT,destinyCountryT);
+    	ShippmentReport report = new ShippmentReport(originCountry, destinyCountry, totalLoadSize, deliveryTime);
+    	return report;
+    }
+    private Country getCountryValue(String countryName) {
+    	Country country = null;
+    	for (int i = 0; i < countrys.getValues().size(); i++) {
+			if(countrys.getValues().get(i).getName().equals(countryName)) {
+				country = countrys.getValues().get(i);
+			}
+		}
+    	return country;
+    }
+    public double deliveryTime(String originCountry, String destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
+    	Country originCountryT = getCountryValue(originCountry);
+    	Country destinyCountryT = getCountryValue(destinyCountry);
+    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      0                    );
+    	return deliveryTime;
+    }
+    private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
+    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry),/*DIJSKTRA MODIFICADO AQUI*/      0                     );
+    	destinyCountry.addBoatO(auxBoat);
+    }
+    public String[] saveTheWorld(){
+    	String[] countrysName = new String[countrys.getValues().size()];
+    	double kruskalWeight = 0;
+    	Grafov2<Country> tmpGraph = countrys;
+    	tmpGraph.kruskal();
+    	/*
+    	 * AQUI VA ALGORITMO QUE SUMA EL VALOR DE TODAS LAS ARISTAS 
+    	 */
+    	for (int i = 0; i < countrys.getValues().size(); i++) {
+    		countrysName[i] = countrys.getValues().get(i).saveTheWorld(kruskalWeight);
+		}
+    	return countrysName; 
+    }
+    public void addBoats() {
 		Country china = new Country("china", 002123);
 		Country usa = new Country("usa", 002123);
 		Country jamaica = new Country("jamaica", 002123);
@@ -95,63 +144,6 @@ public class ShippingApp {
 		countrys.addVertex(southcorea);
 		countrys.addVertex(australia);
 	}
-	public void load() {
-        try{
-            FileInputStream file=new FileInputStream(FLATCOUNTRYS);
-            ObjectInputStream creator=new ObjectInputStream(file);
-            this.countrys=(Grafov2<Country>)creator.readObject();
-            creator.close();
-        }
-        catch (IOException e) {save();} 
-        catch (ClassNotFoundException e) {}
-    }
-    public void save() {
-        try {
-            FileOutputStream file=new FileOutputStream(FLATCOUNTRYS);
-            ObjectOutputStream creator=new ObjectOutputStream(file);
-            creator.writeObject(countrys);
-            creator.close();
-        }
-        catch (IOException e) {}
-    }
-   /*
-    public double aproximateDeliverTime(double totalDistance, String countryName, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-		double time = 0;
-		for (int i = 0; i < countrys.size(); i++) {
-			if(countrys.get(i).getName().equals(countryName)) {
-				time = countrys.get(i).aproximateDeliverTime(totalDistance, loadSize);
-			}
-		}
-		return time;
-	}
-	*/
-    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumCapacityExceededException, MaximumRangeExceededException {
-    	double deliveryTime = deliveryTime(originCountry, destinyCountry);
-    	Country originCountryT = getCountryValue(originCountry);
-    	Country destinyCountryT = getCountryValue(destinyCountry);
-    	removeAndAdd(originCountryT,destinyCountryT);
-    	ShippmentReport report = new ShippmentReport(originCountry, destinyCountry, totalLoadSize, deliveryTime);
-    	return report;
-    }
-    private Country getCountryValue(String countryName) {
-    	Country country = null;
-    	for (int i = 0; i < countrys.getValues().size(); i++) {
-			if(countrys.getValues().get(i).getName().equals(countryName)) {
-				country = countrys.getValues().get(i);
-			}
-		}
-    	return country;
-    }
-    public double deliveryTime(String originCountry, String destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Country originCountryT = getCountryValue(originCountry);
-    	Country destinyCountryT = getCountryValue(destinyCountry);
-    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      0                    );
-    	return deliveryTime;
-    }
-    private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry),/*DIJSKTRA MODIFICADO AQUI*/      0                     );
-    	destinyCountry.addBoatO(auxBoat);
-    }
 
 	
 }
