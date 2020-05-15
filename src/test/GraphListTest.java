@@ -97,10 +97,10 @@ class GraphListTest {
 	<T> void testBFS() {
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
-			assertEquals(2,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("0")).get(0)[0]);
-			assertEquals(4,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("1")).get(0)[0]);
-			assertEquals(1,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("2")).get(0)[0]);
-			assertEquals(3,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("2")).get(1)[0]);
+			assertEquals(2,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("0")).get(0)[0]);
+			assertEquals(4,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(0)[0]);
+			assertEquals(1,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(0)[0]);
+			assertEquals(3,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(1)[0]);
 			
 			//assertEquals(3,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("3")).get(0)[0]);
 			
@@ -114,7 +114,7 @@ class GraphListTest {
 	<T> void testBFSNoneExistentEdges() {
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
-			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("3")).get(0)[0]);
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("3")).get(0)[0]);
 			fail();
 		} catch (InvalidActionInSimpleGraphException e) {
 			e.printStackTrace();
@@ -126,7 +126,7 @@ class GraphListTest {
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
 			
-			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("1")).get(1)[0]);
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(1)[0]);
 			fail();
 		} catch (InvalidActionInSimpleGraphException e) {
 			e.printStackTrace();
@@ -137,7 +137,7 @@ class GraphListTest {
 		}
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
-			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("4")).get(0)[0]);
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("4")).get(0)[0]);
 			fail();
 		} catch (InvalidActionInSimpleGraphException e) {
 			e.printStackTrace();

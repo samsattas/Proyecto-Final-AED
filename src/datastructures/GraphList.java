@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 import model.Vertex;
 
-public class GraphList<T> {
+public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	private boolean directed;
 	private boolean multiple;
@@ -54,7 +54,10 @@ public class GraphList<T> {
 	
 	
 	
-	//FALTA GET EDGES
+	//FALTA GET EDGES //ES ESTE????
+	public ArrayList<ArrayList<double[]>> getAdjacentList() {
+		return adjacentList;
+	}
 	
 	
 	
@@ -64,7 +67,7 @@ public class GraphList<T> {
 	
 	
 	
-	public void addEdge(T i, T j, double weight) {
+	public void addEdge(T i, T j, double w) {
 		int originIndex = vertex.indexOf(i);
 		int destinyIndex = vertex.indexOf(j);
 		if(originIndex==-1 || destinyIndex==-1) {
@@ -86,10 +89,10 @@ public class GraphList<T> {
 			}
 			//System.out.println(originIndex);
 			//System.out.println(destinyIndex);
-			double[] vertex = {destinyIndex, weight};
+			double[] vertex = {destinyIndex, w};
 			adjacentList.get(originIndex).add(vertex);
 			if(!directed) {
-				double[] oppositeVertex = {originIndex,weight};
+				double[] oppositeVertex = {originIndex,w};
 				adjacentList.get(destinyIndex).add(oppositeVertex);
 			}
 		}
@@ -99,7 +102,7 @@ public class GraphList<T> {
 		this.vertex.add(vertex);
 		this.adjacentList.add(new ArrayList<double[]>());
 	}
-	public void deleteEdge(T i, T j, double weight) {
+	public void deleteEdge(T i, T j, double w) {
 		int origin = vertex.indexOf(i);
 		int destiny = vertex.indexOf(j);
 		for (int h = 0; h < adjacentList.get(origin).size(); h++) {
@@ -115,9 +118,9 @@ public class GraphList<T> {
 			}
 		}
 	}
-	public void deleteVertex(T vertex){
+	public void deleteVertex(T t){
 
-        int index = this.vertex.indexOf(vertex);
+        int index = this.vertex.indexOf(t);
 
         this.vertex.remove(index);
         adjacentList.remove(index);
@@ -136,79 +139,14 @@ public class GraphList<T> {
             }
         }
     }
+	public int consultWeight() {
+		return vertex.size();
+	}
 	//////////////////
 	
 	/////////////////
-	public ArrayList<T> getVertex() {
-		return vertex;
-	}
-	public void setVertex(ArrayList<T> vertex) {
-		this.vertex = vertex;
-	}
-	public ArrayList<ArrayList<double[]>> getAdjacentList() {
-		return adjacentList;
-	}
-	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
-		this.adjacentList = adjacentList;
-	}
-	/*
 	public GraphList<T> bfs(T s) {
 		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
-		Kueueue<Integer> queue = new Kueueue<>();
-		boolean[] visitado = new boolean[vertex.size()];
-		ArrayList<Integer> ordenVisita = new ArrayList<>();
-		int initial = vertex.indexOf(s);
-		ordenVisita.add(initial);
-		visitado[initial]=true;
-		queue.add(initial); 
-		while(!queue.isEmpty()){
-			int dequeue = queue.poll();
-			for (int i = 0; i < adjacentList.get(dequeue).size(); i++) {
-				double adyacente = adjacentList.get(dequeue).get(i)[0];
-				double adyacentWeight = adjacentList.get(dequeue).get(i)[1];
-				if(adyacente>visitado.length-1) { 
-					visitado[(int) adyacente] = true;
-					queue.add((int) adyacente); 
-					ordenVisita.add((int) adyacente);
-					
-					graph.addVertex(vertex.get(i));
-					graph.addVertex(vertex.get((int) adyacente));
-					graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
-					
-				} else if(adyacente<=visitado.length-1) {
-					if(!visitado[(int) adyacente]) {
-						visitado[(int) adyacente]=true;
-						queue.add((int) adyacente);
-						ordenVisita.add((int) adyacente);
-						
-						graph.addVertex(vertex.get(i));
-						graph.addVertex(vertex.get((int) adyacente));
-						graph.addEdges(vertex.get(i), vertex.get((int) adyacente), adyacentWeight);
-						
-					}
-				}
-			}
-		}
-		return graph;
-	}
-	*/
-	public GraphList<T> bfs(T s) {
-		/*
-  		ArrayList<Integer> ordenVisita = new ArrayList<>();
-        GraphList<T> graph = new GraphList<>(directed,multiple,loop);
-
-        Kueueue<Integer> queue = new Kueueue<>();
-        boolean[] visitado = new boolean[vertex.size()];
-
-        int initial = vertex.indexOf(s);
-        queue.add(initial); 
-
-        visitado[initial]=true;
-        graph.addVertex(vertex.get(initial));
-        ordenVisita.add(initial);
-        */
-		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
-		//graph.setVertex(vertex);
 		for (int i = 0; i < vertex.size(); i++) {
 			graph.addVertex(vertex.get(i));
 		}
@@ -233,7 +171,6 @@ public class GraphList<T> {
                     visitado[adyacente] = true;
                     queue.add(adyacente); 
                     ordenVisita.add(adyacente);
-                    //graph.addVertex(vertex.get(adyacente));
                     graph.addEdge(vertex.get(dequeue), vertex.get(adyacente), 0);
                 }
             }
@@ -244,95 +181,18 @@ public class GraphList<T> {
 	public ArrayList<Integer> dfs (T v) {
 		boolean[] visitado = new boolean[vertex.size()];
 		ArrayList<Integer> aux = new ArrayList<Integer>();
-		return dfsAux(visitado, aux, vertex.indexOf(v));
+		return dfsUtil(vertex.indexOf(v),visitado, aux);
 	}
-	private ArrayList<Integer> dfsAux(boolean[] visitado, ArrayList<Integer> array, int vertex ){
-		visitado[vertex] = true;
-		array.add(vertex);
+	private ArrayList<Integer> dfsUtil(int v, boolean[] visited, ArrayList<Integer> aux ){
+		visited[v] = true;
+		aux.add(v);
 		for (int i = 0; i < this.vertex.size(); i++) {
-			if(this.vertex.size()!=0 && !visitado[i]) {
-				dfsAux(visitado,array,i);
+			if(this.vertex.size()!=0 && !visited[i]) {
+				dfsUtil(i, visited,aux);
 			}
 		}
-		return array;
+		return aux;
 	}
-	public double[][] floydWarshall() { 
-        double dist[][] = floydWarshallAux(); 
-        
-        int i, j, k; 
-        
-        for (k = 0; k < vertex.size(); k++) { 
-            for (i = 0; i < vertex.size(); i++) { 
-                for (j = 0; j < vertex.size(); j++) {
-                    if (dist[i][k] + dist[k][j] < dist[i][j])
-                    {
-                    	 dist[i][j] = dist[i][k] + dist[k][j]; 
-                    }     
-                } 
-            } 
-        } 
-        return dist;
-	}
-	private double[][] floydWarshallAux() {
-		 double dist[][] = new double[vertex.size()][vertex.size()]; 
-	        int i, j; 
-	        for (int k2 = 0; k2 < dist.length; k2++) {
-	        	for (int l = 0; l < dist.length; l++) {
-	        		if(k2==l) {
-	        			dist[k2][l] = 0;
-	        		}else { 
-	        			dist[k2][l] = Integer.MIN_VALUE;
-	        		}
-				}
-			}
-	        for (i = 0; i < adjacentList.size(); i++) {
-	            for (j = 0; j < adjacentList.get(i).size(); j++) {
-	            		dist[i][(int) adjacentList.get(i).get(j)[0]] = adjacentList.get(i).get(j)[1];/*adjmatrix[i][j].get(0)*/  
-	            }
-	        }
-	        for (int k2 = 0; k2 < dist.length; k2++) {
-	        	for (int l = 0; l < dist.length; l++) {
-	        		if(dist[k2][l] == Integer.MIN_VALUE) {
-	        			dist[k2][l] = 99999999;
-	        		}
-				}
-			}
-	   return dist;
-	}
-	public double dijsktra(T vertex1, T vertex2) {
-		int v1 = vertex.indexOf(vertex1);
-		int v2 = vertex.indexOf(vertex2);
-		
-		boolean[] visited = new boolean[vertex.size()];
-		visited[v1] = true;
-		
-		double[] distances = new double[vertex.size()];
-		for(int i = 0; i < distances.length; i++) {
-			distances[i] = Double.POSITIVE_INFINITY;
-		}
-		distances[v1] = 0;
-		
-		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-		pq.add(v1);
-		
-		while(!pq.isEmpty()) {
-			int auxOrigin = pq.poll();
-			for (int i = 0; i < vertex.size(); i++) {
-				if(!visited[i]) {
-					pq.add(i);
-					visited[i] = true;
-					distances[i] = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
-				}
-				double auxdist = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
-				if(auxdist < distances[i]) {
-					distances[i] = auxdist;
-				}
-			}
-		}
-		return distances[v2];
-	}
-	////////////////////////////////SECCION DE EDICION///////////////////////////////////
-	
 	public GraphList<T> prim(T v) {
 		GraphList<T> gr = new GraphList<>(directed, multiple, loop);
 		if(gr.isDirected()) {
@@ -350,7 +210,7 @@ public class GraphList<T> {
 				int shortestDestiny = -1;
 				double shortestEdge = Double.POSITIVE_INFINITY;
 				int auxOrigin = -1;
-				for(int i = 0; i < gr.getVertex().size(); i++) { //origin
+				for(int i = 0; i < gr.getValues().size(); i++) { //origin
 					for(int j = 0; j < adjacentList.get(i).size(); j++) {//destiny
 						if(adjacentList.get(i).size()/*.get(j).length**/>0 && !visited[j]) {//if i and j have a connection and j hasn't be discovered, then...
 							//for(int k = 0; k < adjacentList.get(i).get(j).length; k++) {//looking for the shortest edge from i to j
@@ -369,7 +229,7 @@ public class GraphList<T> {
 					gr.addVertex(vertex.get(shortestDestiny));
 				}
 				if(auxOrigin!=-1) {
-					gr.addEdge(gr.getVertex().get(auxOrigin), gr.getVertex().get(auxdestiny), shortestEdge);
+					gr.addEdge(gr.getValues().get(auxOrigin), gr.getValues().get(auxdestiny), shortestEdge);
 					//int asd = gr.getAdjmatrix()[0][1].size();
 					//int asd2 = asd;
 				}
@@ -378,11 +238,6 @@ public class GraphList<T> {
 		
 		return gr;
 	}
-	
-	
-	
-	
-	
 	
 	public GraphList<T> kruskal() {
 		GraphList<T> gr = new GraphList<>(isDirected(), isMultiple(), loop);
@@ -485,24 +340,105 @@ public class GraphList<T> {
 		
 		return aux;
 	}
-	////////////////////////////////SECCION DE EDICION///////////////////////////////////
-	public int consultWeight() {
-		return vertex.size();
-	}
-	/*
-	public double getMinimunEdge(int x, int y) {
+	public double dijsktra(T vertex1, T vertex2) {
+		int v1 = vertex.indexOf(vertex1);
+		int v2 = vertex.indexOf(vertex2);
 		
-		double aux = Double.POSITIVE_INFINITY;
-		for(int i = 0; i < adjacentList.get(x).size(); i++) {
-			if(adjacentList.get(x).get(i)[1]<aux) {
-				aux = adjacentList.get(x).get(i)[1];
+		boolean[] visited = new boolean[vertex.size()];
+		visited[v1] = true;
+		
+		double[] distances = new double[vertex.size()];
+		for(int i = 0; i < distances.length; i++) {
+			distances[i] = Double.POSITIVE_INFINITY;
+		}
+		distances[v1] = 0;
+		
+		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+		pq.add(v1);
+		
+		while(!pq.isEmpty()) {
+			int auxOrigin = pq.poll();
+			for (int i = 0; i < vertex.size(); i++) {
+				if(!visited[i]) {
+					pq.add(i);
+					visited[i] = true;
+					distances[i] = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
+				}
+				double auxdist = distances[auxOrigin]+getMinimunEdge(vertex.get(auxOrigin), vertex.get(i));
+				if(auxdist < distances[i]) {
+					distances[i] = auxdist;
+				}
 			}
 		}
-		return aux;
+		return distances[v2];
 	}
-	*/
+	public double[][] floydWarshall() { 
+        double dist[][] = floydWarshallAux(); 
+        
+        int i, j, k; 
+        
+        for (k = 0; k < vertex.size(); k++) { 
+            for (i = 0; i < vertex.size(); i++) { 
+                for (j = 0; j < vertex.size(); j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j])
+                    {
+                    	 dist[i][j] = dist[i][k] + dist[k][j]; 
+                    }     
+                } 
+            } 
+        } 
+        return dist;
+	}
+	private double[][] floydWarshallAux() {
+		 double dist[][] = new double[vertex.size()][vertex.size()]; 
+	        int i, j; 
+	        for (int k2 = 0; k2 < dist.length; k2++) {
+	        	for (int l = 0; l < dist.length; l++) {
+	        		if(k2==l) {
+	        			dist[k2][l] = 0;
+	        		}else { 
+	        			dist[k2][l] = Integer.MIN_VALUE;
+	        		}
+				}
+			}
+	        for (i = 0; i < adjacentList.size(); i++) {
+	            for (j = 0; j < adjacentList.get(i).size(); j++) {
+	            		dist[i][(int) adjacentList.get(i).get(j)[0]] = adjacentList.get(i).get(j)[1];/*adjmatrix[i][j].get(0)*/  
+	            }
+	        }
+	        for (int k2 = 0; k2 < dist.length; k2++) {
+	        	for (int l = 0; l < dist.length; l++) {
+	        		if(dist[k2][l] == Integer.MIN_VALUE) {
+	        			dist[k2][l] = 99999999;
+	        		}
+				}
+			}
+	   return dist;
+	}
 	
-	
+	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
+		this.adjacentList = adjacentList;
+	}
+	@Override
+	public void deleteEdge(T i, T j, int w) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public GraphList<T> bfs(int v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public GraphList<T> dfs(int v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public double dijkstra(T vertex1, T vertex2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 	
