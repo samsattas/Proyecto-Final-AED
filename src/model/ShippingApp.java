@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import datastructures.Grafov2;
-import exceptions.MaximumCapacityExceededException;
 import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
@@ -65,7 +64,7 @@ public class ShippingApp {
 	}
     */
     
-    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumCapacityExceededException, MaximumRangeExceededException {
+    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	double deliveryTime = deliveryTime(originCountry, destinyCountry);
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);

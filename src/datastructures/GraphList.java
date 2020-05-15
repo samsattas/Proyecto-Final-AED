@@ -23,25 +23,62 @@ public class GraphList<T> {
 		adjacentList = new ArrayList<>();
 		vertex = new ArrayList<>();
 	}
-	public void addVertex(T vertex) {
-		this.vertex.add(vertex);
-		this.adjacentList.add(new ArrayList<double[]>());
+	public ArrayList<T> getValues(){
+		return vertex;
 	}
-	public void addEdges(T origin, T destiny, double weight) {
-		int originIndex = vertex.indexOf(origin);
-		int destinyIndex = vertex.indexOf(destiny);
+	public boolean isMultiple() {
+		return multiple;
+	}
+	public boolean isDirected() {
+		return directed;
+	}
+	public boolean hasLoop() {
+		return loop;
+	}
+	public double getMinimunEdge(T x, T y) {
+		int r = vertex.indexOf(x);
+		int z = vertex.indexOf(y);
+		double aux = Double.POSITIVE_INFINITY;
+		for(int i = 0; i < adjacentList.get(r).size(); i++) {
+			if(adjacentList.get(r).get(i)[0] == z && adjacentList.get(r).get(i)[1]<aux) {
+				aux = adjacentList.get(r).get(i)[1];
+			}
+		}
+		return aux;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//FALTA GET EDGES
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void addEdge(T i, T j, double weight) {
+		int originIndex = vertex.indexOf(i);
+		int destinyIndex = vertex.indexOf(j);
 		if(originIndex==-1 || destinyIndex==-1) {
 			//error
 			//System.out.println(this.adjacentList.size());
 		}
-		else if(!loop && origin == destiny) {
+		else if(!loop && i == j) {
 			//error
 			//System.out.println("Error");
 		}
 		else {
 			if(!multiple) {
-				for (int i = 0; i < adjacentList.get(originIndex).size(); i++) {
-					if(destinyIndex == adjacentList.get(originIndex).get(i)[0]) {
+				for (int h = 0; h < adjacentList.get(originIndex).size(); h++) {
+					if(destinyIndex == adjacentList.get(originIndex).get(h)[0]) {
 						//error
 						//System.out.println("Error");
 					}
@@ -54,6 +91,27 @@ public class GraphList<T> {
 			if(!directed) {
 				double[] oppositeVertex = {originIndex,weight};
 				adjacentList.get(destinyIndex).add(oppositeVertex);
+			}
+		}
+	}
+	
+	public void addVertex(T vertex) {
+		this.vertex.add(vertex);
+		this.adjacentList.add(new ArrayList<double[]>());
+	}
+	public void deleteEdge(T i, T j, double weight) {
+		int origin = vertex.indexOf(i);
+		int destiny = vertex.indexOf(j);
+		for (int h = 0; h < adjacentList.get(origin).size(); h++) {
+			if(adjacentList.get(origin).get(h)[0]==destiny) {
+				adjacentList.get(origin).remove(h);
+			}
+			if(multiple) {
+				for (int t = 0; t < adjacentList.get(destiny).size(); t++) {
+					if(adjacentList.get(destiny).get(t)[0]==origin) {
+						adjacentList.get(destiny).remove(t);
+					}
+				}
 			}
 		}
 	}
@@ -78,32 +136,8 @@ public class GraphList<T> {
             }
         }
     }
-	public void deleteEdge(int origin, int destiny, int weight) {
-		for (int i = 0; i < adjacentList.get(origin).size(); i++) {
-			if(adjacentList.get(origin).get(i)[0]==destiny) {
-				adjacentList.get(origin).remove(i);
-			}
-			if(multiple) {
-				for (int j = 0; j < adjacentList.get(destiny).size(); j++) {
-					if(adjacentList.get(destiny).get(j)[0]==origin) {
-						adjacentList.get(destiny).remove(j);
-					}
-				}
-			}
-		}
-	}
 	//////////////////
-	public double getMinimunEdge(T x, T y) {
-		int r = vertex.indexOf(x);
-		int z = vertex.indexOf(y);
-		double aux = Double.POSITIVE_INFINITY;
-		for(int i = 0; i < adjacentList.get(r).size(); i++) {
-			if(adjacentList.get(r).get(i)[0] == z && adjacentList.get(r).get(i)[1]<aux) {
-				aux = adjacentList.get(r).get(i)[1];
-			}
-		}
-		return aux;
-	}
+	
 	/////////////////
 	public ArrayList<T> getVertex() {
 		return vertex;
@@ -200,7 +234,7 @@ public class GraphList<T> {
                     queue.add(adyacente); 
                     ordenVisita.add(adyacente);
                     //graph.addVertex(vertex.get(adyacente));
-                    graph.addEdges(vertex.get(dequeue), vertex.get(adyacente), 0);
+                    graph.addEdge(vertex.get(dequeue), vertex.get(adyacente), 0);
                 }
             }
         }
@@ -335,7 +369,7 @@ public class GraphList<T> {
 					gr.addVertex(vertex.get(shortestDestiny));
 				}
 				if(auxOrigin!=-1) {
-					gr.addEdges(gr.getVertex().get(auxOrigin), gr.getVertex().get(auxdestiny), shortestEdge);
+					gr.addEdge(gr.getVertex().get(auxOrigin), gr.getVertex().get(auxdestiny), shortestEdge);
 					//int asd = gr.getAdjmatrix()[0][1].size();
 					//int asd2 = asd;
 				}
@@ -392,7 +426,7 @@ public class GraphList<T> {
 	        	if(!kruskalUtil(edges.get(0), added)) {
 	        		T auxO =vertex/* values*/.get((int)edges.get(0)[0]);
 		        	T auxD = vertex /*values*/.get((int)edges.get(0)[1]);
-		        	gr./*addEdge*/addEdges(auxO, auxD, edges.get(0)[2]);//OJO
+		        	gr./*addEdge*/addEdge(auxO, auxD, edges.get(0)[2]);//OJO
 		        	added = kruskalAdd(added, (int)edges.get(0)[0], (int)edges.get(0)[1]);
 		        	
 	        	}
@@ -452,12 +486,6 @@ public class GraphList<T> {
 		return aux;
 	}
 	////////////////////////////////SECCION DE EDICION///////////////////////////////////
-	public boolean isMultiple() {
-		return multiple;
-	}
-	public boolean isDirected() {
-		return directed;
-	}
 	public int consultWeight() {
 		return vertex.size();
 	}

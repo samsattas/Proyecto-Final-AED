@@ -40,11 +40,11 @@ class GraphListTest {
 		graph.addVertex("rusia");
 		graph.addVertex("villacubito");
 		graph.addVertex("canada");
-		graph.addEdges("colombia", "china", 1);
-		graph.addEdges("china", "rusia", 2);
-		graph.addEdges("rusia", "villacubito", 3);
-		graph.addEdges("villacubito", "canada", 4);
-		graph.addEdges("canada", "colombia", 5);
+		graph.addEdge("colombia", "china", 1);
+		graph.addEdge("china", "rusia", 2);
+		graph.addEdge("rusia", "villacubito", 3);
+		graph.addEdge("villacubito", "canada", 4);
+		graph.addEdge("canada", "colombia", 5);
 		return graph;
 	}
 	@Test
@@ -81,13 +81,13 @@ class GraphListTest {
 		graph.addVertex("2");
 		graph.addVertex("3");
 		graph.addVertex("4");
-		graph.addEdges("0", "2", 0);
-		graph.addEdges("1", "0", 0);
-		graph.addEdges("2", "1", 0);
-		graph.addEdges("2", "3", 0);
-		graph.addEdges("3", "1", 0);
-		graph.addEdges("1", "4", 0); 
-		graph.addEdges("4", "3", 0); 
+		graph.addEdge("0", "2", 0);
+		graph.addEdge("1", "0", 0);
+		graph.addEdge("2", "1", 0);
+		graph.addEdge("2", "3", 0);
+		graph.addEdge("3", "1", 0);
+		graph.addEdge("1", "4", 0); 
+		graph.addEdge("4", "3", 0); 
 		graphAux = graph.bfs("0");
 		
 		
@@ -159,11 +159,11 @@ class GraphListTest {
 		gr.addVertex(v2);
 		gr.addVertex(v3);
 		gr.addVertex(v4);
-		gr.addEdges(v1, v3, -2);
-		gr.addEdges(v3, v4, 2);
-		gr.addEdges(v4, v2, -1);
-		gr.addEdges(v2, v1, 4);
-		gr.addEdges(v2, v3, 3);
+		gr.addEdge(v1, v3, -2);
+		gr.addEdge(v3, v4, 2);
+		gr.addEdge(v4, v2, -1);
+		gr.addEdge(v2, v1, 4);
+		gr.addEdge(v2, v3, 3);
 		
 		return gr.floydWarshall();	
 	}
@@ -182,14 +182,14 @@ class GraphListTest {
 		gr.addVertex(v1);
 		
 		
-		gr.addEdges(v0, v1, 5);
-		gr.addEdges(v0, v1, 6);
-		gr.addEdges(v0, v1, 4);
-		gr.addEdges(v0, v1, 11);
-		gr.addEdges(v0, v1, 14);
-		gr.addEdges(v0, v1, 7);
-		gr.addEdges(v0, v1, 48);
-		gr.addEdges(v0, v1, 3);
+		gr.addEdge(v0, v1, 5);
+		gr.addEdge(v0, v1, 6);
+		gr.addEdge(v0, v1, 4);
+		gr.addEdge(v0, v1, 11);
+		gr.addEdge(v0, v1, 14);
+		gr.addEdge(v0, v1, 7);
+		gr.addEdge(v0, v1, 48);
+		gr.addEdge(v0, v1, 3);
 		
 		return gr.getMinimunEdge(v0, v1);
 	}
@@ -213,14 +213,14 @@ class GraphListTest {
 		gr.addVertex(v4);
 		gr.addVertex(v5);
 		
-		gr.addEdges(v0, v1, 5);
-		gr.addEdges(v1, v3, 6);
-		gr.addEdges(v1, v4, 4);
-		gr.addEdges(v3, v4, 11);
-		gr.addEdges(v2, v4, 1);
-		gr.addEdges(v0, v4, 7);
-		gr.addEdges(v0, v5, 48);
-		gr.addEdges(v4, v5, 3);
+		gr.addEdge(v0, v1, 5);
+		gr.addEdge(v1, v3, 6);
+		gr.addEdge(v1, v4, 4);
+		gr.addEdge(v3, v4, 11);
+		gr.addEdge(v2, v4, 1);
+		gr.addEdge(v0, v4, 7);
+		gr.addEdge(v0, v5, 48);
+		gr.addEdge(v4, v5, 3);
 		
 		
 		return gr.dijsktra(v0, v5);
@@ -240,14 +240,14 @@ class GraphListTest {
 		gr.addVertex(d);
 		gr.addVertex(e);
 		
-		gr.addEdges(a, b, 1);
-		gr.addEdges(a, e, 2);
-		gr.addEdges(a, c, 4);
-		gr.addEdges(d, c, 1);
-		gr.addEdges(d, e, 2);
-		gr.addEdges(d, b, 3);
-		gr.addEdges(c, e, 3); 
-		gr.addEdges(b, e, 3);
+		gr.addEdge(a, b, 1);
+		gr.addEdge(a, e, 2);
+		gr.addEdge(a, c, 4);
+		gr.addEdge(d, c, 1);
+		gr.addEdge(d, e, 2);
+		gr.addEdge(d, b, 3);
+		gr.addEdge(c, e, 3); 
+		gr.addEdge(b, e, 3);
 		
 		gr = gr.kruskal();		
 		return gr;

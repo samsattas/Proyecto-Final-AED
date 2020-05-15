@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import exceptions.MaximumCapacityExceededException;
+
 import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
