@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import model.Vertex;
 
 public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
@@ -102,6 +101,8 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		this.vertex.add(vertex);
 		this.adjacentList.add(new ArrayList<double[]>());
 	}
+	
+	
 	public void deleteEdge(T i, T j, double w) {
 		int origin = vertex.indexOf(i);
 		int destiny = vertex.indexOf(j);
@@ -145,7 +146,8 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	//////////////////
 	
 	/////////////////
-	public GraphList<T> bfs(T s) {
+	@Override
+	public GraphList<T> bfs(T v) {
 		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
 			graph.addVertex(vertex.get(i));
@@ -155,11 +157,11 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		ArrayList<Integer> ordenVisita = new ArrayList<>();
 		
 		
-		int initial = vertex.indexOf(s);
+		int initial = vertex.indexOf(v);
 		ordenVisita.add(initial);
 		visitado[initial]=true;
 		queue.add(initial);
-		graph.addVertex(s);
+		graph.addVertex(v);
 		
         while(!queue.isEmpty()){ 
             int dequeue = queue.poll();
@@ -193,6 +195,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		}
 		return aux;
 	}
+	@Override
 	public GraphList<T> prim(T v) {
 		GraphList<T> gr = new GraphList<>(directed, multiple, loop);
 		if(gr.isDirected()) {
@@ -238,7 +241,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		
 		return gr;
 	}
-	
+	@Override
 	public GraphList<T> kruskal() {
 		GraphList<T> gr = new GraphList<>(isDirected(), isMultiple(), loop);
 		if(!gr.isDirected()) {
@@ -340,6 +343,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		
 		return aux;
 	}
+	@Override
 	public double dijsktra(T vertex1, T vertex2) {
 		int v1 = vertex.indexOf(vertex1);
 		int v2 = vertex.indexOf(vertex2);
@@ -372,6 +376,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		}
 		return distances[v2];
 	}
+	@Override
 	public double[][] floydWarshall() { 
         double dist[][] = floydWarshallAux(); 
         
@@ -418,29 +423,5 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	public void setAdjacentList(ArrayList<ArrayList<double[]>> adjacentList) {
 		this.adjacentList = adjacentList;
-	}
-	@Override
-	public void deleteEdge(T i, T j, int w) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public GraphList<T> bfs(int v) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public GraphList<T> dfs(int v) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public double dijkstra(T vertex1, T vertex2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	
-	
+	}	
 }

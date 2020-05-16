@@ -16,11 +16,11 @@ import exceptions.UnavaiableBoatsException;
 
 public class ShippingApp {
 	private String name;
-	Grafov2<Country> countrys = new Grafov2<Country>(false, true);
-	//private ArrayList<Country> countrys;
+	private Grafov2<Country> countrys;
+	private ArrayList<ShippmentReport> reports;
 	public static String FLATCOUNTRYS = "data//Contrys.txt";
 	public ShippingApp(String name) {
-		super();
+		countrys =   new Grafov2<Country>(false, true);
 		this.name = name;
 		load();
 		if(countrys.consultWeight()<=0) {
@@ -70,6 +70,7 @@ public class ShippingApp {
     	Country destinyCountryT = getCountryValue(destinyCountry);
     	removeAndAdd(originCountryT,destinyCountryT);
     	ShippmentReport report = new ShippmentReport(originCountry, destinyCountry, totalLoadSize, deliveryTime);
+    	reports.add(report);
     	return report;
     }
     private Country getCountryValue(String countryName) {
@@ -88,7 +89,7 @@ public class ShippingApp {
     	return deliveryTime;
     }
     private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry),/*DIJSKTRA MODIFICADO AQUI*/      0                     );
+    	Boat auxBoat = originCountry.boatsToRemove(/*countrys.dijkstra(originCountry, destinyCountry),*//*DIJSKTRA MODIFICADO AQUI*/      0                     );
     	destinyCountry.addBoatO(auxBoat);
     }
     public String[] saveTheWorld(){
@@ -102,7 +103,7 @@ public class ShippingApp {
     	for (int i = 0; i < countrys.getValues().size(); i++) {
     		countrysName[i] = countrys.getValues().get(i).saveTheWorld(kruskalWeight);
 		}
-    	return countrysName; 
+    	return countrysName;  
     }
     public void addBoats() {
 		Country china = new Country("china", 002123);

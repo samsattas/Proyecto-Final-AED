@@ -12,7 +12,7 @@ import datastructures.GraphList;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
 import model.Country;
-import model.Vertex;
+
 
 class GraphListTest {
 	Country colombia = new Country("Colombia", 0);

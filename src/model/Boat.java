@@ -1,6 +1,6 @@
 package model;
 
-public class Boat {
+public class Boat implements Comparable<Boat>{
 	private String name;
 	private String manufacturingDate;
 	private double maxRange;
@@ -35,6 +35,22 @@ public class Boat {
 	}
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
+	}
+	
+	@Override
+	public String toString() {
+		return "Boat [name=" + name + ", manufacturingDate=" + manufacturingDate + ", maxRange=" + maxRange
+				+ ", maxSpeed=" + maxSpeed + "]";
+	}
+	@Override
+	public int compareTo(Boat b) {
+		if(maxRange <= b.getMaxRange()) {
+			return -1;
+		}
+		if(maxRange > b.getMaxRange()) {
+			return 1;
+		}
+		return 0;
 	}
 	
 	
