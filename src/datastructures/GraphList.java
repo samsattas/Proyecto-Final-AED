@@ -191,13 +191,10 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	private GraphList<T> dfsUtil(T v, boolean[] visited, GraphList<T> gr) {
 		visited[vertex.indexOf(v)] = true;
 		
-		for(int i = 0; i < adjacentList.size(); i++) {
-			for (int j = 0; j < adjacentList.get(i).size(); j++) {
-				int destiny = (int) adjacentList.get(i).get(j)[0];
-				if(!visited[destiny]) {
-					dfsUtil(vertex.get(destiny), visited, gr);
-					gr.addEdge(v, vertex.get(destiny), 0);
-				}
+		for(int i = 0; i < adjacentList.get(vertex.indexOf(v)).size(); i++) {
+			if(!visited[(int) adjacentList.get(vertex.indexOf(v)).get(i)[0]]) {
+				dfsUtil(vertex.get((int) adjacentList.get(vertex.indexOf(v)).get(i)[0]), visited, gr);
+				gr.addEdge(v, vertex.get((int) adjacentList.get(vertex.indexOf(v)).get(i)[0]), 0);
 			}
 		}
 		return gr;

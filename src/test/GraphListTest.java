@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-
 import datastructures.GraphList;
 import datastructures.GraphMatrix;
 import exceptions.InvalidActionInSimpleGraphException;
@@ -182,13 +181,17 @@ public class GraphListTest {
 	void testDFS() { 
 		GraphList<Country> gr = setUpSceneDFS();
 		assertEquals(1,gr.getAdjacentList().get(0).get(0)[0]);
+		assertEquals(4,gr.getAdjacentList().get(2).get(0)[0]);
+		assertEquals(4,gr.getAdjacentList().get(5).get(0)[0]);
+		//assertEquals(-7,gr.getAdjacentList().get(2).get(0)[0]);
 		//assertEquals(0,gr.getAdjacentList().get(2).get(1)[0]);
-		
+		/*
 		for (int i = 0; i < gr.getAdjacentList().size(); i++) {
 			for (int j = 0; j < gr.getAdjacentList().get(i).size(); j++) {
 				System.out.println(i + " " + (int) gr.getAdjacentList().get(i).get(j)[0] + " "+ gr.getAdjacentList().get(i).get(j)[1]);
 			}
 		}
+		*/
 		//assertTrue(gr.getAdjmatrix()[0][4].size()==0 && gr.getAdjmatrix()[0][1].size()==1 && gr.getAdjmatrix()[2][4].size()==1 && gr.getAdjmatrix()[5][4].size()==1);
 	}
 	
