@@ -146,7 +146,7 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		}
 	}
-	public GraphList<Country> setUpSceneDFS() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<Country> setUpSceneDFS() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -185,6 +185,9 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		} catch (InvalidActionInThisGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		//assertEquals(-7,gr.getAdjacentList().get(2).get(0)[0]);
@@ -202,7 +205,7 @@ public class GraphListTest {
 	
 	
 	
-	public double[][] setUpSceneFloydWarshall() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public double[][] setUpSceneFloydWarshall() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		GraphList<Country> gr = new GraphList<Country>(true, false, false);
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
@@ -230,10 +233,13 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		} catch (InvalidActionInThisGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
-	public double setUpScenegetMinimunEdgePlus() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public double setUpScenegetMinimunEdgePlus() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		Country v0 = new Country("Colombia", 1);
 		Country v1 = new Country("EEUU", 2);
 		
@@ -264,9 +270,12 @@ public class GraphListTest {
 		} catch (InvalidActionInThisGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
-	public double setUpSceneDijkstra() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public double setUpSceneDijkstra() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		Country v0 = new Country("Colombia", 1);
 		Country v1 = new Country("EEUU", 2);
 		Country v2 = new Country("Barrancabermeja", 3); 
@@ -305,10 +314,13 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		} catch (InvalidActionInThisGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	public GraphList<Country> setUpSceneKruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {	
+	public GraphList<Country> setUpSceneKruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {	
 		GraphList<Country> gr = new GraphList<Country>(false, false, false);
 		gr.addVertex(a);
 		gr.addVertex(b);
@@ -345,11 +357,14 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		} catch (InvalidActionInThisGraphException e1) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 	}
 	
-	public GraphList<Country> setUpScenePrim() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<Country> setUpScenePrim() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -392,6 +407,9 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		} catch (InvalidActionInThisGraphException e) {
 			fail("Unexpected Exception");
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -415,12 +433,13 @@ public class GraphListTest {
 			GraphList<Country> gr = setUpSceneAddEdgesDirectedMultiple();
 			ArrayList<double[]> adjacentsColombia = gr.getEdges(colombia);
 			ArrayList<double[]> adjacentsChina = gr.getEdges(china);
-			ArrayList<double[]> adjacentsCanada = gr.getEdges(canada);
 			ArrayList<double[]> adjacentsRusia = gr.getEdges(rusia);
 			assertEquals(0,adjacentsChina.size());
 			assertEquals(0,adjacentsRusia.size());
-			assertEquals(-6,gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
-			assertEquals(-6,gr.getValues().get((int)adjacentsColombia.get(0)[1]).getName());
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
+			assertEquals(23,(adjacentsColombia.get(0)[1]));
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(1)[0]).getName());
+			assertEquals(44,(adjacentsColombia.get(1)[1]));
 		} catch (InvalidActionInThisGraphException e) {
 			fail();
 		} catch (RepeatedVertexException e) {
@@ -429,30 +448,105 @@ public class GraphListTest {
 			fail();
 		}
 	}
-	private void setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	private GraphList<Country> setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException {
+		GraphList<Country> gr = new GraphList<Country>(false , false, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 23);
+		return gr;
 	}
 	@Test
 	void testAddEdgesNoDirectedNoMultiple() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddEdgesNoDirectedNoMultiple();
+			ArrayList<double[]> adjacentsColombia = gr.getEdges(colombia);
+			ArrayList<double[]> adjacentsChina = gr.getEdges(china);
+			assertEquals(1,adjacentsChina.size());
+			assertEquals(1,adjacentsColombia.size());
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
+			assertEquals(23,(adjacentsColombia.get(0)[1]));
+			assertEquals("Colombia",gr.getValues().get((int)adjacentsChina.get(0)[0]).getName());
+			assertEquals(23,(adjacentsColombia.get(0)[1]));
+		} catch (InvalidActionInThisGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (ThatVertexDoesNotExistException e) {
+			fail();
+		}
 	}
-	private void setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException  {
-		
+	private GraphList<Country> setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
+		GraphList<Country> gr = new GraphList<Country>(false , true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 23);
+		gr.addEdge(colombia, china, 44);
+		return gr;
 	}
 	@Test
 	void testAddEdgesNoDirectedMultiple() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddEdgesNoDirectedMultiple();
+			ArrayList<double[]> adjacentsColombia = gr.getEdges(colombia);
+			ArrayList<double[]> adjacentsChina = gr.getEdges(china);
+			assertEquals(2,adjacentsChina.size());
+			assertEquals(2,adjacentsColombia.size());
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
+			assertEquals(23,(adjacentsColombia.get(0)[1]));
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(1)[0]).getName());
+			assertEquals(44,(adjacentsColombia.get(1)[1]));
+			assertEquals("Colombia",gr.getValues().get((int)adjacentsChina.get(0)[0]).getName());
+			assertEquals(23,(adjacentsChina.get(0)[1]));
+			assertEquals("Colombia",gr.getValues().get((int)adjacentsChina.get(1)[0]).getName());
+			assertEquals(44,(adjacentsChina.get(1)[1]));
+		} catch (InvalidActionInThisGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (ThatVertexDoesNotExistException e) {
+			fail();
+		}
 	}
 	///////////////////Test Exceptions//////////////////
-	private void setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException  {
-		
+	private GraphList<Country> setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
+		GraphList<Country> gr = new GraphList<Country>(true, false, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 23);
+		gr.addEdge(colombia, china, 44);
+		return gr;
 	}
 	@Test
 	void testAddEdgesDirectedE() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddEdgesDirectedNoMultipleE();
+			fail();
+		} catch (InvalidActionInThisGraphException e) {
+			System.out.println("Pass!");
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (ThatVertexDoesNotExistException e) {
+			fail();
+		}
 	}
-	private void setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException {
-	
+	private GraphList<Country> setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException {
+		GraphList<Country> gr = new GraphList<Country>(false , false, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 23);
+		return gr;
 	}
 	@Test
 	void testAddEdgesNoDirectedNoMultipleE() {

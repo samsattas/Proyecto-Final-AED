@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 import exceptions.InvalidActionInThisGraphException;
+import exceptions.RepeatedVertexException;
 import exceptions.ThatVertexDoesNotExistException;
 
 
@@ -101,7 +102,12 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 			}
 		}
 	}
-	public void addVertex(T vertex) {
+	public void addVertex(T vertex) throws RepeatedVertexException {
+		for (int i = 0; i < this.vertex.size(); i++) {
+			if(this.vertex.get(i) == vertex) {
+				throw new RepeatedVertexException("");
+			}
+		}
 		this.vertex.add(vertex);
 		this.adjacentList.add(new ArrayList<double[]>());
 	}
@@ -149,7 +155,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	/////////////////
 	@Override
-	public GraphList<T> bfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<T> bfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
 			graph.addVertex(vertex.get(i));
@@ -182,7 +188,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
         return graph;
     }
 
-	public GraphList<T> dfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<T> dfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		boolean visited[] = new boolean[vertex.size()];
 		GraphList<T> gr = new GraphList<>(directed, multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
@@ -202,7 +208,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		return gr;
 	}
 	@Override
-	public GraphList<T> prim(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<T> prim(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		GraphList<T> gr = new GraphList<>(directed, multiple, loop);
 		for (int i = 0; i < vertex.size(); i++) {//adding all the vertex to the new graph
 			gr.addVertex(vertex.get(i));
@@ -247,7 +253,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		return aux;
 	}
 	@Override
-	public GraphList<T> kruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
+	public GraphList<T> kruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException, RepeatedVertexException {
 		GraphList<T> gr = new GraphList<>(isDirected(), isMultiple(), loop);
 		if(!gr.isDirected()) {
 			ArrayList<ArrayList<Integer>> added = new ArrayList<ArrayList<Integer>>();
