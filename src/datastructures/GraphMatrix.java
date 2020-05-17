@@ -427,6 +427,15 @@ public class GraphMatrix<T> {
 		int v1 = values.indexOf(vertex1);
 		int v2 = values.indexOf(vertex2);
 		
+		for (int k = 0; k < values.size(); k++) {
+			if(values.get(k).equals(vertex1)) {
+				v1 = k;
+			}
+			if(values.get(k).equals(vertex2)) {
+				v2 = k;
+			}
+		}
+		
 		boolean[] visited = new boolean[values.size()];
 		visited[v1] = true;//origin is already visited
 		

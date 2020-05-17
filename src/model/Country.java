@@ -68,14 +68,14 @@ public class Country {
 		}
 		return boatAux;
 	}
-	public int aproximateDeliverTime(double totalDistance, double partialDistance) throws  UnavaiableBoatsException, MaximumRangeExceededException {
-		validateFleetRange(partialDistance);
+	public int aproximateDeliverTime(double totalDistance) throws  UnavaiableBoatsException, MaximumRangeExceededException {
+		validateFleetRange(totalDistance);
 		sortBoatsLessToMaxRange();
 		double maxSpeed = 0;
 		Boat boatAux = null;
 		double aproximateDeliverTime = 0;
 		for (int i = 0; i < boats.size() && boatAux==null; i++) {
-			if(boats.get(i).getMaxRange()>=partialDistance) {
+			if(boats.get(i).getMaxRange()>=totalDistance) {
 				boatAux = boats.get(i);
 				maxSpeed = boats.get(i).getMaxSpeed();
 			}

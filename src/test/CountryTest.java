@@ -113,8 +113,8 @@ class CountryTest {
 	void testAproximateDeliverTime() {
 		Country country = setUpSceneAddBoat();
 		try {
-			country.aproximateDeliverTime(14000,12.2);
-			assertEquals(15,country.aproximateDeliverTime(14000,12.2));
+			country.aproximateDeliverTime(14000);
+			assertEquals(15,country.aproximateDeliverTime(14000));
 		} catch (UnavaiableBoatsException e) {
 		} catch (MaximumRangeExceededException e) {	
 		}

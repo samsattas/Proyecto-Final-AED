@@ -28,6 +28,12 @@ public class ShippingApp {
 			addBoats();
 		}
 	}
+	public GraphMatrix<Country> getCountrys() {
+		return countrys;
+	}
+	public void setCountrys(GraphMatrix<Country> countrys) {
+		this.countrys = countrys;
+	}
 	public String getName() {
 		return name;
 	}
@@ -53,6 +59,18 @@ public class ShippingApp {
         }
         catch (IOException e) {}
     }
+    
+    public int findCountryIndex(Country c) {
+    	int aux = -1;
+    	for (int i = 0; i < countrys.getValues().size(); i++) {
+			if(c.getName().equalsIgnoreCase(countrys.getValues().get(i).getName())) {
+				aux = i;
+			}
+		}
+    	
+    	return aux;
+    }
+    
    /*
     public double aproximateDeliverTime(double totalDistance, String countryName, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
 		double time = 0;
@@ -86,16 +104,14 @@ public class ShippingApp {
     public double deliveryTime(String originCountry, String destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);
-    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      3000                    );
+    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT) /*DIJSKTRA MODIFICADO AQUI*/                          );
     	return deliveryTime;
     }
     private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Boat auxBoat = originCountry.boatsToRemove(/*countrys.dijkstra(originCountry, destinyCountry),*//*DIJSKTRA MODIFICADO AQUI*/      3000                     );
+    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry));
     	destinyCountry.addBoatO(auxBoat);
     }
-    public void covidMode() {
-    	countrys = countrys.kruskal(); 	
-    }
+   
     public void addBoats() {
 		Country china = new Country("china", 002123);
 		Country usa = new Country("usa", 002123);
