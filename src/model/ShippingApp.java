@@ -10,17 +10,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import datastructures.Grafov2;
+import datastructures.GraphMatrix;
 import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
 public class ShippingApp {
 	private String name;
-	private Grafov2<Country> countrys;
+	private GraphMatrix<Country> countrys;
 	private ArrayList<ShippmentReport> reports;
 	public static String FLATCOUNTRYS = "data//Contrys.txt";
 	public ShippingApp(String name) {
-		countrys =   new Grafov2<Country>(false, true);
+		countrys =   new GraphMatrix<Country>(false, true);
 		reports = new ArrayList<>();
 		this.name = name;
 		load();
@@ -38,7 +38,7 @@ public class ShippingApp {
         try{
             FileInputStream file=new FileInputStream(FLATCOUNTRYS);
             ObjectInputStream creator=new ObjectInputStream(file);
-            this.countrys=(Grafov2<Country>)creator.readObject();
+            this.countrys=(GraphMatrix<Country>)creator.readObject();
             creator.close();
         }
         catch (IOException e) {save();} 

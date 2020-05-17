@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class Grafov2<T> {
+public class GraphMatrix<T> {
 	private ArrayList<Double>[][] adjmatrix;
 	private boolean directed;
 	private ArrayList<T> values;
@@ -19,7 +19,7 @@ public class Grafov2<T> {
 	 * directed = means if the graph is directed or not
 	 * multiple = means if the graph has multiple vertex or not
 	 */
-	public Grafov2(boolean directed,  boolean multiple) {
+	public GraphMatrix(boolean directed,  boolean multiple) {
 		adjmatrix = new ArrayList[0][0];
 		this.directed = directed;
 		this.multiple = multiple;
@@ -211,8 +211,8 @@ public class Grafov2<T> {
 	/*
 	 * v = origin vertex
 	 */
-	public Grafov2<T> bfs( T v1) {
-		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+	public GraphMatrix<T> bfs( T v1) {
+		GraphMatrix<T> gr = new GraphMatrix<T>(directed, multiple);
 		for (int i = 0; i < values.size(); i++) {
 			gr.addVertex(values.get(i));
 		}
@@ -239,16 +239,16 @@ public class Grafov2<T> {
 	/*
 	 * v = origin vertex
 	 */
-	public Grafov2<T> dfs(T v) {
+	public GraphMatrix<T> dfs(T v) {
 		boolean visited[] = new boolean[values.size()];
-		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+		GraphMatrix<T> gr = new GraphMatrix<T>(directed, multiple);
 		for (int i = 0; i < values.size(); i++) {
 			gr.addVertex(values.get(i));
 		}
 		return dfsUtil(v, visited, gr);
 	}
 	
-	private Grafov2<T> dfsUtil(T v, boolean[] visited, Grafov2<T> gr) {
+	private GraphMatrix<T> dfsUtil(T v, boolean[] visited, GraphMatrix<T> gr) {
 		visited[values.indexOf(v)] = true;
 		
 		for(int i = 0; i < values.size(); i++) {
@@ -261,8 +261,8 @@ public class Grafov2<T> {
 		return gr;
 	}
 	
-	public Grafov2<T> prim(T v1) {
-		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+	public GraphMatrix<T> prim(T v1) {
+		GraphMatrix<T> gr = new GraphMatrix<T>(directed, multiple);
 		for (int i = 0; i < values.size(); i++) {//adding all the vertex to the new graph
 			gr.addVertex(values.get(i));
 		}
@@ -316,8 +316,8 @@ public class Grafov2<T> {
 
 
 
-	public Grafov2<T> kruskal() {
-		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
+	public GraphMatrix<T> kruskal() {
+		GraphMatrix<T> gr = new GraphMatrix<T>(isDirected(), isMultiple());
 		if(!gr.isDirected()) {
 			ArrayList<ArrayList<Integer>> added = new ArrayList<ArrayList<Integer>>();
 			

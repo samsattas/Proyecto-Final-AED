@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import datastructures.Grafov2;
+import datastructures.GraphMatrix;
 
 import model.Country;
 
-class Grafov2Test {
+public class GraphMatrixTest {
 	
 
 	public boolean setUpSceneInitGraph() {
 		Country v = new Country("Colombia", 76000);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, false);
 		gr.addVertex(v);
 		if(gr.getVertex(v).equals(v) && !gr.isDirected() && !gr.isMultiple()) {
 			return true;
@@ -30,12 +30,12 @@ class Grafov2Test {
 		assertTrue(setUpSceneInitGraph()==true);
 	}
 	
-	public Grafov2<Country> setUpSceneGraphMultiple() {
+	public GraphMatrix<Country> setUpSceneGraphMultiple() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -43,12 +43,12 @@ class Grafov2Test {
 		return gr;
 	}
 	
-	public Grafov2<Country> setUpSceneGraphMultipleDirected() {
+	public GraphMatrix<Country> setUpSceneGraphMultipleDirected() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -56,12 +56,12 @@ class Grafov2Test {
 		return gr;
 	}
 	
-	public Grafov2<Country> setUpSceneGraphDirected() {
+	public GraphMatrix<Country> setUpSceneGraphDirected() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -69,12 +69,12 @@ class Grafov2Test {
 		return gr;
 	}
 	
-	public Grafov2<Country> setUpSceneGraph() {
+	public GraphMatrix<Country> setUpSceneGraph() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -83,7 +83,7 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneAddVertex() {
-		Grafov2<Country> gr = setUpSceneGraphMultiple();
+		GraphMatrix<Country> gr = setUpSceneGraphMultiple();
 		
 		if(gr.getValues().size() == 3 && gr.getAdjmatrix().length == 3 && gr.getValues().size()==3) {
 			return true;
@@ -103,7 +103,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -128,7 +128,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -153,7 +153,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -178,7 +178,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -199,7 +199,7 @@ class Grafov2Test {
 	}
 	
 	public boolean setUpSceneDeleteVertex() {
-		Grafov2<Country> gr = setUpSceneGraph();
+		GraphMatrix<Country> gr = setUpSceneGraph();
 				
 		gr.deleteVertex(0);
 		gr.deleteVertex(0);
@@ -224,7 +224,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -244,7 +244,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -264,7 +264,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(true, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -282,7 +282,7 @@ class Grafov2Test {
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, false);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -295,12 +295,12 @@ class Grafov2Test {
 	
 	@Test
 	void testConsultWeight() {
-		Grafov2<Country> gr = setUpSceneGraphMultiple();
+		GraphMatrix<Country> gr = setUpSceneGraphMultiple();
 		assertTrue(gr.consultWeight() == 3);
 	}
 	*/
 	
-	public Grafov2<Country> setUpSceneBFS() {
+	public GraphMatrix<Country> setUpSceneBFS() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -308,7 +308,7 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -330,12 +330,12 @@ class Grafov2Test {
 	
 	@Test
 	void testBFS() {
-		Grafov2<Country> gr = setUpSceneBFS();
+		GraphMatrix<Country> gr = setUpSceneBFS();
 //		System.out.println(gr.consultWeight());
 		assertTrue(gr.getAdjmatrix()[0][1].size() == 1 && gr.getAdjmatrix()[0][4].size() == 1 && gr.getAdjmatrix()[4][1].size() == 0);
 	}
 	
-	public Grafov2<Country> setUpSceneDFS() {
+	public GraphMatrix<Country> setUpSceneDFS() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -343,7 +343,7 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -365,11 +365,11 @@ class Grafov2Test {
 	
 	@Test
 	void testDFS() {
-		Grafov2<Country> gr = setUpSceneDFS();
+		GraphMatrix<Country> gr = setUpSceneDFS();
 		assertTrue(gr.getAdjmatrix()[0][4].size()==0 && gr.getAdjmatrix()[0][1].size()==1 && gr.getAdjmatrix()[2][4].size()==1 && gr.getAdjmatrix()[5][4].size()==1);
 	}
 	
-	public Grafov2<Country> setUpScenePrim() {
+	public GraphMatrix<Country> setUpScenePrim() {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -377,7 +377,7 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -399,7 +399,7 @@ class Grafov2Test {
 	
 	@Test
 	void testPrim() {
-		Grafov2<Country> gr = setUpScenePrim();
+		GraphMatrix<Country> gr = setUpScenePrim();
 		
 		assertTrue(gr.consultWeight() == 6 );
 		assertTrue(gr.getAdjmatrix()[1][4].get(0) == 4);
@@ -411,14 +411,14 @@ class Grafov2Test {
 	}
 	
 	
-	public Grafov2<Country> setUpSceneKruskal() {		
+	public GraphMatrix<Country> setUpSceneKruskal() {		
 		Country a = new Country("Colombia", 1);//A
         Country b = new Country("EEUU", 2);//B
         Country c = new Country("Barrancabermeja", 3); //C
         Country d = new Country("Brazil", 4);//D
         Country e = new Country("Canada", 5);//E
 
-        Grafov2<Country> gr = new Grafov2<Country>(false, false);
+        GraphMatrix<Country> gr = new GraphMatrix<Country>(false, false);
 
         gr.addVertex(a);
         gr.addVertex(b);
@@ -434,26 +434,13 @@ class Grafov2Test {
         gr.addEdge(d, b, 3);
         gr.addEdge(c, e, 3); 
         gr.addEdge(b, e, 3);
-		
-//		gr = gr.kruskal();
-		
-//		System.out.println("NOOOOOOO");
-//        System.out.println(gr.getMinimunEdge(a, b));
-//        System.out.println(gr.getMinimunEdge(a, e));
-//        System.out.println(gr.getMinimunEdge(a, c));
-//        System.out.println(gr.getMinimunEdge(d, c));
-//        System.out.println(gr.getMinimunEdge(d, e));
-//        System.out.println(gr.getMinimunEdge(d, b));
-//        System.out.println(gr.getMinimunEdge(c, e));
-//        System.out.println(gr.getMinimunEdge(b, e));
-//        System.out.println("NOOOOOOO");
         
         return gr;
 	}
 	
 	@Test
 	void testKruskal() {
-		Grafov2<Country> gr = setUpSceneKruskal().kruskal();
+		GraphMatrix<Country> gr = setUpSceneKruskal().kruskal();
 	}
 	
 	
@@ -465,7 +452,7 @@ class Grafov2Test {
 		Country v5 = new Country("Canada", 5);
 		Country v6 = new Country("Australia", 6);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, true);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(false, true);
 		gr.addVertex(v1);
 		gr.addVertex(v2);
 		gr.addVertex(v3);
@@ -491,7 +478,7 @@ class Grafov2Test {
 		assertTrue(dist == 10);
 	}
 	public double[][] setUpSceneFloydWarshall() {
-		Grafov2<Country> gr = new Grafov2<Country>(true, false);
+		GraphMatrix<Country> gr = new GraphMatrix<Country>(true, false);
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
