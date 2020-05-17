@@ -3,12 +3,10 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import datastructures.GraphList;
-import datastructures.GraphMatrix;
 import exceptions.InvalidActionInThisGraphException;
 import exceptions.RepeatedVertexException;
 import exceptions.ThatVertexDoesNotExistException;
@@ -258,7 +256,15 @@ public class GraphListTest {
 	}
 	@Test
 	void testMinimumEdge() {
-		//System.out.println(setUpScenegetMinimunEdgePlus());
+		try {
+			System.out.println(setUpScenegetMinimunEdgePlus());
+		} catch (ThatVertexDoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public double setUpSceneDijkstra() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		Country v0 = new Country("Colombia", 1);
@@ -389,19 +395,39 @@ public class GraphListTest {
 		}
 		
 		
-	}
-	
-	
-	
-	
-	
-	
-	private void setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException  {
-		
+	}	
+	private GraphList<Country> setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
+		GraphList<Country> gr = new GraphList<Country>(true, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 23);
+		gr.addEdge(colombia, china, 44);
+		gr.addEdge(canada, rusia, 75);
+		gr.addEdge(canada, rusia, 14);
+		return gr;
 	}
 	@Test
 	void testAddEdgesDirectedMultiple() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddEdgesDirectedMultiple();
+			ArrayList<double[]> adjacentsColombia = gr.getEdges(colombia);
+			ArrayList<double[]> adjacentsChina = gr.getEdges(china);
+			ArrayList<double[]> adjacentsCanada = gr.getEdges(canada);
+			ArrayList<double[]> adjacentsRusia = gr.getEdges(rusia);
+			assertEquals(0,adjacentsChina.size());
+			assertEquals(0,adjacentsRusia.size());
+			assertEquals(-6,gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
+			assertEquals(-6,gr.getValues().get((int)adjacentsColombia.get(0)[1]).getName());
+		} catch (InvalidActionInThisGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (ThatVertexDoesNotExistException e) {
+			fail();
+		}
 	}
 	private void setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		

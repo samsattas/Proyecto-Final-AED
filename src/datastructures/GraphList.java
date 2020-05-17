@@ -52,7 +52,15 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	
 	
-	
+	public ArrayList<double[]>getEdges(T x) {
+		ArrayList<double[]> adjacents = new ArrayList<>(); 
+		int r = vertex.indexOf(x);
+		for(int i = 0; i < adjacentList.get(r).size(); i++) {
+			double[] tmp = {adjacentList.get(r).get(i)[0], adjacentList.get(r).get(i)[1]};
+			adjacents.add(tmp);
+		}
+		return adjacents;
+	}
 	
 	
 	//FALTA GET EDGES //ES ESTE????
