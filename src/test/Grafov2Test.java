@@ -406,6 +406,7 @@ class Grafov2Test {
 	}
 	
 	
+<<<<<<< HEAD
 	public Grafov2<Country> setUpSceneKruskal() {		
 		Country a = new Country("Colombia", 1);//A
         Country b = new Country("EEUU", 2);//B
@@ -444,6 +445,32 @@ class Grafov2Test {
 //        System.out.println("NOOOOOOO");
         
         return gr;
+=======
+	public Grafov2<Country> setUpSceneKruskal() {
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3); 
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		
+		Grafov2<Country> gr = new Grafov2<Country>(false, false);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3); 
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		
+		gr.addEdge(v1, v2, 1);
+		gr.addEdge(v1, v4, 4);
+		gr.addEdge(v1, v5, 2);
+		gr.addEdge(v2, v3, 3);
+		gr.addEdge(v2, v5, 3);
+		gr.addEdge(v4, v5, 3);
+		gr.addEdge(v4, v3, 1);
+		gr.addEdge(v3, v5, 2);
+		
+		return gr;
+>>>>>>> 08718692065fef5d59d1e8463bf432150c933208
 	}
 	
 	@Test

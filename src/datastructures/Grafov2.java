@@ -272,7 +272,7 @@ public class Grafov2<T> {
 									auxOrigin = i;
 									shortestEdge = adjmatrix[i][j].get(k);
 									shortestDestiny = j;
-								}
+								} 
 							}
 						}
 					}

@@ -12,7 +12,7 @@ import datastructures.GraphList;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
 import model.Country;
-import model.Vertex;
+
 
 class GraphListTest {
 	Country colombia = new Country("Colombia", 0);
@@ -21,6 +21,13 @@ class GraphListTest {
 	Country villacubito = new Country("villacubito", 3);
 	Country canada = new Country("canada", 2);
 	Country peru = new Country("peru", 5);
+	
+	
+	Country a = new Country("Colombia", 1);
+	Country b = new Country("EEUU", 2);
+	Country c = new Country("Barrancabermeja", 3); 
+	Country d = new Country("Brazil", 4);
+	Country e = new Country("Canada", 5);
 	
 	
 	
@@ -33,14 +40,14 @@ class GraphListTest {
 		graph.addVertex("rusia");
 		graph.addVertex("villacubito");
 		graph.addVertex("canada");
-		graph.addEdges("colombia", "china", 1);
-		graph.addEdges("china", "rusia", 2);
-		graph.addEdges("rusia", "villacubito", 3);
-		graph.addEdges("villacubito", "canada", 4);
-		graph.addEdges("canada", "colombia", 5);
+		graph.addEdge("colombia", "china", 1);
+		graph.addEdge("china", "rusia", 2);
+		graph.addEdge("rusia", "villacubito", 3);
+		graph.addEdge("villacubito", "canada", 4);
+		graph.addEdge("canada", "colombia", 5);
 		return graph;
 	}
-	//@Test
+	@Test
 	void testAddEdgesDirected() {
 		try {
 			//assertEquals(2, setUpSceneAddEdgesTrueTrueTrue().getAdjacentList().get(0).size());
@@ -66,53 +73,81 @@ class GraphListTest {
 			e.printStackTrace();
 		}
 	}
-	private /*GraphList<String>*/String setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
-		double[] asd = new double[2];
-		String data = "";
-		GraphList<String> graph = new GraphList<>(true,true,true);
+	private GraphList<String> setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+		GraphList<String> graph = new GraphList<>(true,false,false);
 		GraphList<String> graphAux;
+		graph.addVertex("0");
 		graph.addVertex("1");
 		graph.addVertex("2");
 		graph.addVertex("3");
 		graph.addVertex("4");
-		graph.addVertex("5");
-		//graph.addVertex("peru");
-		graph.addEdges("1", "3", 0);
-		graph.addEdges("2", "1", 0);
-		graph.addEdges("3", "2", 0);
-		graph.addEdges("3", "4", 0);
-		graph.addEdges("4", "2", 0);
-		graph.addEdges("2", "5", 0); 
-		graph.addEdges("5", "4", 0); 
-		graphAux = graph.bfs("1");
-		/*
-		for (int i = 0; i < graphAux.getAdjacentList().size(); i++) {
-			for (int j = 0; j < graphAux.getAdjacentList().get(i).size(); j++) {
-				asd = graphAux.getAdjacentList().get(i).get(j);
-				data += "Origen:"+ i  + " "+ "Destino:" + asd[0]+ " " + "Peso" + asd[1] + "\n";
-			}
-		}
-		*/
-		for (int j = 0; j < graphAux.getAdjacentList().get(3).size(); j++) {
-			System.out.println(graphAux.getAdjacentList().get(2).get(j)[0]);
-		}
+		graph.addEdge("0", "2", 0);
+		graph.addEdge("1", "0", 0);
+		graph.addEdge("2", "1", 0);
+		graph.addEdge("2", "3", 0);
+		graph.addEdge("3", "1", 0);
+		graph.addEdge("1", "4", 0); 
+		graph.addEdge("4", "3", 0); 
+		graphAux = graph.bfs("0");
 		
-		return data;
-		//return graph;
+		
+		return graphAux;
 	}
 	@Test
 	<T> void testBFS() {
 		try {
-			//System.out.println(setUpSceneBFS().bfs("china"));
-			setUpSceneBFS();
-			//setUpSceneBFS().bfs2("colombia");
+			GraphList<String> graphAux = setUpSceneBFS();
+			assertEquals(2,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("0")).get(0)[0]);
+			assertEquals(4,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(0)[0]);
+			assertEquals(1,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(0)[0]);
+			assertEquals(3,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(1)[0]);
+			
+			//assertEquals(3,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("3")).get(0)[0]);
+			
 		} catch (InvalidActionInSimpleGraphException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RepeatedVertexException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Test
+	<T> void testBFSNoneExistentEdges() {
+		try {
+			GraphList<String> graphAux = setUpSceneBFS();
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("3")).get(0)[0]);
+			fail();
+		} catch (InvalidActionInSimpleGraphException e) {
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			e.printStackTrace();
+		} catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			GraphList<String> graphAux = setUpSceneBFS();
+			
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(1)[0]);
+			fail();
+		} catch (InvalidActionInSimpleGraphException e) {
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			e.printStackTrace();
+		} catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			GraphList<String> graphAux = setUpSceneBFS();
+			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("4")).get(0)[0]);
+			fail();
+		} catch (InvalidActionInSimpleGraphException e) {
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			e.printStackTrace();
+		} catch(IndexOutOfBoundsException e) {
+			
+		}
+		
+		//System.out.println("f");
 	}
 	public double[][] setUpSceneFloydWarshall() {
 		GraphList<Country> gr = new GraphList<Country>(true, false, false);
@@ -124,30 +159,17 @@ class GraphListTest {
 		gr.addVertex(v2);
 		gr.addVertex(v3);
 		gr.addVertex(v4);
-		
-		gr.addEdges(v1, v3, -2);
-		gr.addEdges(v3, v4, 2);
-		gr.addEdges(v4, v2, -1);
-		gr.addEdges(v2, v1, 4);
-		gr.addEdges(v2, v3, 3);
+		gr.addEdge(v1, v3, -2);
+		gr.addEdge(v3, v4, 2);
+		gr.addEdge(v4, v2, -1);
+		gr.addEdge(v2, v1, 4);
+		gr.addEdge(v2, v3, 3);
 		
 		return gr.floydWarshall();	
 	}
 	@Test
 	void testFloydWarshall() {
-		
 		double[][] matrix = setUpSceneFloydWarshall();
-		/*
-		for (int i = 0; i < matrix.length; i++) {
-			System.out.println("Otra linea");
-			for (int j = 0; j < matrix.length; j++) {
-				data = matrix[i][j] + "";
-				System.out.println(data);
-			}
-		}
-		*/
-		//System.out.println(matrix[0][3]);
-		//System.out.println(matrix[0][3]);
 		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
 	}
 	public double setUpScenegetMinimunEdgePlus() {
@@ -160,20 +182,20 @@ class GraphListTest {
 		gr.addVertex(v1);
 		
 		
-		gr.addEdges(v0, v1, 5);
-		gr.addEdges(v0, v1, 6);
-		gr.addEdges(v0, v1, 4);
-		gr.addEdges(v0, v1, 11);
-		gr.addEdges(v0, v1, 14);
-		gr.addEdges(v0, v1, 7);
-		gr.addEdges(v0, v1, 48);
-		gr.addEdges(v0, v1, 3);
+		gr.addEdge(v0, v1, 5);
+		gr.addEdge(v0, v1, 6);
+		gr.addEdge(v0, v1, 4);
+		gr.addEdge(v0, v1, 11);
+		gr.addEdge(v0, v1, 14);
+		gr.addEdge(v0, v1, 7);
+		gr.addEdge(v0, v1, 48);
+		gr.addEdge(v0, v1, 3);
 		
 		return gr.getMinimunEdge(v0, v1);
 	}
 	@Test
 	void testMinimumEdge() {
-		System.out.println(setUpScenegetMinimunEdgePlus());
+		//System.out.println(setUpScenegetMinimunEdgePlus());
 	}
 	public double setUpSceneDijkstra() {
 		Country v0 = new Country("Colombia", 1);
@@ -191,14 +213,14 @@ class GraphListTest {
 		gr.addVertex(v4);
 		gr.addVertex(v5);
 		
-		gr.addEdges(v0, v1, 5);
-		gr.addEdges(v1, v3, 6);
-		gr.addEdges(v1, v4, 4);
-		gr.addEdges(v3, v4, 11);
-		gr.addEdges(v2, v4, 1);
-		gr.addEdges(v0, v4, 7);
-		gr.addEdges(v0, v5, 48);
-		gr.addEdges(v4, v5, 3);
+		gr.addEdge(v0, v1, 5);
+		gr.addEdge(v1, v3, 6);
+		gr.addEdge(v1, v4, 4);
+		gr.addEdge(v3, v4, 11);
+		gr.addEdge(v2, v4, 1);
+		gr.addEdge(v0, v4, 7);
+		gr.addEdge(v0, v5, 48);
+		gr.addEdge(v4, v5, 3);
 		
 		
 		return gr.dijsktra(v0, v5);
@@ -210,6 +232,39 @@ class GraphListTest {
 		assertEquals(dist, 10);
 	}
 	
+	public GraphList<Country> setUpSceneKruskal() {	
+		GraphList<Country> gr = new GraphList<Country>(false, false, false);
+		gr.addVertex(a);
+		gr.addVertex(b);
+		gr.addVertex(c);
+		gr.addVertex(d);
+		gr.addVertex(e);
+		
+		gr.addEdge(a, b, 1);
+		gr.addEdge(a, e, 2);
+		gr.addEdge(a, c, 4);
+		gr.addEdge(d, c, 1);
+		gr.addEdge(d, e, 2);
+		gr.addEdge(d, b, 3);
+		gr.addEdge(c, e, 3); 
+		gr.addEdge(b, e, 3);
+		
+		gr = gr.kruskal();		
+		return gr;
+	}
+	
+	@Test
+	void testKruskal() {
+		setUpSceneKruskal();
+		assertEquals(1,setUpSceneKruskal().getMinimunEdge(a, b));
+		assertEquals(2,setUpSceneKruskal().getMinimunEdge(a, e));
+		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(a, c));
+		assertEquals(1,setUpSceneKruskal().getMinimunEdge(d, c));
+		assertEquals(2,setUpSceneKruskal().getMinimunEdge(d, e));
+		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(d, b));
+		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(c, e));
+		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(b, e));
+	}
 	
 	
 	

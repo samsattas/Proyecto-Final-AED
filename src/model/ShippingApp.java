@@ -11,17 +11,16 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import datastructures.Grafov2;
-import exceptions.MaximumCapacityExceededException;
 import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
 public class ShippingApp {
 	private String name;
-	Grafov2<Country> countrys = new Grafov2<Country>(false, true);
-	//private ArrayList<Country> countrys;
+	private Grafov2<Country> countrys;
+	private ArrayList<ShippmentReport> reports;
 	public static String FLATCOUNTRYS = "data//Contrys.txt";
 	public ShippingApp(String name) {
-		super();
+		countrys =   new Grafov2<Country>(false, true);
 		this.name = name;
 		load();
 		if(countrys.consultWeight()<=0) {
@@ -33,67 +32,6 @@ public class ShippingApp {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public ArrayList<Country> createData() {
-			ArrayList<Country> c = new ArrayList<>();
-			try {
-				File	file = new File(FLATCOUNTRYS);
-				FileReader	frReader = new FileReader(file);
-				BufferedReader	bufferRead = new BufferedReader(frReader);
-				String saveString;
-					while((saveString = bufferRead.readLine())!= null){
-						String[] parts = saveString.split(",");
-						String part1 = parts[0];
-						String part2 = parts[1];
-						c.add(new Country(part1, Integer.parseInt(part2)));
-				}
-				bufferRead.close();
-				frReader.close();
-			}
-			catch(Exception e){
-				System.out.println("Ayyyy que man tan de malas");
-				e.printStackTrace();
-			}
-			return c;
-	}
-	public void addBoats() {
-		Country china = new Country("china", 002123);
-		Country usa = new Country("usa", 002123);
-		Country jamaica = new Country("jamaica", 002123);
-		Country brasil = new Country("brasil", 002123);
-		Country rusia = new Country("rusia", 002123);
-		Country southcorea = new Country("southcorea", 002123);
-		Country australia = new Country("australia", 002123);
-		
-		china.addBoat("Titanic ll","2003", 12, 38);
-		china.addBoat("Zombies Cant swim","2012",12.3,32.3);
-		china.addBoat("Breaking Bass","2018",12.7,33);
-		usa.addBoat("Codfather","1999",14,38.3);
-		usa.addBoat("Kobe Boat","2020",13,42.3);
-		usa.addBoat("Pug Boat","2017",16,31.3);
-		jamaica.addBoat("Usain Boat","1986",7.4,65);
-		jamaica.addBoat("Error 404 fish not found","1969",7.4,35);
-		jamaica.addBoat("The wet dream","2004",7.4,63);
-		brasil.addBoat("Vitamin Sea","1972",10,45.3);
-		brasil.addBoat("Kayot","1990",10,47.3);
-		brasil.addBoat("Favorite Mistake","2000",10,47.3);
-		rusia.addBoat("Liquid Asset","1991",13.9,42.3);
-		rusia.addBoat("Vesper","1991",13.9,39.3);
-		rusia.addBoat("Unsinkable ll","1991",13.9,41.3);
-		southcorea.addBoat("Nayeon ","1995",25.5,50);
-		southcorea.addBoat("Twice","2015",40.5,43.3);
-		southcorea.addBoat("Dahyun","1998",25.5,42);
-		australia.addBoat("Villa Cubito Boat","2020",21.3,41.3);
-		australia.addBoat("Golder of the sea","2020",21.3,39.3);
-		australia.addBoat("Samsattas","2020",21.3,60.3);
-		
-		countrys.addVertex(china);
-		countrys.addVertex(usa);
-		countrys.addVertex(jamaica);
-		countrys.addVertex(brasil);
-		countrys.addVertex(rusia);
-		countrys.addVertex(southcorea);
-		countrys.addVertex(australia);
 	}
 	public void load() {
         try{
@@ -124,13 +62,15 @@ public class ShippingApp {
 		}
 		return time;
 	}
-	*/
-    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumCapacityExceededException, MaximumRangeExceededException {
+    */
+    
+    public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	double deliveryTime = deliveryTime(originCountry, destinyCountry);
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);
     	removeAndAdd(originCountryT,destinyCountryT);
     	ShippmentReport report = new ShippmentReport(originCountry, destinyCountry, totalLoadSize, deliveryTime);
+    	reports.add(report);
     	return report;
     }
     private Country getCountryValue(String countryName) {
@@ -149,9 +89,81 @@ public class ShippingApp {
     	return deliveryTime;
     }
     private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Boat auxBoat = originCountry.boatsToRemove(countrys.dijkstra(originCountry, destinyCountry),/*DIJSKTRA MODIFICADO AQUI*/      0                     );
+    	Boat auxBoat = originCountry.boatsToRemove(/*countrys.dijkstra(originCountry, destinyCountry),*//*DIJSKTRA MODIFICADO AQUI*/      0                     );
     	destinyCountry.addBoatO(auxBoat);
     }
-
-	
+    public String[] saveTheWorld(){
+    	String[] countrysName = new String[countrys.getValues().size()];
+    	double kruskalWeight = 0;
+    	Grafov2<Country> tmpGraph = countrys;
+    	tmpGraph.kruskal();
+    	/*
+    	 * AQUI VA ALGORITMO QUE SUMA EL VALOR DE TODAS LAS ARISTAS 
+    	 */
+    	for (int i = 0; i < countrys.getValues().size(); i++) {
+    		countrysName[i] = countrys.getValues().get(i).saveTheWorld(kruskalWeight);
+		}
+    	return countrysName;  
+    }
+    public void covidMode() {
+    	countrys = countrys.kruskal(); 	
+    }
+    public void addBoats() {
+		Country china = new Country("china", 002123);
+		Country usa = new Country("usa", 002123);
+		Country jamaica = new Country("jamaica", 002123);
+		Country brasil = new Country("brasil", 002123);
+		Country rusia = new Country("rusia", 002123);
+		Country southcorea = new Country("southcorea", 002123);
+		Country australia = new Country("australia", 002123);
+		china.addBoat("Titanic ll","2003", 12000, 38);
+		china.addBoat("Zombies Cant swim","2012",12300,32.3);
+		china.addBoat("Breaking Bass","2018",12700,33);
+		usa.addBoat("Codfather","1999",14000,38.3);
+		usa.addBoat("Kobe Boat","2020",13000,42.3);
+		usa.addBoat("Pug Boat","2017",16000,31.3);
+		jamaica.addBoat("Usain Boat","1986",7400,65);
+		jamaica.addBoat("Error 404 fish not found","1969",7400,35);
+		jamaica.addBoat("The wet dream","2004",7400,63);
+		brasil.addBoat("Vitamin Sea","1972",10000,45.3);
+		brasil.addBoat("Kayot","1990",10000,47.3);
+		brasil.addBoat("Favorite Mistake","2000",10000,47.3);
+		rusia.addBoat("Liquid Asset","1991",13900,42.3);
+		rusia.addBoat("Vesper","1991",13900,39.3);
+		rusia.addBoat("Unsinkable ll","1991",13900,41.3);
+		southcorea.addBoat("Nayeon ","1995",25500,50);
+		southcorea.addBoat("Twice","2015",40500,43.3);
+		southcorea.addBoat("Dahyun","1998",25500,42);
+		australia.addBoat("Villa Cubito Boat","2020",21300,41.3);
+		australia.addBoat("Golder of the sea","2020",21300,39.3);
+		australia.addBoat("Samsattas","2020",21300,60.3);
+		countrys.addEdge(china, usa, 10394);
+		countrys.addEdge(china, jamaica, 18321);
+		countrys.addEdge(china, brasil, 21443);
+		countrys.addEdge(china, rusia, 2065);
+		countrys.addEdge(china, southcorea, 780);
+		countrys.addEdge(china, australia, 6923);
+		countrys.addEdge(usa, rusia, 8513);
+		countrys.addEdge(usa, jamaica, 7514);
+		countrys.addEdge(usa, brasil, 10781);
+		countrys.addEdge(usa, southcorea, 9682);
+		countrys.addEdge(usa, australia, 11243);
+		countrys.addEdge(jamaica, brasil, 3724);
+		countrys.addEdge(jamaica, rusia, 16189);
+		countrys.addEdge(jamaica, southcorea, 17766);
+		countrys.addEdge(jamaica, australia, 16457);
+		countrys.addEdge(brasil, rusia, 22782);
+		countrys.addEdge(brasil, southcorea, 21147);
+		countrys.addEdge(brasil, australia, 19534);
+		countrys.addEdge(rusia, southcorea, 1378);
+		countrys.addEdge(rusia, australia, 8545);
+		countrys.addEdge(southcorea, australia, 7325);
+		countrys.addVertex(china);
+		countrys.addVertex(usa);
+		countrys.addVertex(jamaica);
+		countrys.addVertex(brasil);
+		countrys.addVertex(rusia);
+		countrys.addVertex(southcorea);
+		countrys.addVertex(australia);
+	}
 }
