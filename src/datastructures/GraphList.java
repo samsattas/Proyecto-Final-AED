@@ -180,20 +180,24 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
         return graph;
     }
 
-	public ArrayList<Integer> dfs (T v) {
+	public GraphList<T> dfs (T v) {
 		boolean[] visitado = new boolean[vertex.size()];
-		ArrayList<Integer> aux = new ArrayList<Integer>();
-		return dfsUtil(vertex.indexOf(v),visitado, aux);
+		GraphList<T> gr = new GraphList<>(directed,multiple,loop);
+		for (int i = 0; i < vertex.size(); i++) {
+			gr.addVertex(vertex.get(i));
+		}
+		return dfsUtil(vertex.indexOf(v),visitado, gr);
 	}
-	private ArrayList<Integer> dfsUtil(int v, boolean[] visited, ArrayList<Integer> aux ){
+	private	GraphList<T> dfsUtil(int v, boolean[] visited, GraphList<T> gr ){
 		visited[v] = true;
-		aux.add(v);
+		
 		for (int i = 0; i < this.vertex.size(); i++) {
 			if(this.vertex.size()!=0 && !visited[i]) {
-				dfsUtil(i, visited,aux);
+				dfsUtil(i, visited,gr);
+				gr.addEdge(vertex.get(v), vertex.get(i), 0);
 			}
 		}
-		return aux;
+		return gr;
 	}
 	@Override
 	public GraphList<T> prim(T v) {
