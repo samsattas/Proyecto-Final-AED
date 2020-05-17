@@ -266,7 +266,45 @@ class GraphListTest {
 		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(b, e));
 	}
 	
+	public GraphList<Country> setUpScenePrim() {
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
+		
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		gr.addVertex(v6);
+		
+		gr.addEdge(v1, v2, 5);
+		gr.addEdge(v2, v4, 6);
+		gr.addEdge(v2, v5, 4);
+		gr.addEdge(v4, v5, 11);
+		gr.addEdge(v3, v5, 1);
+		gr.addEdge(v1, v5, 7);
+		gr.addEdge(v1, v6, 48);
+		gr.addEdge(v5, v6, 3);
+		
+		return gr.prim(v1); 
+	}
 	
+	@Test
+	void testPrim() {
+		GraphList<Country> gr = setUpScenePrim();
+		
+		assertTrue(gr.consultWeight() == 6 );
+		assertEquals(4, gr.getAdjacentList().get(1).get(1)[1]);
+		assertEquals(5, gr.getAdjacentList().get(0).get(0)[1]);
+		assertEquals(6, gr.getAdjacentList().get(1).get(2)[1]);
+		assertEquals(1, gr.getAdjacentList().get(4).get(1)[1]);
+		assertEquals(3, gr.getAdjacentList().get(5).get(0)[1]);
+	}
 	
 	
 	

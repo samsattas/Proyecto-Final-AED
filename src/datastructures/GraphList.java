@@ -198,48 +198,47 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	@Override
 	public GraphList<T> prim(T v) {
 		GraphList<T> gr = new GraphList<>(directed, multiple, loop);
-		if(gr.isDirected()) {
+		for (int i = 0; i < vertex.size(); i++) {//adding all the vertex to the new graph
+			gr.addVertex(vertex.get(i));
+		}
+		boolean[] visited = new boolean[vertex.size()];
+		visited[vertex.indexOf(v)] = true;//set this one true because is where it starts
+		ArrayList<Integer> added = new ArrayList<Integer>();
+		added.add(vertex.indexOf(v));
+		while(primCheck(visited, gr.getValues().size())){//will repeat this process until all the vertex are visited and added
+			double aux = Double.POSITIVE_INFINITY;
+			int auxOrigin = -1;
+			int auxDestiny = -1;
 			
-		}else {
-			boolean[] visited = new boolean[vertex.size()];
-	//		visited[values.indexOf(v)] = true;
-			for(int i = 0; i < vertex.size(); i++) {
-				if(vertex.get(i).equals(v)) {
-					visited[i] = true;
-				}
-			}
-			gr.addVertex(v);
-			while(gr.consultWeight()<vertex.size()) {
-				int shortestDestiny = -1;
-				double shortestEdge = Double.POSITIVE_INFINITY;
-				int auxOrigin = -1;
-				for(int i = 0; i < gr.getValues().size(); i++) { //origin
-					for(int j = 0; j < adjacentList.get(i).size(); j++) {//destiny
-						if(adjacentList.get(i).size()/*.get(j).length**/>0 && !visited[j]) {//if i and j have a connection and j hasn't be discovered, then...
-							//for(int k = 0; k < adjacentList.get(i).get(j).length; k++) {//looking for the shortest edge from i to j
-								if(adjacentList.get(i).get(j)[1]<shortestEdge) {
-									auxOrigin = i;
-									shortestEdge = adjacentList.get(i).get(j)[1];
-									shortestDestiny = j;
-								}
-							//}
-						}
+			for (int i = 0; i < added.size(); i++) {//checking as origin all the vertexes connected
+				for (int j = 0; j < vertex.size(); j++) {//checking the connection with the rest of the vertexes
+						if(getMinimunEdge(vertex.get(added.get(i)), vertex.get(j))<aux && !visited[j]) {
+							aux = getMinimunEdge(vertex.get(added.get(i)), vertex.get(j));
+							auxOrigin = added.get(i);
+							auxDestiny = j;
 					}
 				}
-				int auxdestiny =  gr.consultWeight();
-				if(shortestDestiny!=-1) {
-					visited[shortestDestiny] = true;
-					gr.addVertex(vertex.get(shortestDestiny));
-				}
-				if(auxOrigin!=-1) {
-					gr.addEdge(gr.getValues().get(auxOrigin), gr.getValues().get(auxdestiny), shortestEdge);
-					//int asd = gr.getAdjmatrix()[0][1].size();
-					//int asd2 = asd;
-				}
 			}
+			added.add(auxDestiny);
+			gr.addEdge(vertex.get(auxOrigin), vertex.get(auxDestiny), getMinimunEdge(vertex.get(auxOrigin), vertex.get(auxDestiny)));
+			
+			visited[auxDestiny] = true;
 		}
 		
 		return gr;
+	}
+	private boolean primCheck(boolean[] visited, int size) {
+		boolean aux = true;
+		int count = 0;
+		for(int i = 0; i < size; i++) {
+			if(visited[i]) {
+				count++;
+			}
+		}
+		if(count == visited.length) {
+			aux = false;
+		}
+		return aux;
 	}
 	@Override
 	public GraphList<T> kruskal() {
