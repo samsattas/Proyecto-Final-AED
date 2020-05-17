@@ -83,20 +83,15 @@ public class Country {
 		aproximateDeliverTime = (totalDistance)/maxSpeed;
 		return (int) (aproximateDeliverTime/24);
 	}
-	public String saveTheWorld(double totalDistance) {
-		String message = this.getName() + "No disponible";
-		for (int i = 0; i < boats.size(); i++) {
-			if(boats.get(i).getMaxRange() >= totalDistance) {
-				message = this.getName()+ "Disponible";
-			}
-		}
-		return message;
-	}
 	public ArrayList<Boat> getBoats() {
 		return boats;
 	}
 	public void setBoats(ArrayList<Boat> boats) {
 		this.boats = boats;
+	}
+	@Override
+	public String toString() {
+		return "Country [name=" + name + ", id=" + id + ", boats=" + boats + "]";
 	}
 	
 	

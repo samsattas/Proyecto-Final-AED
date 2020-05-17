@@ -1,24 +1,23 @@
 package model;
 
-import java.util.ArrayList;
 
 public class ShippmentReport {
-	private String country;
+	private String destinyCountry;
 	private int totalLoadSize;
 	private String originCountry;
 	private double aproximateDeliveryTime;
 	public ShippmentReport(String originCountry, String destinyCountry,int totalLoadSize, double aproximateDeliveryTime) {
 		super();
-		this.country = country;
-		this.totalLoadSize = totalLoadSize;
 		this.originCountry = originCountry;
+		this.totalLoadSize = totalLoadSize;
+		this.destinyCountry = destinyCountry;
 		this.aproximateDeliveryTime = aproximateDeliveryTime;
 	}
-	public String getCountry() {
-		return country;
+	public String getDestityCountry() {
+		return destinyCountry;
 	}
 	public void setCountry(String countrys) {
-		this.country = countrys;
+		this.destinyCountry = countrys;
 	}
 	public int getTotalLoadSize() {
 		return totalLoadSize;
@@ -38,4 +37,11 @@ public class ShippmentReport {
 	public void setAproximateDeliveryTime(double aproximateDeliveryTime) {
 		this.aproximateDeliveryTime = aproximateDeliveryTime;
 	}
+	@Override
+	public String toString() {
+		return "ShippmentReport [destinyCountry=" + destinyCountry + ", totalLoadSize=" + totalLoadSize
+				+ ", originCountry=" + originCountry + ", aproximateDeliveryTime=" + aproximateDeliveryTime + "]";
+	}
+	
+	
 }

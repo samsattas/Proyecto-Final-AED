@@ -21,6 +21,7 @@ public class ShippingApp {
 	public static String FLATCOUNTRYS = "data//Contrys.txt";
 	public ShippingApp(String name) {
 		countrys =   new Grafov2<Country>(false, true);
+		reports = new ArrayList<>();
 		this.name = name;
 		load();
 		if(countrys.consultWeight()<=0) {
@@ -73,7 +74,7 @@ public class ShippingApp {
     	reports.add(report);
     	return report;
     }
-    private Country getCountryValue(String countryName) {
+    public Country getCountryValue(String countryName) {
     	Country country = null;
     	for (int i = 0; i < countrys.getValues().size(); i++) {
 			if(countrys.getValues().get(i).getName().equals(countryName)) {
@@ -85,25 +86,12 @@ public class ShippingApp {
     public double deliveryTime(String originCountry, String destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	Country originCountryT = getCountryValue(originCountry);
     	Country destinyCountryT = getCountryValue(destinyCountry);
-    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      0                    );
+    	double deliveryTime = originCountryT.aproximateDeliverTime(countrys.dijkstra(originCountryT, destinyCountryT), /*DIJSKTRA MODIFICADO AQUI*/      3000                    );
     	return deliveryTime;
     }
     private void removeAndAdd(Country originCountry, Country destinyCountry) throws UnavaiableBoatsException, MaximumRangeExceededException {
-    	Boat auxBoat = originCountry.boatsToRemove(/*countrys.dijkstra(originCountry, destinyCountry),*//*DIJSKTRA MODIFICADO AQUI*/      0                     );
+    	Boat auxBoat = originCountry.boatsToRemove(/*countrys.dijkstra(originCountry, destinyCountry),*//*DIJSKTRA MODIFICADO AQUI*/      3000                     );
     	destinyCountry.addBoatO(auxBoat);
-    }
-    public String[] saveTheWorld(){
-    	String[] countrysName = new String[countrys.getValues().size()];
-    	double kruskalWeight = 0;
-    	Grafov2<Country> tmpGraph = countrys;
-    	tmpGraph.kruskal();
-    	/*
-    	 * AQUI VA ALGORITMO QUE SUMA EL VALOR DE TODAS LAS ARISTAS 
-    	 */
-    	for (int i = 0; i < countrys.getValues().size(); i++) {
-    		countrysName[i] = countrys.getValues().get(i).saveTheWorld(kruskalWeight);
-		}
-    	return countrysName;  
     }
     public void covidMode() {
     	countrys = countrys.kruskal(); 	
@@ -137,6 +125,13 @@ public class ShippingApp {
 		australia.addBoat("Villa Cubito Boat","2020",21300,41.3);
 		australia.addBoat("Golder of the sea","2020",21300,39.3);
 		australia.addBoat("Samsattas","2020",21300,60.3);
+		countrys.addVertex(china);
+		countrys.addVertex(usa);
+		countrys.addVertex(jamaica);
+		countrys.addVertex(brasil);
+		countrys.addVertex(rusia);
+		countrys.addVertex(southcorea);
+		countrys.addVertex(australia);
 		countrys.addEdge(china, usa, 10394);
 		countrys.addEdge(china, jamaica, 18321);
 		countrys.addEdge(china, brasil, 21443);
@@ -158,12 +153,5 @@ public class ShippingApp {
 		countrys.addEdge(rusia, southcorea, 1378);
 		countrys.addEdge(rusia, australia, 8545);
 		countrys.addEdge(southcorea, australia, 7325);
-		countrys.addVertex(china);
-		countrys.addVertex(usa);
-		countrys.addVertex(jamaica);
-		countrys.addVertex(brasil);
-		countrys.addVertex(rusia);
-		countrys.addVertex(southcorea);
-		countrys.addVertex(australia);
 	}
 }
