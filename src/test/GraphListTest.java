@@ -9,8 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import datastructures.GraphList;
 import datastructures.GraphMatrix;
-import exceptions.InvalidActionInSimpleGraphException;
+import exceptions.InvalidActionInThisGraphException;
 import exceptions.RepeatedVertexException;
+import exceptions.ThatVertexDoesNotExistException;
 import model.Country;
 
 
@@ -31,9 +32,7 @@ public class GraphListTest {
 	
 	
 	
-	private GraphList<String> setUpSceneAddEdgesTrueTrueTrue() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
-		int[] asd = new int[2];
-		String data = "";
+	private GraphList<String> setUpSceneAddEdgesTrueTrueTrue() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
 		GraphList<String> graph = new GraphList<>(false,true,true);
 		graph.addVertex("colombia");
 		graph.addVertex("china");
@@ -65,15 +64,15 @@ public class GraphListTest {
 			
 			assertEquals(0, setUpSceneAddEdgesTrueTrueTrue().getAdjacentList().get(4).get(1)[0]);
 			assertEquals(4, setUpSceneAddEdgesTrueTrueTrue().getAdjacentList().get(0).get(1)[0]);
-		} catch (InvalidActionInSimpleGraphException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
 		} catch (RepeatedVertexException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("Unexpected Exception");
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
 		}
 	}
-	private GraphList<String> setUpSceneBFS() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+	private GraphList<String> setUpSceneBFS() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
 		GraphList<String> graph = new GraphList<>(true,false,false);
 		GraphList<String> graphAux;
 		graph.addVertex("0");
@@ -89,8 +88,6 @@ public class GraphListTest {
 		graph.addEdge("1", "4", 0); 
 		graph.addEdge("4", "3", 0); 
 		graphAux = graph.bfs("0");
-		
-		
 		return graphAux;
 	}
 	@Test
@@ -101,13 +98,12 @@ public class GraphListTest {
 			assertEquals(4,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(0)[0]);
 			assertEquals(1,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(0)[0]);
 			assertEquals(3,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("2")).get(1)[0]);
-			
-			//assertEquals(3,graphAux.getAdjacentList().get(graphAux.getVertex().indexOf("3")).get(0)[0]);
-			
-		} catch (InvalidActionInSimpleGraphException e) {
-			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
 		} catch (RepeatedVertexException e) {
-			e.printStackTrace();
+			fail("Unexpected Exception");
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
 		}
 	}
 	@Test
@@ -116,41 +112,43 @@ public class GraphListTest {
 			GraphList<String> graphAux = setUpSceneBFS();
 			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("3")).get(0)[0]);
 			fail();
-		} catch (InvalidActionInSimpleGraphException e) {
-			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
 		} catch (RepeatedVertexException e) {
-			e.printStackTrace();
+			fail("Unexpected Exception");
 		} catch(IndexOutOfBoundsException e) {
-			
+			System.out.println("Pass!");
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
 		}
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
-			
 			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("1")).get(1)[0]);
 			fail();
-		} catch (InvalidActionInSimpleGraphException e) {
-			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
 		} catch (RepeatedVertexException e) {
-			e.printStackTrace();
+			fail("Unexpected Exception");
 		} catch(IndexOutOfBoundsException e) {
-			
+			System.out.println("Pass!");
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
 		}
 		try {
 			GraphList<String> graphAux = setUpSceneBFS();
 			assertEquals(0,graphAux.getAdjacentList().get(graphAux.getValues().indexOf("4")).get(0)[0]);
 			fail();
-		} catch (InvalidActionInSimpleGraphException e) {
-			e.printStackTrace();
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
 		} catch (RepeatedVertexException e) {
-			e.printStackTrace();
+			fail("Unexpected Exception");
 		} catch(IndexOutOfBoundsException e) {
-			
+			System.out.println("Pass!");
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
 		}
-		
-		//System.out.println("f");
 	}
-	
-	public GraphList<Country> setUpSceneDFS() {
+	public GraphList<Country> setUpSceneDFS() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -179,10 +177,18 @@ public class GraphListTest {
 	}
 	@Test
 	void testDFS() { 
-		GraphList<Country> gr = setUpSceneDFS();
-		assertEquals(1,gr.getAdjacentList().get(0).get(0)[0]);
-		assertEquals(4,gr.getAdjacentList().get(2).get(0)[0]);
-		assertEquals(4,gr.getAdjacentList().get(5).get(0)[0]);
+		GraphList<Country> gr;
+		try {
+			gr = setUpSceneDFS();
+			assertEquals(1,gr.getAdjacentList().get(0).get(0)[0]);
+			assertEquals(4,gr.getAdjacentList().get(2).get(0)[0]);
+			assertEquals(4,gr.getAdjacentList().get(5).get(0)[0]);
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
+		}
+		
 		//assertEquals(-7,gr.getAdjacentList().get(2).get(0)[0]);
 		//assertEquals(0,gr.getAdjacentList().get(2).get(1)[0]);
 		/*
@@ -198,7 +204,7 @@ public class GraphListTest {
 	
 	
 	
-	public double[][] setUpSceneFloydWarshall() {
+	public double[][] setUpSceneFloydWarshall() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		GraphList<Country> gr = new GraphList<Country>(true, false, false);
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
@@ -218,10 +224,18 @@ public class GraphListTest {
 	}
 	@Test
 	void testFloydWarshall() {
-		double[][] matrix = setUpSceneFloydWarshall();
-		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
+		double[][] matrix;
+		try {
+			matrix = setUpSceneFloydWarshall();
+			assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
+		}
+		
 	}
-	public double setUpScenegetMinimunEdgePlus() {
+	public double setUpScenegetMinimunEdgePlus() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		Country v0 = new Country("Colombia", 1);
 		Country v1 = new Country("EEUU", 2);
 		
@@ -246,7 +260,7 @@ public class GraphListTest {
 	void testMinimumEdge() {
 		//System.out.println(setUpScenegetMinimunEdgePlus());
 	}
-	public double setUpSceneDijkstra() {
+	public double setUpSceneDijkstra() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		Country v0 = new Country("Colombia", 1);
 		Country v1 = new Country("EEUU", 2);
 		Country v2 = new Country("Barrancabermeja", 3); 
@@ -277,11 +291,18 @@ public class GraphListTest {
 	
 	@Test
 	void testDijkstra() {
-		double dist = setUpSceneDijkstra();
-		assertEquals(dist, 10);
+		double dist;
+		try {
+			dist = setUpSceneDijkstra();
+			assertEquals(dist, 10);
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
+		}
 	}
 	
-	public GraphList<Country> setUpSceneKruskal() {	
+	public GraphList<Country> setUpSceneKruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {	
 		GraphList<Country> gr = new GraphList<Country>(false, false, false);
 		gr.addVertex(a);
 		gr.addVertex(b);
@@ -304,18 +325,25 @@ public class GraphListTest {
 	
 	@Test
 	void testKruskal() {
-		setUpSceneKruskal();
-		assertEquals(1,setUpSceneKruskal().getMinimunEdge(a, b));
-		assertEquals(2,setUpSceneKruskal().getMinimunEdge(a, e));
-		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(a, c));
-		assertEquals(1,setUpSceneKruskal().getMinimunEdge(d, c));
-		assertEquals(2,setUpSceneKruskal().getMinimunEdge(d, e));
-		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(d, b));
-		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(c, e));
-		assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(b, e));
+		try {
+			//setUpSceneKruskal();
+			assertEquals(1,setUpSceneKruskal().getMinimunEdge(a, b));
+			assertEquals(2,setUpSceneKruskal().getMinimunEdge(a, e));
+			assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(a, c));
+			assertEquals(1,setUpSceneKruskal().getMinimunEdge(d, c));
+			assertEquals(2,setUpSceneKruskal().getMinimunEdge(d, e));
+			assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(d, b));
+			assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(c, e));
+			assertEquals(Double.POSITIVE_INFINITY,setUpSceneKruskal().getMinimunEdge(b, e));
+		} catch (ThatVertexDoesNotExistException e1) {
+			fail("Unexpected Exception");
+		} catch (InvalidActionInThisGraphException e1) {
+			fail("Unexpected Exception");
+		}
+		
 	}
 	
-	public GraphList<Country> setUpScenePrim() {
+	public GraphList<Country> setUpScenePrim() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		Country v1 = new Country("Colombia", 1);
 		Country v2 = new Country("EEUU", 2);
 		Country v3 = new Country("Barrancabermeja", 3);
@@ -345,36 +373,44 @@ public class GraphListTest {
 	
 	@Test
 	void testPrim() {
-		GraphList<Country> gr = setUpScenePrim();
+		GraphList<Country> gr;
+		try {
+			gr = setUpScenePrim();
+			assertTrue(gr.consultWeight() == 6 );
+			assertEquals(4, gr.getAdjacentList().get(1).get(1)[1]);
+			assertEquals(5, gr.getAdjacentList().get(0).get(0)[1]);
+			assertEquals(6, gr.getAdjacentList().get(1).get(2)[1]);
+			assertEquals(1, gr.getAdjacentList().get(4).get(1)[1]);
+			assertEquals(3, gr.getAdjacentList().get(5).get(0)[1]);
+		} catch (ThatVertexDoesNotExistException e) {
+			fail("Unexpected Exception");
+		} catch (InvalidActionInThisGraphException e) {
+			fail("Unexpected Exception");
+		}
 		
-		assertTrue(gr.consultWeight() == 6 );
-		assertEquals(4, gr.getAdjacentList().get(1).get(1)[1]);
-		assertEquals(5, gr.getAdjacentList().get(0).get(0)[1]);
-		assertEquals(6, gr.getAdjacentList().get(1).get(2)[1]);
-		assertEquals(1, gr.getAdjacentList().get(4).get(1)[1]);
-		assertEquals(3, gr.getAdjacentList().get(5).get(0)[1]);
+		
 	}
 	
 	
 	
 	
 	
-	/*
-	private void setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+	
+	private void setUpSceneAddEdgesDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException  {
 		
 	}
 	@Test
 	void testAddEdgesDirectedMultiple() {
 		
 	}
-	private void setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddEdgesNoDirectedNoMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testAddEdgesNoDirectedNoMultiple() {
 		
 	}
-	private void setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+	private void setUpSceneAddEdgesNoDirectedMultiple() throws InvalidActionInThisGraphException, RepeatedVertexException  {
 		
 	}
 	@Test
@@ -382,49 +418,49 @@ public class GraphListTest {
 		
 	}
 	///////////////////Test Exceptions//////////////////
-	private void setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInSimpleGraphException, RepeatedVertexException  {
+	private void setUpSceneAddEdgesDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException  {
 		
 	}
 	@Test
 	void testAddEdgesDirectedE() {
 		
 	}
-	private void setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddEdgesNoDirectedNoMultipleE() throws InvalidActionInThisGraphException, RepeatedVertexException {
 	
 	}
 	@Test
 	void testAddEdgesNoDirectedNoMultipleE() {
 		
 	}
-	private void setUpScenegetEdges() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpScenegetEdges() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testScenegetEdges() {
 		
 	}
-	private void setUpSceneDeleteEdgeNoDirected() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteEdgeNoDirected() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testDeleteEdgeNoDirected() {
 		
 	}
-	private void setUpSceneDeleteEdgeDirected() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteEdgeDirected() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testDeleteEdgeDirected() {
 		
 	}
-	private void setUpSceneDeleteEdgesOfADeletedVertex() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteEdgesOfADeletedVertex() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testDeleteVertex() {
 		
 	}
-	private void setUpSceneDeleteVertexValue() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteVertexValue() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
@@ -432,7 +468,7 @@ public class GraphListTest {
 		
 	}
 	/////////
-	private void setUpSceneDeleteVertexDoesnotExist() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteVertexDoesnotExist() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
@@ -440,40 +476,40 @@ public class GraphListTest {
 		
 	}
 	/////////
-	private void setUpSceneDeleteVertexValueSize() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneDeleteVertexValueSize() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testDeleteVertexValueSize() {
 		
 	}
-	private void setUpSceneAddVertex() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddVertex() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testAddVertex() {
 		
 	}
-	private void setUpSceneAddVertexValue() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddVertexValue() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testAddVertexValue() {
 		
 	}
-	private void setUpSceneAddVertexValueSize() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddVertexValueSize() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testAddVertexValueSize() {
 		
 	}
-	private void setUpSceneAddVertexValueRepeated() throws InvalidActionInSimpleGraphException, RepeatedVertexException {
+	private void setUpSceneAddVertexValueRepeated() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		
 	}
 	@Test
 	void testAddVertexValueRepeated() {
 		
 	}
-	*/
+	
 }

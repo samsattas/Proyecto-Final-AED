@@ -3,8 +3,10 @@ package datastructures;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.PriorityQueue;
+
+import exceptions.InvalidActionInThisGraphException;
+import exceptions.ThatVertexDoesNotExistException;
 
 
 public class GraphList<T>implements Graph<GraphList<T>, T>{
@@ -66,28 +68,23 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	
 	
-	public void addEdge(T i, T j, double w) {
+	public void addEdge(T i, T j, double w) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		int originIndex = vertex.indexOf(i);
 		int destinyIndex = vertex.indexOf(j);
 		if(originIndex==-1 || destinyIndex==-1) {
-			//error
-			//System.out.println(this.adjacentList.size());
+			throw new ThatVertexDoesNotExistException("Error");
 		}
 		else if(!loop && i == j) {
-			//error
-			//System.out.println("Error");
+			throw new InvalidActionInThisGraphException("Error");
 		}
 		else {
 			if(!multiple) {
 				for (int h = 0; h < adjacentList.get(originIndex).size(); h++) {
 					if(destinyIndex == adjacentList.get(originIndex).get(h)[0]) {
-						//error
-						//System.out.println("Error");
+						throw new InvalidActionInThisGraphException("Error");
 					}
 				}
 			}
-			//System.out.println(originIndex);
-			//System.out.println(destinyIndex);
 			double[] vertex = {destinyIndex, w};
 			adjacentList.get(originIndex).add(vertex);
 			if(!directed) {
@@ -96,13 +93,10 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 			}
 		}
 	}
-	
 	public void addVertex(T vertex) {
 		this.vertex.add(vertex);
 		this.adjacentList.add(new ArrayList<double[]>());
 	}
-	
-	
 	public void deleteEdge(T i, T j, double w) {
 		int origin = vertex.indexOf(i);
 		int destiny = vertex.indexOf(j);
@@ -147,7 +141,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 	
 	/////////////////
 	@Override
-	public GraphList<T> bfs(T v) {
+	public GraphList<T> bfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		GraphList<T> graph = new GraphList<>(directed,multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
 			graph.addVertex(vertex.get(i));
@@ -180,7 +174,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
         return graph;
     }
 
-	public GraphList<T> dfs(T v) {
+	public GraphList<T> dfs(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		boolean visited[] = new boolean[vertex.size()];
 		GraphList<T> gr = new GraphList<>(directed, multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
@@ -188,7 +182,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		}
 		return dfsUtil(v, visited, gr);
 	}
-	private GraphList<T> dfsUtil(T v, boolean[] visited, GraphList<T> gr) {
+	private GraphList<T> dfsUtil(T v, boolean[] visited, GraphList<T> gr) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		visited[vertex.indexOf(v)] = true;
 		
 		for(int i = 0; i < adjacentList.get(vertex.indexOf(v)).size(); i++) {
@@ -200,7 +194,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		return gr;
 	}
 	@Override
-	public GraphList<T> prim(T v) {
+	public GraphList<T> prim(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		GraphList<T> gr = new GraphList<>(directed, multiple, loop);
 		for (int i = 0; i < vertex.size(); i++) {//adding all the vertex to the new graph
 			gr.addVertex(vertex.get(i));
@@ -245,7 +239,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		return aux;
 	}
 	@Override
-	public GraphList<T> kruskal() {
+	public GraphList<T> kruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException {
 		GraphList<T> gr = new GraphList<>(isDirected(), isMultiple(), loop);
 		if(!gr.isDirected()) {
 			ArrayList<ArrayList<Integer>> added = new ArrayList<ArrayList<Integer>>();
