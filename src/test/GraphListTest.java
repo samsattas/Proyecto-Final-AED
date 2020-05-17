@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 
 import datastructures.GraphList;
+import datastructures.GraphMatrix;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
 import model.Country;
@@ -149,6 +150,51 @@ public class GraphListTest {
 		
 		//System.out.println("f");
 	}
+	
+	public GraphList<Country> setUpSceneDFS() {
+		Country v1 = new Country("Colombia", 1);
+		Country v2 = new Country("EEUU", 2);
+		Country v3 = new Country("Barrancabermeja", 3);
+		Country v4 = new Country("Brazil", 4);
+		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
+		
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(v1);
+		gr.addVertex(v2);
+		gr.addVertex(v3);
+		gr.addVertex(v4);
+		gr.addVertex(v5);
+		gr.addVertex(v6);
+		
+		gr.addEdge(v1, v2, 5);
+		gr.addEdge(v2, v4, 6);
+		gr.addEdge(v2, v5, 4);
+		gr.addEdge(v4, v5, 11);
+		gr.addEdge(v3, v5, 1);
+		gr.addEdge(v1, v5, 7);
+		gr.addEdge(v1, v6, 48);
+		gr.addEdge(v5, v6, 3);
+		
+		return gr.dfs(v1);
+	}
+	@Test
+	void testDFS() { 
+		GraphList<Country> gr = setUpSceneDFS();
+		assertEquals(1,gr.getAdjacentList().get(0).get(0)[0]);
+		//assertEquals(0,gr.getAdjacentList().get(2).get(1)[0]);
+		
+		for (int i = 0; i < gr.getAdjacentList().size(); i++) {
+			for (int j = 0; j < gr.getAdjacentList().get(i).size(); j++) {
+				System.out.println(i + " " + (int) gr.getAdjacentList().get(i).get(j)[0] + " "+ gr.getAdjacentList().get(i).get(j)[1]);
+			}
+		}
+		//assertTrue(gr.getAdjmatrix()[0][4].size()==0 && gr.getAdjmatrix()[0][1].size()==1 && gr.getAdjmatrix()[2][4].size()==1 && gr.getAdjmatrix()[5][4].size()==1);
+	}
+	
+	
+	
+	
 	public double[][] setUpSceneFloydWarshall() {
 		GraphList<Country> gr = new GraphList<Country>(true, false, false);
 		Country v1 = new Country("Colombia", 1);

@@ -180,21 +180,24 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
         return graph;
     }
 
-	public GraphList<T> dfs (T v) {
-		boolean[] visitado = new boolean[vertex.size()];
-		GraphList<T> gr = new GraphList<>(directed,multiple,loop);
+	public GraphList<T> dfs(T v) {
+		boolean visited[] = new boolean[vertex.size()];
+		GraphList<T> gr = new GraphList<>(directed, multiple,loop);
 		for (int i = 0; i < vertex.size(); i++) {
 			gr.addVertex(vertex.get(i));
 		}
-		return dfsUtil(vertex.indexOf(v),visitado, gr);
+		return dfsUtil(v, visited, gr);
 	}
-	private	GraphList<T> dfsUtil(int v, boolean[] visited, GraphList<T> gr ){
-		visited[v] = true;
+	private GraphList<T> dfsUtil(T v, boolean[] visited, GraphList<T> gr) {
+		visited[vertex.indexOf(v)] = true;
 		
-		for (int i = 0; i < this.vertex.size(); i++) {
-			if(this.vertex.size()!=0 && !visited[i]) {
-				dfsUtil(i, visited,gr);
-				gr.addEdge(vertex.get(v), vertex.get(i), 0);
+		for(int i = 0; i < adjacentList.size(); i++) {
+			for (int j = 0; j < adjacentList.get(i).size(); j++) {
+				int destiny = (int) adjacentList.get(i).get(j)[0];
+				if(!visited[destiny]) {
+					dfsUtil(vertex.get(destiny), visited, gr);
+					gr.addEdge(v, vertex.get(destiny), 0);
+				}
 			}
 		}
 		return gr;
