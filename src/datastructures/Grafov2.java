@@ -205,7 +205,7 @@ public class Grafov2<T> {
 		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
 		boolean[] visited = new boolean[values.size()];
 		LinkedList<T> queue = new LinkedList<T>();
-
+ 
 		queue.add(v1);
 		while(!queue.isEmpty()) {
 			for(int i = 0; i < values.size(); i++) {

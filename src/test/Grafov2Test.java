@@ -387,7 +387,7 @@ class Grafov2Test {
 		gr.addEdge(v1, v6, 48);
 		gr.addEdge(v5, v6, 3);
 		
-		return gr.prim(v1);
+		return gr.prim(v1); 
 	}
 	
 	@Test
