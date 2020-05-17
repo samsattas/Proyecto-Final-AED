@@ -201,25 +201,25 @@ public class Grafov2<T> {
 	/*
 	 * v = origin vertex
 	 */
-	public ArrayList<Integer> bfs(int v) {
+	public Grafov2<T> bfs( T v1) {
+		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
 		boolean[] visited = new boolean[values.size()];
-		LinkedList<Integer> queue = new LinkedList<Integer>();
-		ArrayList<Integer> tree = new ArrayList<Integer>();
+		LinkedList<T> queue = new LinkedList<T>();
 
-		queue.add(v);
-		tree.add(v);
+		queue.add(v1);
 		while(!queue.isEmpty()) {
 			for(int i = 0; i < values.size(); i++) {
-				if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
-					queue.add(i);
-					tree.add(i);
+				if(!adjmatrix[values.indexOf(v1)][i].isEmpty() && !visited[i]) {
+					gr.addVertex(values.get(i));
+					gr.addEdge(v1, values.get(i), 0);
+					queue.add(values.get(i));
 					visited[i] = true;
 				}
 			}
-			visited[v] = true;
-			v = queue.poll();
+			visited[values.indexOf(v1)] = true;
+			v1 = queue.poll();
 		}
-		return tree;
+		return gr;
 	}
 	
 	
@@ -243,101 +243,61 @@ public class Grafov2<T> {
 		return aux;
 	}
 	
-	public Grafov2<T> prim(T v) {
-		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
-		
-//		for (int i = 0; i < values.size(); i++) {
-//			gr.addVertex(values.get(i));
-//		}
-		
-		if(gr.isDirected()) {
-			gr = null;
-		}else {
-			boolean[] visited = new boolean[values.size()];
-			for(int i = 0; i < values.size(); i++) {
-				if(values.get(i).equals(v)) {
-					visited[i] = true;
-				}
-			}
-			gr.addVertex(v);
-			while(gr.consultWeight()<values.size()) {
-				int shortestDestiny = -1;
-				double shortestEdge = Double.POSITIVE_INFINITY;
-				int auxOrigin = -1;
-				for(int i = 0; i < gr.getValues().size(); i++) { //origin
-					for(int j = 0; j < values.size(); j++) {//destiny
-						if(adjmatrix[i][j].size()>0 && !visited[j]) {//if i and j have a connection and j hasn't be discovered, then...
-							for(int k = 0; k < adjmatrix[i][j].size(); k++) {//looking for the shortest edge from i to j
-								if(adjmatrix[i][j].get(k)<shortestEdge) {
-									auxOrigin = i;
-									shortestEdge = adjmatrix[i][j].get(k);
-									shortestDestiny = j;
-								}
-							}
+	public Grafov2<T> prim(T v1) {
+		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+		for (int i = 0; i < values.size(); i++) {//adding all the vertex to the new graph
+			gr.addVertex(values.get(i));
+		}
+		boolean[] visited = new boolean[values.size()];
+		visited[values.indexOf(v1)] = true;//set this one true because is where it starts
+		ArrayList<Integer> added = new ArrayList<Integer>();
+		added.add(values.indexOf(v1));
+		while(primCheck(visited, gr.getValues().size())){//will repeat this process until all the vertex are visited and added
+			double aux = Double.POSITIVE_INFINITY;
+			int auxOrigin = -1;
+			int auxDestiny = -1;
+			
+			for (int i = 0; i < added.size(); i++) {//checking as origin all the vertexes connected
+				for (int j = 0; j < values.size(); j++) {//checking the connection with the rest of the vertexes
+					if(!adjmatrix[added.get(i)][j].isEmpty()) {
+						if(getMinimunEdge(values.get(added.get(i)), values.get(j))<aux && !visited[j]) {
+							aux = getMinimunEdge(values.get(added.get(i)), values.get(j));
+							auxOrigin = added.get(i);
+							auxDestiny = j;
 						}
 					}
 				}
-				int auxdestiny =  gr.consultWeight();
-				if(shortestDestiny!=-1) {
-					visited[shortestDestiny] = true;
-					gr.addVertex(values.get(shortestDestiny));
-				}
-				if(auxOrigin!=-1) {
-					gr.addEdge(gr.getValues().get(auxOrigin), gr.getValues().get(auxdestiny), shortestEdge);
-				}
 			}
+			added.add(auxDestiny);
+			gr.addEdge(values.get(auxOrigin), values.get(auxDestiny), getMinimunEdge(values.get(auxOrigin), values.get(auxDestiny)));
+			
+			visited[auxDestiny] = true;
 		}
 		
 		return gr;
+		
 	}
-	
-	
-	public void prim2(T v) {
-		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
-		if(gr.isDirected()) {
-			gr = null;
-		}else {
-			boolean[] visited = new boolean[values.size()];
-			ArrayList<double[]> edges = new ArrayList<double[]>();
-			PriorityQueue<Integer> pq = new  PriorityQueue<Integer>();
-			for (int i = 0; i < values.size(); i++) {
-				if(v.equals(values.get(i))) {
-					visited[i] = true;
-					pq.add(i);
-				}
-				gr.addVertex(values.get(i));
-			}
-			while(!pq.isEmpty()) {
-				int auxDestiny = -1;
-				double shortestEdge = Double.POSITIVE_INFINITY;
-				int auxOrigin = -1;
-				for (int i = 0; i < gr.consultWeight(); i++) {
-					for (int j = 0; j < gr.consultWeight(); j++) {
-						if(!primUtil(edges,i,j) && getMinimunEdge(values.get(i), values.get(j))<shortestEdge) {
-							auxOrigin = i;
-							auxDestiny = j;
-							shortestEdge = getMinimunEdge(values.get(i), values.get(j));
-						}
-					}
-				}
+
+
+
+	private boolean primCheck(boolean[] visited, int size) {
+		boolean aux = true;
+		int count = 0;
+		
+		for(int i = 0; i < size; i++) {
+			if(visited[i]) {
+				count++;
 			}
 		}
-	}
-	
-	
-	private boolean primUtil(ArrayList<double[]> edges,int i, int j) {
-		boolean aux = false;
-		
-		for (int k = 0; k < edges.size(); k++) {
-			if(edges.get(k)[0] == i && edges.get(k)[1] == j) {
-				aux = true;
-			}
+		if(count == visited.length) {
+			aux = false;
 		}
 		
 		return aux;
 	}
-	
-	
+
+
+
 	public Grafov2<T> kruskal() {
 		Grafov2<T> gr = new Grafov2<T>(isDirected(), isMultiple());
 		if(!gr.isDirected()) {
@@ -390,8 +350,9 @@ public class Grafov2<T> {
 		
 		return gr;
 	}
-	
-	
+
+
+
 	private ArrayList<ArrayList<Integer>> kruskalAdd(ArrayList<ArrayList<Integer>> added, int o, int d){
 		int auxo = -1;
 		int auxd = -1;
@@ -416,7 +377,7 @@ public class Grafov2<T> {
 	}
 	
 	
-	public boolean kruskalUtil(double[] toAdd, ArrayList<ArrayList<Integer>> added) {
+	private boolean kruskalUtil(double[] toAdd, ArrayList<ArrayList<Integer>> added) {
 		boolean aux = false;
 		int origin = -1, destiny = -1;
 		for(int i = 0; i < added.size(); i++) {
@@ -510,56 +471,5 @@ public class Grafov2<T> {
         } 
         
         return dist;
-	}
-	
-	public Grafov2<T> prim3(T v1) {
-		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
-		for (int i = 0; i < values.size(); i++) {//adding all the vertex to the new graph
-			gr.addVertex(values.get(i));
-		}
-		boolean[] visited = new boolean[values.size()];
-		visited[values.indexOf(v1)] = true;//set this one true because is where it starts
-		ArrayList<Integer> added = new ArrayList<Integer>();
-		added.add(values.indexOf(v1));
-		while(primCheck(visited, gr.getValues().size())){//will repeat this process until all the vertex are visited and added
-			double aux = Double.POSITIVE_INFINITY;
-			int auxOrigin = -1;
-			int auxDestiny = -1;
-			
-			for (int i = 0; i < added.size(); i++) {//checking as origin all the vertexes connected
-				for (int j = 0; j < values.size(); j++) {//checking the connection with the rest of the vertexes
-					if(!adjmatrix[added.get(i)][j].isEmpty()) {
-						if(getMinimunEdge(values.get(added.get(i)), values.get(j))<aux && !visited[j]) {
-							aux = getMinimunEdge(values.get(added.get(i)), values.get(j));
-							auxOrigin = added.get(i);
-							auxDestiny = j;
-						}
-					}
-				}
-			}
-			added.add(auxDestiny);
-			gr.addEdge(values.get(auxOrigin), values.get(auxDestiny), getMinimunEdge(values.get(auxOrigin), values.get(auxDestiny)));
-			
-			visited[auxDestiny] = true;
-		}
-		
-		return gr;
-		
-	}
-	
-	private boolean primCheck(boolean[] visited, int size) {
-		boolean aux = true;
-		int count = 0;
-		
-		for(int i = 0; i < size; i++) {
-			if(visited[i]) {
-				count++;
-			}
-		}
-		if(count == visited.length) {
-			aux = false;
-		}
-		
-		return aux;
 	}
 }
