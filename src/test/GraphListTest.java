@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import datastructures.Grafov2;
+
 import datastructures.GraphList;
 import exceptions.InvalidActionInSimpleGraphException;
 import exceptions.RepeatedVertexException;
