@@ -95,6 +95,16 @@ public class Grafov2<T> {
 	public void addEdge(T i, T j, double w) {
 		int x = values.indexOf(i);
 		int y = values.indexOf(j);
+		
+		for (int k = 0; k < values.size(); k++) {
+			if(values.get(k).equals(i)) {
+				x = k;
+			}
+			if(values.get(k).equals(j)) {
+				y = k;
+			}
+		}
+		
 		if(!isMultiple()) {
 			if(adjmatrix[x][y].isEmpty()) {
 				adjmatrix[x][y].add(w);
@@ -203,6 +213,9 @@ public class Grafov2<T> {
 	 */
 	public Grafov2<T> bfs( T v1) {
 		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+		for (int i = 0; i < values.size(); i++) {
+			gr.addVertex(values.get(i));
+		}
 		boolean[] visited = new boolean[values.size()];
 		LinkedList<T> queue = new LinkedList<T>();
  
@@ -226,21 +239,26 @@ public class Grafov2<T> {
 	/*
 	 * v = origin vertex
 	 */
-	public ArrayList<Integer> dfs(int v) {
+	public Grafov2<T> dfs(T v) {
 		boolean visited[] = new boolean[values.size()];
-		ArrayList<Integer> aux = new ArrayList<Integer>();
-		return dfsUtil(v, visited, aux);
+		Grafov2<T> gr = new Grafov2<T>(directed, multiple);
+		for (int i = 0; i < values.size(); i++) {
+			gr.addVertex(values.get(i));
+		}
+		return dfsUtil(v, visited, gr);
 	}
 	
-	private ArrayList<Integer> dfsUtil(int v, boolean[] visited, ArrayList<Integer> aux) {
-		visited[v] = true;
-		aux.add(v);
+	private Grafov2<T> dfsUtil(T v, boolean[] visited, Grafov2<T> gr) {
+		visited[values.indexOf(v)] = true;
+		
 		for(int i = 0; i < values.size(); i++) {
-			if(!adjmatrix[v][i].isEmpty() && !visited[i]) {
-				dfsUtil(i, visited, aux);
+			if(!adjmatrix[values.indexOf(v)][i].isEmpty() && !visited[i]) {
+				
+				dfsUtil(values.get(i), visited, gr);
+				gr.addEdge(v, values.get(i), 0);
 			}
 		}
-		return aux;
+		return gr;
 	}
 	
 	public Grafov2<T> prim(T v1) {

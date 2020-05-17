@@ -96,6 +96,7 @@ class Grafov2Test {
 	void testAddVertex() {
 		assertTrue(setUpSceneAddVertex());
 	}
+	/*
 	
 	public boolean setUpSceneAddEdgesMultiple() {
 		Country v1 = new Country("Colombia", 1);
@@ -297,7 +298,7 @@ class Grafov2Test {
 		Grafov2<Country> gr = setUpSceneGraphMultiple();
 		assertTrue(gr.consultWeight() == 3);
 	}
-	
+	*/
 	
 	public Grafov2<Country> setUpSceneBFS() {
 		Country v1 = new Country("Colombia", 1);
@@ -305,6 +306,7 @@ class Grafov2Test {
 		Country v3 = new Country("Barrancabermeja", 3);
 		Country v4 = new Country("Brazil", 4);
 		Country v5 = new Country("Canada", 5);
+		Country v6 = new Country("Australia", 6);
 		
 		Grafov2<Country> gr = new Grafov2<Country>(false, true);
 		gr.addVertex(v1);
@@ -312,12 +314,16 @@ class Grafov2Test {
 		gr.addVertex(v3);
 		gr.addVertex(v4);
 		gr.addVertex(v5);
+		gr.addVertex(v6);
 		
-		gr.addEdge(v1, v2, 0);
-		gr.addEdge(v2, v4, 0);
-		gr.addEdge(v4, v5, 0);
-		gr.addEdge(v3, v5, 0);
-		gr.addEdge(v1, v5, 0);
+		gr.addEdge(v1, v2, 5);
+		gr.addEdge(v2, v4, 6);
+		gr.addEdge(v2, v5, 4);
+		gr.addEdge(v4, v5, 11);
+		gr.addEdge(v3, v5, 1);
+		gr.addEdge(v1, v5, 7);
+		gr.addEdge(v1, v6, 48);
+		gr.addEdge(v5, v6, 3);
 		
 		return gr.bfs(v1);
 	}
@@ -325,7 +331,8 @@ class Grafov2Test {
 	@Test
 	void testBFS() {
 		Grafov2<Country> gr = setUpSceneBFS();
-		
+//		System.out.println(gr.consultWeight());
+		assertTrue(gr.getAdjmatrix()[0][1].size() == 1 && gr.getAdjmatrix()[0][4].size() == 1 && gr.getAdjmatrix()[4][1].size() == 0);
 	}
 	
 	public Grafov2<Country> setUpSceneDFS() {
@@ -346,20 +353,20 @@ class Grafov2Test {
 		
 		gr.addEdge(v1, v2, 5);
 		gr.addEdge(v2, v4, 6);
+		gr.addEdge(v2, v5, 4);
 		gr.addEdge(v4, v5, 11);
-		gr.addEdge(v3, v5, 11);
-		gr.addEdge(v1, v5, 11);
+		gr.addEdge(v3, v5, 1);
+		gr.addEdge(v1, v5, 7);
 		gr.addEdge(v1, v6, 48);
+		gr.addEdge(v5, v6, 3);
 		
-		return gr;
+		return gr.dfs(v1);
 	}
 	
 	@Test
 	void testDFS() {
 		Grafov2<Country> gr = setUpSceneDFS();
-		ArrayList<Integer> aux = gr.dfs(0);
-		String s = aux.size()+": " + aux.get(0) + "," + aux.get(1) + "," + aux.get(2) + "," + aux.get(3) + "," + aux.get(4) + "," + aux.get(5);
-		assertTrue(s.equals("6: 0,1,3,4,2,5"));
+		assertTrue(gr.getAdjmatrix()[0][4].size()==0 && gr.getAdjmatrix()[0][1].size()==1 && gr.getAdjmatrix()[2][4].size()==1 && gr.getAdjmatrix()[5][4].size()==1);
 	}
 	
 	public Grafov2<Country> setUpScenePrim() {
