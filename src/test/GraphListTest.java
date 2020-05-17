@@ -14,7 +14,7 @@ import exceptions.RepeatedVertexException;
 import model.Country;
 
 
-class GraphListTest {
+public class GraphListTest {
 	Country colombia = new Country("Colombia", 0);
 	Country china = new Country("china", 1);
 	Country rusia = new Country("rusia", 4);
