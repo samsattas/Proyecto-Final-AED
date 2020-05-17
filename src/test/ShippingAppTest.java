@@ -47,7 +47,7 @@ class ShippingAppTest {
 		ShippingApp shipping = setUpSceneGetCountryValue();
 		try {
 			assertEquals(7,shipping.deliveryTime("australia", "usa"));
-//			shipping.covidMode();
+			shipping.setCountrys(shipping.getCountrys().kruskal());
 			assertEquals(17,shipping.deliveryTime("australia", "usa"));
 			
 		} catch (UnavaiableBoatsException e) {

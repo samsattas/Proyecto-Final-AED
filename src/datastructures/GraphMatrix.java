@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class GraphMatrix<T> {
+public class GraphMatrix<T> implements Graph<GraphMatrix<T>, T>{
 	private ArrayList<Double>[][] adjmatrix;
 	private boolean directed;
 	private ArrayList<T> values;
@@ -156,7 +156,7 @@ public class GraphMatrix<T> {
 	 * j = destiny node
 	 * w = weight
 	 */
-	public void deleteEdge(T i, T j, int w) {
+	public void deleteEdge(T i, T j, double w) {
 		int a = values.indexOf(i);
 		int b = values.indexOf(j);
 		if(!adjmatrix[a][b].isEmpty()) {
@@ -178,7 +178,8 @@ public class GraphMatrix<T> {
 	}
 	
 	
-	public void deleteVertex(int t) {
+	public void deleteVertex(T v) {
+		int t = values.indexOf(v);
 		//I use -1 because there can't be a position -1
 		int n = -1;
 		if(t < values.size()) {
@@ -499,4 +500,5 @@ public class GraphMatrix<T> {
         
         return dist;
 	}
+
 }

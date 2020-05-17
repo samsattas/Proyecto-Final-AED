@@ -292,7 +292,7 @@ public class GraphListTest {
 		gr.addEdge(v4, v5, 3);
 		
 		
-		return gr.dijsktra(v0, v5);
+		return gr.dijkstra(v0, v5);
 	}
 	
 	@Test

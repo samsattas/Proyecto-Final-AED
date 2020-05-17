@@ -17,5 +17,5 @@ public interface Graph<G, T> {
 	G prim(T v) throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException;
 	G kruskal() throws ThatVertexDoesNotExistException, InvalidActionInThisGraphException;
 	double[][] floydWarshall();
-	double dijsktra(T vertex1, T vertex2);
+	double dijkstra(T vertex1, T vertex2);
 }

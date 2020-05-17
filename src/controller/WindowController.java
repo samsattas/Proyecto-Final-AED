@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import datastructures.GraphMatrix;
+import exceptions.MaximumRangeExceededException;
+import exceptions.UnavaiableBoatsException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -89,7 +91,7 @@ public class WindowController implements Initializable {
 		}
 	}
 	
-	public void send(ActionEvent av) {
+	public void send(ActionEvent av) throws MaximumRangeExceededException {
 		try {
 			int c1 = sa.findCountryIndex(origin.getValue());
 			int c2 = sa.findCountryIndex(destiny.getValue());
@@ -138,9 +140,15 @@ public class WindowController implements Initializable {
 
 			newWindow.show();
 			
-		}catch (Exception e) {
+		}catch (NullPointerException e) {
 			JOptionPane.showMessageDialog(null,"Please select an origin and a destiny");
 			e.printStackTrace();
+		}catch (UnavaiableBoatsException e) {
+			JOptionPane.showMessageDialog(null,"There are no boats avaible");
+		}catch (MaximumRangeExceededException e) {
+			JOptionPane.showMessageDialog(null,"The country's boats don't have enough range to make the shipping");
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null,"Error");
 		}
 		
 	}

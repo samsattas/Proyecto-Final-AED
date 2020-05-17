@@ -349,7 +349,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		return aux;
 	}
 	@Override
-	public double dijsktra(T vertex1, T vertex2) {
+	public double dijkstra(T vertex1, T vertex2) {
 		int v1 = vertex.indexOf(vertex1);
 		int v2 = vertex.indexOf(vertex2);
 		
