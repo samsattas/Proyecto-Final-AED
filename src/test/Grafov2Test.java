@@ -313,11 +313,11 @@ class Grafov2Test {
 		gr.addVertex(v4);
 		gr.addVertex(v5);
 		
-		gr.addEdge(v1, v2, 5);
-		gr.addEdge(v2, v4, 6);
-		gr.addEdge(v4, v5, 11);
-		gr.addEdge(v3, v5, 11);
-		gr.addEdge(v1, v5, 11);
+		gr.addEdge(v1, v2, 0);
+		gr.addEdge(v2, v4, 0);
+		gr.addEdge(v4, v5, 0);
+		gr.addEdge(v3, v5, 0);
+		gr.addEdge(v1, v5, 0);
 		
 		return gr;
 	}
@@ -389,61 +389,66 @@ class Grafov2Test {
 		gr.addEdge(v1, v6, 48);
 		gr.addEdge(v5, v6, 3);
 		
-		/*
-		 * 		0
-		 * 	   / \
-		 *    /   \
-		 *   1	   5	
-		 */
-		
-		return gr;
+		return gr.prim3(v1);
 	}
 	
 	@Test
 	void testPrim() {
 		Grafov2<Country> gr = setUpScenePrim();
-		Country v1 = new Country("Colombia", 1);
-		Grafov2<Country> asd = gr.prim(v1);
 		
-//		for(int i = 0; i < asd.consultWeight(); i++) {
-//			System.out.println(asd.getEdges(0, i).size());
-//		}
-		
-//		assertTrue(gr.consultWeight() == 6);
+		assertTrue(gr.consultWeight() == 6 );
+		assertTrue(gr.getAdjmatrix()[1][4].get(0) == 4);
+		assertTrue(gr.getAdjmatrix()[0][1].get(0) == 5);
+		assertTrue(gr.getAdjmatrix()[1][3].get(0) == 6);
+		assertTrue(gr.getAdjmatrix()[4][2].get(0) == 1);
+		assertTrue(gr.getAdjmatrix()[5][4].get(0) == 3);
 		
 	}
 	
 	
-	public Grafov2<Country> setUpSceneKruskal() {
-		Country v1 = new Country("Colombia", 1);
-		Country v2 = new Country("EEUU", 2);
-		Country v3 = new Country("Barrancabermeja", 3); 
-		Country v4 = new Country("Brazil", 4);
-		Country v5 = new Country("Canada", 5);
+	public Grafov2<Country> setUpSceneKruskal() {		
+		Country a = new Country("Colombia", 1);//A
+        Country b = new Country("EEUU", 2);//B
+        Country c = new Country("Barrancabermeja", 3); //C
+        Country d = new Country("Brazil", 4);//D
+        Country e = new Country("Canada", 5);//E
+
+        Grafov2<Country> gr = new Grafov2<Country>(false, false);
+
+        gr.addVertex(a);
+        gr.addVertex(b);
+        gr.addVertex(c);
+        gr.addVertex(d);
+        gr.addVertex(e);
+
+        gr.addEdge(a, b, 1);
+        gr.addEdge(a, e, 2);
+        gr.addEdge(a, c, 4);
+        gr.addEdge(d, c, 1);
+        gr.addEdge(d, e, 2);
+        gr.addEdge(d, b, 3);
+        gr.addEdge(c, e, 3); 
+        gr.addEdge(b, e, 3);
 		
-		Grafov2<Country> gr = new Grafov2<Country>(false, false);
-		gr.addVertex(v1);
-		gr.addVertex(v2);
-		gr.addVertex(v3);
-		gr.addVertex(v4);
-		gr.addVertex(v5);
+//		gr = gr.kruskal();
 		
-		gr.addEdge(v1, v2, 1);
-		gr.addEdge(v1, v4, 4);
-		gr.addEdge(v1, v5, 2);
-		gr.addEdge(v2, v3, 3);
-		gr.addEdge(v2, v5, 3);
-		gr.addEdge(v4, v5, 3);
-		gr.addEdge(v4, v3, 1);
-		gr.addEdge(v3, v5, 2);
-		
-		return gr;
+//		System.out.println("NOOOOOOO");
+//        System.out.println(gr.getMinimunEdge(a, b));
+//        System.out.println(gr.getMinimunEdge(a, e));
+//        System.out.println(gr.getMinimunEdge(a, c));
+//        System.out.println(gr.getMinimunEdge(d, c));
+//        System.out.println(gr.getMinimunEdge(d, e));
+//        System.out.println(gr.getMinimunEdge(d, b));
+//        System.out.println(gr.getMinimunEdge(c, e));
+//        System.out.println(gr.getMinimunEdge(b, e));
+//        System.out.println("NOOOOOOO");
+        
+        return gr;
 	}
 	
 	@Test
 	void testKruskal() {
 		Grafov2<Country> gr = setUpSceneKruskal().kruskal();
-		
 	}
 	
 	
@@ -506,16 +511,5 @@ class Grafov2Test {
 		assertTrue(matrix[0][3] == 0 && matrix[3][2] == 1 && matrix[1][3] == 4 && matrix[1][2] == 2);
 	}
 	
-	@Test
-	void testkaux() {
-		Grafov2<Integer> gr = new Grafov2<Integer>(false, false);
-		ArrayList<ArrayList<Integer>> ar = new ArrayList<ArrayList<Integer>>();
-		ar.add(new ArrayList<Integer>());
-		ar.add(new ArrayList<Integer>());
-		
-		ar.get(0).add(3);
-		ar.get(1).add(4);
-		boolean aux = gr.kruskalUtil(new double[] {3,4,10}, ar);
-		System.out.println(aux+"");
-	}
+	
 }
