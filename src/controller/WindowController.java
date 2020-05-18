@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Country;
@@ -95,7 +96,7 @@ public class WindowController implements Initializable {
 		try {
 			int c1 = sa.findCountryIndex(origin.getValue());
 			int c2 = sa.findCountryIndex(destiny.getValue());
-			way.setText(inUse.dijkstra(inUse.getValues().get(c1), inUse.getValues().get(c2))+"km");
+			way.setText("Distance: " + inUse.dijkstra(inUse.getValues().get(c1), inUse.getValues().get(c2))+"km");
 			ShippmentReport sr = sa.makeShipment(origin.getValue().getName(), destiny.getValue().getName(), 2);
 			
 			
@@ -151,5 +152,72 @@ public class WindowController implements Initializable {
 			JOptionPane.showMessageDialog(null,"Error");
 		}
 		
+	}
+	
+	public void showBoatsAustralia() {
+		showBoats(australia, "Boats of Australia");
+	}
+	
+	public void showBoatsBrazil() {
+		showBoats(brasil, "Boats of Brazil");
+	}
+	
+	public void showBoatsChina() {
+		showBoats(china, "Boats of China");
+	}
+	
+	public void showBoatsJamaica() {
+		showBoats(jamaica, "Boats of Jamaica");
+	}
+	
+	public void showBoatsRusia() {
+		showBoats(rusia, "Boats of Rusia");
+	}
+	
+	public void showBoatsKorea() {
+		showBoats(southcorea, "Boats of South Korea");
+	}
+	
+	public void showBoatsUSA() {
+		showBoats(usa, "Boats of USA");
+	}
+	
+	public void showBoats(Country country, String title) {
+		Label lboats = new Label(title);
+		lboats.setFont(new Font(50));
+		
+		Country c = sa.getCountrys().getValues().get(sa.findCountryIndex(country));
+		String s = "";
+		for (int i = 0; i < c.getBoats().size(); i++) {
+			s = s + "Boat: " + c.getBoats().get(i).getName() + "\n";
+		}
+//		System.out.println(s);
+		Label boats = new Label(s);
+		
+		Stage newWindow = new Stage();
+		GridPane grid = new GridPane();
+		grid.setHgap(20);
+		grid.setVgap(20);
+		grid.setPadding(new Insets(30));
+		StackPane secondaryLayout = new StackPane();
+		Scene secondScene = new Scene(secondaryLayout, 500, 500);
+		
+		Button cancel = new Button();
+		cancel.setText("Accept");
+		cancel.setOnAction(event -> {
+			newWindow.close();
+		});
+		
+		secondaryLayout.getChildren().add(grid);
+		grid.add(lboats, 0, 0);
+		grid.add(boats, 0, 1);
+		
+		grid.add(cancel, 0, 2);
+		
+		newWindow.setTitle("Shippment Report");
+		newWindow.initModality(Modality.APPLICATION_MODAL);
+		newWindow.setScene(secondScene);
+
+		newWindow.show();
 	}
 }

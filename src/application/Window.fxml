@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -42,19 +44,19 @@
          <children>
             <GridPane GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.6000061035156" minWidth="10.0" prefWidth="169.60003967285155" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.1999603271484" minWidth="10.0" prefWidth="471.1999603271484" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="find" mnemonicParsing="false" onAction="#send" prefHeight="46.0" prefWidth="243.0" text="Send">
+                  <Button fx:id="find" mnemonicParsing="false" onAction="#send" prefHeight="46.0" prefWidth="124.0" text="Send">
                      <font>
                         <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Button>
-                  <Label fx:id="way" prefHeight="81.0" prefWidth="348.0" text="0km" GridPane.columnIndex="1">
+                  <Label fx:id="way" prefHeight="81.0" prefWidth="348.0" text="Distance: 0km" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>
@@ -107,6 +109,36 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="origin" prefHeight="42.0" prefWidth="341.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.60003662109375" minWidth="10.0" prefWidth="289.6" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="382.93328857421875" minWidth="10.0" prefWidth="351.19999999999993" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Show boats of:">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <MenuButton mnemonicParsing="false" prefHeight="50.0" prefWidth="337.0" text="Select a country" GridPane.columnIndex="1">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showBoatsAustralia" text="Australia" />
+                      <MenuItem mnemonicParsing="false" onAction="#showBoatsBrazil" text="Brazil" />
+                      <MenuItem mnemonicParsing="false" onAction="#showBoatsChina" text="China" />
+                        <MenuItem mnemonicParsing="false" onAction="#showBoatsJamaica" text="Jamaica" />
+                        <MenuItem mnemonicParsing="false" onAction="#showBoatsRusia" text="Rusia" />
+                        <MenuItem mnemonicParsing="false" onAction="#showBoatsKorea" text="South Korea" />
+                        <MenuItem mnemonicParsing="false" onAction="#showBoatsUSA" text="USA" />
+                    </items>
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </MenuButton>
                </children>
             </GridPane>
          </children>
