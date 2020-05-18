@@ -3,6 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -72,7 +73,8 @@ public class WindowController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sa.load();
-		items.addAll(china, usa, jamaica, brasil, rusia, southcorea, australia);
+		items.addAll(australia, brasil, china, jamaica, rusia, southcorea, usa);
+		
 //		items.addAll("Australia", "Brazil", "China", "Jamaica", "Rusia", "SouthCorea", "USA");
 		coronaMode.isArmed();
 		origin.setItems(items);
@@ -97,8 +99,9 @@ public class WindowController implements Initializable {
 			int c1 = sa.findCountryIndex(origin.getValue());
 			int c2 = sa.findCountryIndex(destiny.getValue());
 			way.setText("Distance: " + inUse.dijkstra(inUse.getValues().get(c1), inUse.getValues().get(c2))+"km");
-			ShippmentReport sr = sa.makeShipment(origin.getValue().getName(), destiny.getValue().getName(), 2);
-			
+			Random rand = new Random(); 
+	        int num = rand.nextInt(20000); 
+			ShippmentReport sr = sa.makeShipment(origin.getValue().getName(), destiny.getValue().getName(), num);
 			
 			Label lorigin = new Label("Origin: ");
 			Label ldestiny = new Label("Destiny: ");
