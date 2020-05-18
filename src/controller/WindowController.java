@@ -39,14 +39,6 @@ public class WindowController implements Initializable {
 	GraphMatrix<Country> covid = sa.getCountrys().kruskal();
 	GraphMatrix<Country> inUse = initial;
 	
-//	Country china = new Country("China", 002123);
-//	Country usa = new Country("USA", 002123);
-//	Country pr = new Country("Puerto Rico", 002123);
-//	Country brasil = new Country("Brazil", 002123);
-//	Country rusia = new Country("Rusia", 002123);
-//	Country southcorea = new Country("South Corea", 002123);
-//	Country australia = new Country("Australia", 002123);
-	
 	Country china = new Country("china", 002123);
 	Country usa = new Country("usa", 002123);
 	Country jamaica = new Country("jamaica", 002123);
@@ -74,8 +66,6 @@ public class WindowController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		sa.load();
 		items.addAll(australia, brasil, china, jamaica, rusia, southcorea, usa);
-		
-//		items.addAll("Australia", "Brazil", "China", "Jamaica", "Rusia", "SouthCorea", "USA");
 		coronaMode.isArmed();
 		origin.setItems(items);
 		destiny.setItems(items);
@@ -222,5 +212,10 @@ public class WindowController implements Initializable {
 		newWindow.setScene(secondScene);
 
 		newWindow.show();
+	}
+	
+	public void save() {
+		sa.save();
+		System.exit(0);
 	}
 }
