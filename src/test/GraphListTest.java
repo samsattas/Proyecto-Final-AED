@@ -682,48 +682,69 @@ public class GraphListTest {
 		}
 	}
 	/////////
-	private void setUpSceneDeleteVertexDoesnotExist() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	private GraphList<Country> setUpSceneDeleteVertexDoesnotExist() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException {
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addEdge(colombia, china, 44);
+		gr.addEdge(colombia, china, 23);
+		return gr;
 	}
 	@Test
 	void testDeleteVertexValueDoesnotExist() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneDeleteVertexDoesnotExist();
+			gr.deleteVertex(peru);
+			fail();
+		} catch (InvalidActionInThisGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			fail();
+		} catch (ThatVertexDoesNotExistException e) {
+			fail();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Pass!");
+		}
 	}
 	/////////
-	private void setUpSceneDeleteVertexValueSize() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
-	}
-	@Test
-	void testDeleteVertexValueSize() {
-		
-	}
-	private void setUpSceneAddVertex() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	
+	private GraphList<Country> setUpSceneAddVertex() throws InvalidActionInThisGraphException, RepeatedVertexException {
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		return gr;
 	}
 	@Test
 	void testAddVertex() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddVertex();
+			assertEquals("Colombia",gr.getValues().get(0).getName());
+			assertEquals("china",gr.getValues().get(1).getName());
+			assertEquals(2,gr.getValues().size());
+		} catch (InvalidActionInThisGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	private void setUpSceneAddVertexValue() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
-	}
-	@Test
-	void testAddVertexValue() {
-		
-	}
-	private void setUpSceneAddVertexValueSize() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
-	}
-	@Test
-	void testAddVertexValueSize() {
-		
-	}
-	private void setUpSceneAddVertexValueRepeated() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	private GraphList<Country> setUpSceneAddVertexValueRepeated() throws InvalidActionInThisGraphException, RepeatedVertexException {
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(colombia);
+		return gr;
 	}
 	@Test
 	void testAddVertexValueRepeated() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddVertexValueRepeated();
+			fail();
+		} catch (InvalidActionInThisGraphException e) {
+			fail();
+		} catch (RepeatedVertexException e) {
+			System.out.println("Pass!");
+		}
 	}
 	
 }

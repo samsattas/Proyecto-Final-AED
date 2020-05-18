@@ -127,10 +127,10 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 			}
 		}
 	}
-	public void deleteVertex(T t){
+	public void deleteVertex(T t) throws IndexOutOfBoundsException{
 
         int index = this.vertex.indexOf(t);
-
+        
         this.vertex.remove(index);
         adjacentList.remove(index);
 

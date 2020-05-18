@@ -93,6 +93,9 @@ public class Country {
 	public String toString() {
 		return name;
 	}
+	public String toStringB() {
+		return "Country [name=" + name + ", id=" + id + ", boats=" + boats + "]";
+	}
 	
 	
 	

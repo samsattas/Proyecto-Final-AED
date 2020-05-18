@@ -1,6 +1,4 @@
-/application/
 /controller/
-/datastructures/
-/exceptions/
-/model/
 /test/
+/datastructures/
+/model/

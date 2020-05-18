@@ -70,19 +70,6 @@ public class ShippingApp {
     	
     	return aux;
     }
-    
-   /*
-    public double aproximateDeliverTime(double totalDistance, String countryName, int loadSize) throws MaximumCapacityExceededException, UnavaiableBoatsException {
-		double time = 0;
-		for (int i = 0; i < countrys.size(); i++) {
-			if(countrys.get(i).getName().equals(countryName)) {
-				time = countrys.get(i).aproximateDeliverTime(totalDistance, loadSize);
-			}
-		}
-		return time;
-	}
-    */
-    
     public ShippmentReport makeShipment(String originCountry, String destinyCountry,int totalLoadSize) throws UnavaiableBoatsException, MaximumRangeExceededException {
     	double deliveryTime = deliveryTime(originCountry, destinyCountry);
     	Country originCountryT = getCountryValue(originCountry);
