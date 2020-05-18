@@ -70,6 +70,7 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		}
 	}
+	
 	private GraphList<String> setUpSceneBFS() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException  {
 		GraphList<String> graph = new GraphList<>(true,false,false);
 		GraphList<String> graphAux;
@@ -104,6 +105,7 @@ public class GraphListTest {
 			fail("Unexpected Exception");
 		}
 	}
+	
 	@Test
 	<T> void testBFSNoneExistentEdges() {
 		try {
@@ -192,14 +194,7 @@ public class GraphListTest {
 		
 		//assertEquals(-7,gr.getAdjacentList().get(2).get(0)[0]);
 		//assertEquals(0,gr.getAdjacentList().get(2).get(1)[0]);
-		/*
-		for (int i = 0; i < gr.getAdjacentList().size(); i++) {
-			for (int j = 0; j < gr.getAdjacentList().get(i).size(); j++) {
-				System.out.println(i + " " + (int) gr.getAdjacentList().get(i).get(j)[0] + " "+ gr.getAdjacentList().get(i).get(j)[1]);
-			}
-		}
-		*/
-		//assertTrue(gr.getAdjmatrix()[0][4].size()==0 && gr.getAdjmatrix()[0][1].size()==1 && gr.getAdjmatrix()[2][4].size()==1 && gr.getAdjmatrix()[5][4].size()==1);
+	
 	}
 	
 	
@@ -543,28 +538,85 @@ public class GraphListTest {
 		gr.addVertex(colombia);
 		gr.addVertex(china);
 		gr.addVertex(rusia);
+		gr.addVertex(colombia);
 		gr.addVertex(villacubito);
 		gr.addVertex(canada);
 		gr.addEdge(colombia, china, 23);
+		gr.addEdge(colombia, china, 64);
 		return gr;
 	}
 	@Test
 	void testAddEdgesNoDirectedNoMultipleE() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneAddEdgesNoDirectedNoMultipleE();
+			fail();
+		} catch (InvalidActionInThisGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			System.out.println("Pass!");
+		} catch (ThatVertexDoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	private void setUpScenegetEdges() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	private GraphList<Country> setUpScenegetEdges() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException {
+		GraphList<Country> gr = new GraphList<Country>(true, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 44);
+		gr.addEdge(colombia, china, 23);
+		return gr;
 	}
 	@Test
 	void testScenegetEdges() {
-		
+		try {
+			GraphList<Country> gr = setUpScenegetEdges();
+			assertEquals(23,gr.getMinimunEdge(colombia, china));
+		} catch (InvalidActionInThisGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ThatVertexDoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	private void setUpSceneDeleteEdgeNoDirected() throws InvalidActionInThisGraphException, RepeatedVertexException {
-		
+	private GraphList<Country> setUpSceneDeleteEdgeNoDirected() throws InvalidActionInThisGraphException, RepeatedVertexException, ThatVertexDoesNotExistException {
+		GraphList<Country> gr = new GraphList<Country>(false, true, false);
+		gr.addVertex(colombia);
+		gr.addVertex(china);
+		gr.addVertex(rusia);
+		gr.addVertex(villacubito);
+		gr.addVertex(canada);
+		gr.addEdge(colombia, china, 44);
+		gr.addEdge(colombia, china, 23);
+		return gr;
 	}
 	@Test
 	void testDeleteEdgeNoDirected() {
-		
+		try {
+			GraphList<Country> gr = setUpSceneDeleteEdgeNoDirected();
+			gr.deleteEdge(colombia, china, 23);
+			ArrayList<double[]> adjacentsColombia = gr.getEdges(colombia);
+			assertEquals(1,adjacentsColombia.size());
+			assertEquals("china",gr.getValues().get((int)adjacentsColombia.get(0)[0]).getName());
+			assertEquals(44,(adjacentsColombia.get(0)[1]));
+		} catch (InvalidActionInThisGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RepeatedVertexException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ThatVertexDoesNotExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void setUpSceneDeleteEdgeDirected() throws InvalidActionInThisGraphException, RepeatedVertexException {
 		

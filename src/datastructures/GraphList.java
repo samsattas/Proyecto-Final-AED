@@ -115,12 +115,12 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		int origin = vertex.indexOf(i);
 		int destiny = vertex.indexOf(j);
 		for (int h = 0; h < adjacentList.get(origin).size(); h++) {
-			if(adjacentList.get(origin).get(h)[0]==destiny) {
+			if(adjacentList.get(origin).get(h)[0]==destiny && adjacentList.get(origin).get(h)[1] == w) {
 				adjacentList.get(origin).remove(h);
 			}
 			if(multiple) {
 				for (int t = 0; t < adjacentList.get(destiny).size(); t++) {
-					if(adjacentList.get(destiny).get(t)[0]==origin) {
+					if(adjacentList.get(destiny).get(t)[0]==origin && adjacentList.get(destiny).get(h)[1] == w) {
 						adjacentList.get(destiny).remove(t);
 					}
 				}
@@ -169,7 +169,7 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 		ordenVisita.add(initial);
 		visitado[initial]=true;
 		queue.add(initial);
-		graph.addVertex(v);
+		
 		
         while(!queue.isEmpty()){ 
             int dequeue = queue.poll();
