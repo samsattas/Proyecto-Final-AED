@@ -3,27 +3,31 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import datastructures.GraphMatrix;
 import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
-public class ShippingApp {
+
+public class ShippingApp implements Serializable {
 	private String name;
 	private GraphMatrix<Country> countrys;
 	private ArrayList<ShippmentReport> reports;
-	public static String FLATCOUNTRYS = "data//Contrys.txt";
+	public static String FLATCOUNTRYS = "./data/countrys.dat";
 	public ShippingApp(String name) {
 		countrys =   new GraphMatrix<Country>(false, true);
 		reports = new ArrayList<>();
 		this.name = name;
-		load();
+		load(); 
 		if(countrys.consultWeight()<=0) {
 			addBoats();
 		}
@@ -40,6 +44,7 @@ public class ShippingApp {
 	public void setName(String name) {
 		this.name = name;
 	}
+	/*
 	public void load() {
         try{
             FileInputStream file=new FileInputStream(FLATCOUNTRYS);
@@ -49,9 +54,10 @@ public class ShippingApp {
         }
         catch (IOException e) {save();} 
         catch (ClassNotFoundException e) {}
-    }
+    } 
     public void save() {
         try {
+        	System.out.println("save");
             FileOutputStream file=new FileOutputStream(FLATCOUNTRYS);
             ObjectOutputStream creator=new ObjectOutputStream(file);
             creator.writeObject(countrys);
@@ -59,7 +65,37 @@ public class ShippingApp {
         }
         catch (IOException e) {}
     }
-    
+    */
+	public void save() {
+		try {
+			File fl = new File(FLATCOUNTRYS);
+			ObjectOutputStream duct = new ObjectOutputStream(new FileOutputStream(fl));
+			duct.writeObject(countrys);
+			duct.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	public void load() {
+		File file = new File(FLATCOUNTRYS);
+		GraphMatrix<Country> temporalGraph;
+		//Fidelization temporalFidelization;
+		try {
+			FileInputStream fi = new FileInputStream(file);
+			ObjectInputStream co = new ObjectInputStream(fi);
+			temporalGraph = (GraphMatrix<Country>) co.readObject();
+			countrys = temporalGraph; 
+			co.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace(); 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
     public int findCountryIndex(Country c) {
     	int aux = -1;
     	for (int i = 0; i < countrys.getValues().size(); i++) {

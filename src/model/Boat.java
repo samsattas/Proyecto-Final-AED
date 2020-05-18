@@ -1,6 +1,8 @@
 package model;
 
-public class Boat implements Comparable<Boat>{
+import java.io.Serializable;
+
+public class Boat implements Comparable<Boat>, Serializable{
 	private String name;
 	private String manufacturingDate;
 	private double maxRange;

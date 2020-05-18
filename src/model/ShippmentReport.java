@@ -1,7 +1,8 @@
 package model;
 
+import java.io.Serializable;
 
-public class ShippmentReport {
+public class ShippmentReport implements Serializable{
 	private String destinyCountry;
 	private int totalLoadSize;
 	private String originCountry;

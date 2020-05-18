@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import exceptions.MaximumRangeExceededException;
 import exceptions.UnavaiableBoatsException;
 
 
-public class Country {
+public class Country implements Serializable{
 	private String name;
 	private int id;
 	private ArrayList<Boat> boats = new ArrayList<>();

@@ -1,5 +1,6 @@
 package datastructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class GraphMatrix<T> implements Graph<GraphMatrix<T>, T>{
+public class GraphMatrix<T> implements Graph<GraphMatrix<T>, T>, Serializable{
 	private ArrayList<Double>[][] adjmatrix;
 	private boolean directed;
 	private ArrayList<T> values;
