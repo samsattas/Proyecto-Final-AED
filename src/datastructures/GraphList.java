@@ -118,9 +118,9 @@ public class GraphList<T>implements Graph<GraphList<T>, T>{
 			if(adjacentList.get(origin).get(h)[0]==destiny && adjacentList.get(origin).get(h)[1] == w) {
 				adjacentList.get(origin).remove(h);
 			}
-			if(multiple) {
+			if(!directed) { 
 				for (int t = 0; t < adjacentList.get(destiny).size(); t++) {
-					if(adjacentList.get(destiny).get(t)[0]==origin && adjacentList.get(destiny).get(h)[1] == w) {
+					if(adjacentList.get(destiny).get(t)[0]==origin && adjacentList.get(destiny).get(t)[1] == w) {
 						adjacentList.get(destiny).remove(t);
 					}
 				}
